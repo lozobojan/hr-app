@@ -1,0 +1,56 @@
+
+	Predlazem da sva imena tabela (modela) i kolona u njima budu na Engleskom jeziku
+
+	1. Tablela zaposleni (employee):
+		●           Ime zaposlenog - obavezan podatak;
+		●           Prezime zaposlenog - obavezan podatak;
+		●           Fotografija zaposlenog - opcioni podatak (putanja do upload-ovane fotografije );
+		●           Datum rođenja zaposlenog - obavezan podatak
+		●           Kvalifikacije - obavezan podatak;
+		●           Adresa stanovanja - obavezan podatak;
+		●           JMBG - obavezan podatak;
+		●           Ostale informacije u skladu sa potrebama - tekstualno polje "additional_info".
+
+		sem ovih osnovnih podataka, u tabeli zaposlenih, potrebno je cuvati i kontakt podatke kao sto su:
+	
+		●           Email zaposlenog;
+		●           Broj fiksnog telefona;
+		●           Broj mobilnog telefona;
+		●           Lokacija radnog mjesta zaposlenog (broj kancelarije)
+		●           Ostale informacije u skladu sa potrebama - tekstualno polje "additional_info_contact"
+		
+	2. Sledeci zahtjev je pamcenje istorije i statusa zaposlenja:
+		
+		za to predlazem da se napravi nova tabela (employee_job_status), koja ce imati employee_id kao kljuc na zaposlenog i sledece podatke:
+		
+		●           Vrsta zaposlenja;
+		●           Status zaposlenja;
+		●           Datum pridruživanja kompaniji;
+		●           Ime banke;
+		●           Broj bankovnog računa;
+		●           Ostale informacije u skladu sa potrebama - tekstualno polje "additional_info"
+		
+	3. Sledeci zahtjev je opis posla za svakog zaposlenog
+	
+		za to predlazem da se napravi nova tabela (employee_job_description), koja ce imati employee_id kao kljuc na zaposlenog i sledece podatke:
+		
+		●           Naziv radnog mjesta;
+		●           Naziv odjeljenja;
+		●           Opis posla;
+		●           Vještine i ekspertiza.
+		●           Ostale informacije u skladu sa potrebama. 
+		
+	4. Modul za dokumentaciju:
+		
+		Predlazem da se iskoristi kod koji je Andrija Musikic uradio za domaci, sa izmjenom da se doda kolona employee_id kako bi se referencirao zaposleni
+
+	5. Potrebno je cuvati istorijat i podatke o plati zaposlenog
+		
+		za to predlazem da se napravi nova tabela (employee_salary), koja ce imati employee_id kao kljuc na zaposlenog i sledece podatke:
+		
+		●           Iznos zarade;
+		●           Iznos bonusa;
+		●           Broj bankovnog računa;
+		●           Datum unosa;
+
+		
