@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Basic - OrgChart JS | BALKANGraph</title>
+    <title> Family tree view</title>
     <style id="myStyles">
         html, body {
     margin: 0px;
