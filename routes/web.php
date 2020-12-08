@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/data',  [\App\Http\Controllers\EmployeeController::class, 'index']);
+
+Route::get('/tree1', function () {
+    return view('tree1');
+});
+
 Route::get('/', function () {
     return view('auth.login');
 });
 
+<<<<<<< HEAD
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -53,3 +60,13 @@ Route::middleware('auth')->group(function () {
         });
 });
 
+=======
+Route::get('/tree', function () {
+    return view('tree');
+});
+
+
+Route::get('/charts', function () {
+    return view('charts');
+});
+>>>>>>> ac79c8b4d0a5be84a378074b7c57799b97af7d80
