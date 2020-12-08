@@ -36,4 +36,20 @@ Route::middleware('auth')->group(function () {
             return view('stats');
         })->name('stats');
 
+        // Charts
+        Route::get('/tree', function () {
+            return view('tree');
+        });
+        
+        
+        Route::get('/charts', function () {
+            return view('charts');
+        });
+
+        Route::get('/data',  [\App\Http\Controllers\EmployeeController::class, 'index']);
+
+        Route::get('/tree1', function () {
+            return view('tree1');
+        });
 });
+
