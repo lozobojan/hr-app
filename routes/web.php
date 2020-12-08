@@ -13,6 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/data',  [\App\Http\Controllers\EmployeeController::class, 'index']);
+
+Route::get('/tree1', function () {
+    return view('tree1');
+});
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/tree', function () {
+    return view('tree');
+});
+
+
+Route::get('/charts', function () {
+    return view('charts');
 });
