@@ -14,5 +14,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::middleware('auth')->group(function () {
+    
+        Route::get('/employees', function(){
+            return view('employees');
+        })->name('employees');
+
+        Route::get('/documents', function(){
+            return view('documents');
+        })->name('documents');
+
+        Route::get('/stats', function(){
+            return view('stats');
+        })->name('stats');
+
 });
