@@ -1,26 +1,64 @@
 @extends('layouts.admin')
 
-@section('title', 'Zaposleni')
+@section('title', 'Statistika')
     
 
 @section('content')
+
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Statistika') }}</div>
+    <style id="myStyles">
+        html, body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Helvetica;
+}
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+#tree {
+    width: 100%;
+    height: 100%;
+}
+    </style>
 
-                    {{ __('Ovo je "Statistika" sekcija') }}
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <div id="tree"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://balkangraph.com/js/latest/OrgChart.js"></script>
+    <script>
+    var datas;
+
+    axios.get('/api/employees')
+    .then((response) => {
+        datas = response.data.employees;
+        for (i = 0; i < datas.length; i++) {
+            datas[i] = { id: datas[i].id, pid: datas[i].pid , Name: datas[i].name, "Last Name": datas[i].last_name, Photo: datas[i].image_path};
+        }
+        var chart = new OrgChart(document.getElementById("tree"), {
+            template: "ula",
+            nodeBinding: {
+                field_0: "Name",
+                field_1: "Last Name",
+                img_0: "Photo"
+            },
+            nodeMenu: {
+                details: { text: "Details" },
+                edit: { text: "Edit" },
+                add: { text: "Add" },
+                remove: { text: "Remove" }
+            }           
+        });
+        nodes = datas;
+        chart.load(nodes);    
+    
+    });
+    </script>
+    <script>
+
+    </script>
+
 </div>
 @endsection

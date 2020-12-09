@@ -38,9 +38,9 @@
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" >
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link " data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
 
@@ -187,6 +187,7 @@
 <script src="{{ asset('assets/vendor/datepicker/moment.js') }}"></script>
 <script src="{{ asset('assets/vendor/datepicker/tempusdominus-bootstrap-4.js') }}"></script>
 <script src="{{ asset('assets/vendor/datepicker/datepicker.js') }}"></script>
+<script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <!-- js end -->
 @yield('js')
 </body>
