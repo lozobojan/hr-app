@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
     Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
     Route::post('/employees/{object}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees/edit');
+    Route::post('/employees/store', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees/store');
 
         Route::get('/documents', function(){
             return view('documents');

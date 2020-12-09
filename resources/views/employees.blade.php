@@ -135,6 +135,7 @@
             $('#qualifications').val(returndata.qualifications );
             $('#home_address').val(returndata.home_address );
             $('#email').val(returndata.email );
+            $('#image_path').val(returndata.image_path );
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
 
@@ -148,7 +149,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
 
-    <form class="submitForm objectForm" action="{{--{{ route('about-project/store') }}--}}">
+    <form class="submitForm objectForm" action="{{ route('employees/store') }}">
         @csrf
         <div class="modal-body">
             <div class="container">
@@ -231,6 +232,15 @@
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">Email *</label>
                             <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="text_me">Slika URL *</label>
+                            <textarea class="form-control" id="image_path" name="image_path" placeholder="Slika url" ></textarea>
                         </div>
                     </div>
                 </div>
