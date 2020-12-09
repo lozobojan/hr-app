@@ -41,7 +41,7 @@ class EmployeeRequest extends FormRequest
 
             'name' => 'required',
             'last_name' => 'required',
-            'birth_date' => 'required',
+            'birth_date' => 'required|date_format:d.m.Y.',
             'image_path' => 'nullable',
             'qualifications' => 'nullable',
             'home_address' => 'required',

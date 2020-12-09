@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Employee extends Model
 {
@@ -12,4 +13,14 @@ class Employee extends Model
 
     public $primaryKey = "id";
     protected $guarded = [];
+
+    public function getBirthDateAttribute($value)
+    {
+        return Carbon::parse($value)->format("d.m.Y.");
+    }
+
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes["birth_date"] = Carbon::createFromFormat("d.m.Y.", $value);
+    }
 }

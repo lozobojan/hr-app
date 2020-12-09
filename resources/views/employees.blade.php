@@ -194,8 +194,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="video">Datum rodjenja *</label>
-                            <input id="birth_date" class="form-control" type="text" placeholder="Datum rodjenja" name="birth_date">
+                            <label class="col-form-label" for="birth_date">Datum rodjenja *</label>
+                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                <input name="birth_date" id="birth_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
