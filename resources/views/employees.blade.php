@@ -42,50 +42,39 @@
                                     <tr>
                                         <th class="text-center">R. broj</th>
                                         <th class="text-center">Ime i prezime</th>
-                                        <th class="text-center">Sektor</th>
-                                        <th class="text-center">Pozicija</th>
-                                        <th class="text-center">Ugovor</th>
-                                        <th class="text-center">Zaposlen od</th>
-                                        <th class="text-center">Plata</th>
+                                        <th class="text-center">Datum rodjenja</th>
+                                        <th class="text-center">Kvalifikacije</th>
+                                        <th class="text-center">Adresa</th>
+                                        <th class="text-center">JMBG</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Izmijeni</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                {{--    @foreach($objects as $object)
+                                 @foreach($objects as $object)
                                         <tr>
-                                            <td class="text-center">{{ $object->text_me }}</td>
-                                            <td class="text-center">
-                                                <img class="rounded" src="{{ $object->image}}" width="60">
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="{{route('admin/about-project-images')}}" class="show-object-data btn btn-sm btn-outline-success">Galerija</a>
-                                            </td>
-                                            <td class="text-center">{{ $object->video }}</td>
+                                            <td class="text-center">{{ $object->id }}</td>
+                                            <td class="text-center">{{ $object->name}} {{ $object->last_name }}</td>
+                                            <td class="text-center">{{ $object->birth_date }}</td>
+                                            <td class="text-center">{{ $object->qualifications }}</td>
+                                            <td class="text-center">{{ $object->home_address }}</td>
+                                            <td class="text-center">{{ $object->jmbg }}</td>
+                                            <td class="text-center">{{ $object->email }}</td>
                                             <td class="text-center">
                                                 <form>
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-id="{{$object->id}}" data-route="about-project/{{$object->id}}"
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-id="{{$object->id}}" data-route="employees/{{$object->id}}"
                                                        data-target="#myModal" class="edit show-object-data btn btn-sm btn-success">Izmijeni</a>
                                                 </form>
                                             </td>
+                                            <td class="text-center">
+                                                <form class="deleteForm" action="{{ route('employees/delete', $object->id) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="button" class="delBtn btn btn-sm btn-danger">Obriši</button>
+                                                </form>
+                                            </td>
                                         </tr>
-                                    @endforeach--}}
-                                <tr>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                            <td>Row row row</td>
-                                    </tr>
-                                <tr>
-                                    <td>marko</td>
-                                    <td>Row row row</td>
-                                    <td>Row row row</td>
-                                    <td>Row row row</td>
-                                    <td>Row row row</td>
-                                    <td>Row row row</td>
-                                    <td>Row row row</td>
-                                </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -110,7 +99,7 @@
 
 
         $(".edit").click(function(){
-            var url = "{{--{{ route('about-project/edit', ':id') }}--}}";
+            var url = "{{ route('employees/edit', ':id') }}";
             url = url.replace(':id', $(this).data('id'));
             $('.objectForm').attr('action', url);
         });
@@ -138,9 +127,8 @@
         });
 
         function showData(returndata){
-            $('#imageHolder').attr({ 'src': returndata.image });
-            $('#text_me').val(returndata.text_me );
-            $('#text_en').val(returndata.text_en );
+            $('#name').val(returndata.name );
+            $('#last_name').val(returndata.last_name );
             $('#video').val(returndata.video );
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
@@ -165,8 +153,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_me">Tekst ME *</label>
-                            <textarea class="form-control" id="text_me" name="text_me" placeholder="Tekst ME" ></textarea>
+                            <label class="col-form-label" for="text_me">Ime *</label>
+                            <textarea class="form-control" id="name" name="name" placeholder="Ime" ></textarea>
                         </div>
                     </div>
                 </div>
@@ -174,40 +162,73 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_en">Tekst en *</label>
-                            <input id="text_en" class="form-control" type="text" placeholder="Text EN" name="text_en">
+                            <label class="col-form-label" for="text_en">Prezime *</label>
+                            <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
                         </div>
                     </div>
                 </div>
 
 
 
-                <div class="row">
+         {{--       <div class="row">
                     <div class="col-12">
                         <img width="100%" style="max-height:25%" id="imageHolder"/>
                     </div>
-                </div>
+                </div>--}}
 
-                <div class="row">
+          {{--      <div class="row">
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="image">Fotografija *</label>
                             <input type="file" id="image" class="form-control" name="image"/>
                         </div>
                     </div>
+                </div>--}}
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="video">Datum rodjenja *</label>
+                            <input id="birth date" class="form-control" type="text" placeholder="Datum rodjenja" name="birth_date">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="video">VIDEO *</label>
-                            <input id="video" class="form-control" type="text" placeholder="Text EN" name="video">
+                            <label class="col-form-label" for="text_me">Kvalifikacije *</label>
+                            <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="text_me">Adresa *</label>
+                            <textarea class="form-control" id="address" name="address" placeholder="Adresa" ></textarea>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="text_me">JMBG *</label>
+                            <textarea class="form-control" id="JMBG" name="JMBG" placeholder="JMBG" ></textarea>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="text_me">Email *</label>
+                            <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -35,7 +35,7 @@ class CreateEmployeesTable extends Migration
             // $table->foreignId('pid')->constrained('employees');
 
             $table->unsignedBigInteger('pid')->nullable();
-            $table->foreign('pid')->references('id')->on('employees');
+            $table->foreign('pid')->references('id')->on('employees')->onDelete('cascade');
             // $table->integer('pid')->nullable();
         });
     }

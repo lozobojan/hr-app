@@ -14,11 +14,17 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = Employee::get();
+        $objects = Employee::get();
 
-        return $employee;
+        /*return $employee;*/
+        return view("employees",  compact("objects" ));
     }
 
+
+    public function getOne($id){
+        $object = Employee::find($id);
+        return $object ? $object : null;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -74,14 +80,20 @@ class EmployeeController extends Controller
         //
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
-    {
-        //
+    public function destroy($id){
+        $object = Employee::find($id);
+
+        // REORDER FOR DELETE
+
+        if($object)
+            $object->delete();
+        return back()->with("success", "Element uspješno obrisan!");
     }
 }

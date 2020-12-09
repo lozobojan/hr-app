@@ -29,10 +29,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::middleware('auth')->group(function () {
-    
-        Route::get('/employees', function(){
-            return view('employees');
-        })->name('employees');
+
+    Route::get('/employees',  [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
+    Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
+    Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
+    Route::post('/employees/{object}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees/edit');
 
         Route::get('/documents', function(){
             return view('documents');
@@ -46,8 +47,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/tree', function () {
             return view('tree');
         });
-        
-        
+
+
         Route::get('/charts', function () {
             return view('charts');
         });
@@ -57,5 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/tree1', function () {
             return view('tree1');
         });
+
+
 });
 
