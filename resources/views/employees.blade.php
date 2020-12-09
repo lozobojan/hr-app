@@ -48,6 +48,7 @@
                                         <th class="text-center">JMBG</th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Izmijeni</th>
+                                        <th class="text-center">Obriši</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -129,7 +130,11 @@
         function showData(returndata){
             $('#name').val(returndata.name );
             $('#last_name').val(returndata.last_name );
-            $('#video').val(returndata.video );
+            $('#birth_date').val(returndata.birth_date );
+            $('#jmbg').val(returndata.jmbg );
+            $('#qualifications').val(returndata.qualifications );
+            $('#home_address').val(returndata.home_address );
+            $('#email').val(returndata.email );
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
 
@@ -189,7 +194,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="video">Datum rodjenja *</label>
-                            <input id="birth date" class="form-control" type="text" placeholder="Datum rodjenja" name="birth_date">
+                            <input id="birth_date" class="form-control" type="text" placeholder="Datum rodjenja" name="birth_date">
                         </div>
                     </div>
                 </div>
@@ -207,7 +212,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">Adresa *</label>
-                            <textarea class="form-control" id="address" name="address" placeholder="Adresa" ></textarea>
+                            <textarea class="form-control" id="home_address" name="home_address" placeholder="Adresa" ></textarea>
                         </div>
                     </div>
                 </div>
@@ -216,7 +221,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">JMBG *</label>
-                            <textarea class="form-control" id="JMBG" name="JMBG" placeholder="JMBG" ></textarea>
+                            <textarea class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" ></textarea>
                         </div>
                     </div>
                 </div>

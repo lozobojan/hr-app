@@ -90,7 +90,8 @@ class EmployeeController extends Controller
     public function destroy($id){
         $object = Employee::find($id);
 
-        // REORDER FOR DELETE
+        // REORDER PARENTS FOR DELETE
+
 
         if($object)
             $object->delete();

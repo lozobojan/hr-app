@@ -23,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->date("birth_date")->nullable();
             $table->string('qualifications')->nullable();
             $table->string('home_address')->nullable();
-            $table->string('JMBG')->nullable();
+            $table->string('jmbg')->nullable();
             $table->text('additional_info')->nullable();
 
             $table->string('email')->nullable();
@@ -35,7 +35,7 @@ class CreateEmployeesTable extends Migration
             // $table->foreignId('pid')->constrained('employees');
 
             $table->unsignedBigInteger('pid')->nullable();
-            $table->foreign('pid')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('pid')->references('id')->on('employees')->onDelete('set null');
             // $table->integer('pid')->nullable();
         });
     }
