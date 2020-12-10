@@ -23,4 +23,9 @@ class Employee extends Model
     {
         $this->attributes["birth_date"] = Carbon::createFromFormat("d.m.Y.", $value);
     }
+
+    public function employeeSalary()
+    {
+        return $this->hasOne(EmployeeSalary::class);
+    }
 }

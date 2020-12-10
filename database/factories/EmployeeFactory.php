@@ -25,7 +25,7 @@ class EmployeeFactory extends Factory
             'name' => $this->faker->firstNameMale,
             'last_name' => $this->faker->lastName,
             'image_path' => $this->faker->imageUrl($width = 200, $height = 200, 'person'),
-            'birth_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'birth_date' => $this->faker->date($format = 'd.m.Y.', $max = 'now'),
             'qualifications' => $this->faker->word,
             'home_address' => $this->faker->address,
             'jmbg' => $this->faker->ean13,

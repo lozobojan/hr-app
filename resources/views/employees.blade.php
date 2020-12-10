@@ -47,6 +47,7 @@
                                         <th class="text-center">Adresa</th>
                                         <th class="text-center">JMBG</th>
                                         <th class="text-center">Email</th>
+                                        <th class="text-center">Plata</th>
                                         <th class="text-center">Izmijeni</th>
                                         <th class="text-center">Obriši</th>
                                     </tr>
@@ -61,6 +62,7 @@
                                             <td class="text-center">{{ $object->home_address }}</td>
                                             <td class="text-center">{{ $object->jmbg }}</td>
                                             <td class="text-center">{{ $object->email }}</td>
+                                            <td class="text-center">{{ $object->employeeSalary->pay }}</td>
                                             <td class="text-center">
                                                 <form>
                                                     <a href="javascript:void(0)" data-toggle="modal" data-id="{{$object->id}}" data-route="employees/{{$object->id}}"
@@ -108,6 +110,9 @@
 
 
         $('.table').DataTable({
+            "columnDefs": [
+                { orderable: false, targets: [1,2,3,4,5,6,7,8] }
+            ],
             "language": {
                 "emptyTable": "Nema podataka",
                 "info": "Prikazano _START_ do _END_ od _TOTAL_ unosa",
@@ -123,8 +128,8 @@
                     "previous":   "Prethodna"
                 },
             },
-            "order": [[ 4, "desc" ]],
-            "ordering": false
+            "order": [[ 0, "asc" ]],
+            "ordering": true
         });
 
         function showData(returndata){
@@ -136,6 +141,8 @@
             $('#home_address').val(returndata.home_address );
             $('#email').val(returndata.email );
             $('#image_path').val(returndata.image_path );
+            $('#pay').val(returndata.employee_salary.pay );
+            $('#bonus').val(returndata.employee_salary.bonus );
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
 
@@ -237,6 +244,47 @@
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">Email *</label>
                             <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="pay">Plata *</label>
+                            <input type="number" class="form-control" id="pay" name="pay" placeholder="Plata" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="bonus">Bonus *</label>
+                            <input type="number" class="form-control" id="bonus" name="bonus" placeholder="Bonus" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="bank_number">Broj banke *</label>
+                            <input type="number" class="form-control" id="bank_number" name="bank_number" placeholder="Broj banke" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="input_date">Input date *</label>
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input name="input_date" id="input_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

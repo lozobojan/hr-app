@@ -20,7 +20,7 @@ class CreateEmployeeSalariesTable extends Migration
             $table->float('pay');
             $table->float('bonus');
             $table->string('bank_number');
-            $table->date('input_date');
+            $table->string('input_date');
 
             $table->foreignId('employee_id')->constrained('employees');
         });
