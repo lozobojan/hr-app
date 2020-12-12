@@ -32,13 +32,24 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('stats') }}" class="nav-link {{strpos(Route::current()->getName(), 'stats' ) !== false ? "active" : ""}}">
-                <i class="nav-icon fas fa-chart-pie"></i>
+            <a href="{{ route('structure') }}" class="nav-link {{strpos(Route::current()->getName(), 'structure' ) !== false ? "active" : ""}}">
+                <i class="nav-icon fas fa-sitemap"></i>
+                <p>
+                    Organizaciona struktura
+                </p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{ route('statistics') }}" class="nav-link {{strpos(Route::current()->getName(), 'statistics' ) !== false ? "active" : ""}}">
+                <i class="nav-icon fas fa-chart-pie "></i>
                 <p>
                     Statistika
                 </p>
             </a>
         </li>
+        
+        
 
         <li class="nav-item">
             <form action="/logout" method="POST" id="logout">

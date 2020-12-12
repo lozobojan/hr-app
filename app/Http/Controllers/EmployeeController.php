@@ -18,8 +18,6 @@ class EmployeeController extends Controller
     public function index()
     {
         $objects = Employee::with('employeeSalary')->get();
-/*dd($objects);*/
-        /*return $employee;*/
         return view("employees",  compact("objects" ));
     }
 

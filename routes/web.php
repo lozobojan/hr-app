@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/data',  [\App\Http\Controllers\EmployeeController::class, 'index']);
-
-Route::get('/tree1', function () {
-    return view('tree1');
-});
 
 Route::get('/', function () {
     return view('auth.login');
@@ -25,41 +20,27 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::middleware('auth')->group(function () {
-
+    
     Route::get('/employees',  [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
     Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
     Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
     Route::post('/employees/{object}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees/edit');
     Route::post('/employees/store', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees/store');
+    
+    // -------------------------------------------- Home page ---------------------------------------------------
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-        Route::get('/documents', function(){
-            return view('documents');
-        })->name('documents');
+    // ------------------------------------------- Fajl sistem --------------------------------------------------
+    Route::get('/documents', [\App\Http\Controllers\DocumentationController::class, 'index'])->name('documents');
 
-        Route::get('/stats', function(){
-            return view('stats');
-        })->name('stats');
-
-        // Charts
-        Route::get('/tree', function () {
-            return view('tree');
-        });
-
-
-        Route::get('/charts', function () {
-            return view('charts');
-        });
-
-        Route::get('/data',  [\App\Http\Controllers\EmployeeController::class, 'index']);
-
-        Route::get('/tree1', function () {
-            return view('tree1');
-        });
-
-
+    // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
+    Route::get('/structure', function(){return view('structure');})->name('structure');
+    
+    // ------------------------------------------- Statistika ---------------------------------------------------        
+    Route::get('/statistics', function(){return view('statistics');})->name('statistics');
+    
 });
 
