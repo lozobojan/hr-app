@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e3adb0ace9eeed4c5610ed74967a616",
+    "content-hash": "b0631fb999af3063f820e54ff075f39f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1650,6 +1650,53 @@
                 "serialize"
             ],
             "time": "2020-11-07T02:01:34+00:00"
+        },
+        {
+            "name": "paxha/laravel-recursive-relationships",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paxha/laravel-recursive-relationships.git",
+                "reference": "409ed9bc6671db1689b33ad80b9f630d1195e246"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paxha/laravel-recursive-relationships/zipball/409ed9bc6671db1689b33ad80b9f630d1195e246",
+                "reference": "409ed9bc6671db1689b33ad80b9f630d1195e246",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.4",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "laravel",
+            "autoload": {
+                "psr-4": {
+                    "RecursiveRelationships\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hassan Raza Pasha",
+                    "email": "e.hassanrazapasha@gmail.com"
+                }
+            ],
+            "description": "This Laravel Eloquent extension provides recursive relationships using common table.",
+            "keywords": [
+                "laravel",
+                "laravel library",
+                "laravel recursive relationships",
+                "parent child relations",
+                "recursive relationships"
+            ],
+            "time": "2019-12-25T14:37:28+00:00"
         },
         {
             "name": "phpoption/phpoption",
