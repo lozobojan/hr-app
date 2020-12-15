@@ -110,6 +110,7 @@
 
 
         $('.table').DataTable({
+    
             "columnDefs": [
                 { orderable: false, targets: [1,2,3,4,5,6,7,8] }
             ],
@@ -131,7 +132,7 @@
             "order": [[ 0, "asc" ]],
             "ordering": true
         });
-
+ 
         function showData(returndata){
             $('#name').val(returndata.name );
             $('#last_name').val(returndata.last_name );
