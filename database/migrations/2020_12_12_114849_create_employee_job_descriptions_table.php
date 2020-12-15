@@ -17,12 +17,12 @@ class CreateEmployeeJobDescriptionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('workplace');
-            $table->string('sector');
             $table->string('job_description');
             $table->string('skills');
-
-            $table->foreignId('employee_id')->constrained('employees');
-
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->unsignedBigInteger('sector_id')->nullable();
+            $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('set null');
         });
     }
 

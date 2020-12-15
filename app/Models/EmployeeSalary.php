@@ -18,14 +18,4 @@ class EmployeeSalary extends Model
     public function employee(){
         return $this->belongsTo(Employee::class);
     }
-
- /*   public function getInputDateAttribute($value)
-    {
-        return Carbon::parse($value)->format("d.m.Y.");
-    }
-
-    public function setInputDateAttribute($value)
-    {
-        $this->attributes["input_date"] = Carbon::createFromFormat("d.m.Y.", $value);
-    }*/
 }
