@@ -40,7 +40,7 @@
                                 <table class="table table-striped table-bordered first">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">R. broj</th>
+                                        <th class="text-center">ID</th>
                                         <th class="text-center">Ime i prezime</th>
                                         <th class="text-center">Datum rodjenja</th>
                                         <th class="text-center">Kvalifikacije</th>
@@ -65,15 +65,22 @@
                                             <td class="text-center">{{ $object->employeeSalary->pay }}</td>
                                             <td class="text-center">
                                                 <form>
-                                                    <a href="javascript:void(0)" data-toggle="modal" data-id="{{$object->id}}" data-route="employees/{{$object->id}}"
-                                                       data-target="#myModal" class="edit show-object-data btn btn-sm btn-success">Izmijeni</a>
+                                                    <a href="javascript:void(0)" 
+                                                    data-toggle="modal" 
+                                                    data-id="{{$object->id}}" 
+                                                    data-route="employees/{{$object->id}}"
+                                                    data-target="#myModal" 
+                                                    class="edit show-object-data btn btn-sm btn-outline-primary"
+                                                    >
+                                                       <i class="far fa-edit"></i>
+                                                    </a>
                                                 </form>
                                             </td>
                                             <td class="text-center">
-                                                <form class="deleteForm" action="{{ route('employees/delete', $object->id) }}" method="POST">
+                                                <form class="deleteForm text-center" action="{{ route('employees/delete', $object->id) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button type="button" class="delBtn btn btn-sm btn-danger">Obriši</button>
+                                                    <button class="btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
                                             </td>
                                         </tr>

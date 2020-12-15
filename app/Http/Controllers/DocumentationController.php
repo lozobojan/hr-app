@@ -14,7 +14,11 @@ class DocumentationController extends Controller
      */
     public function index()
     {
-        //
+        $roots = Documentation::root()->get();
+
+        return view('documentation', [
+            'roots' => $roots
+        ]);
     }
 
     /**

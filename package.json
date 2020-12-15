@@ -16,14 +16,10 @@
         "jquery": "^3.2",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
-<<<<<<< HEAD
         "popper.js": "^1.12",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
-=======
-        "resolve-url-loader": "^3.1.0",
->>>>>>> ac79c8b4d0a5be84a378074b7c57799b97af7d80
         "vue-template-compiler": "^2.6.12"
     }
 }
