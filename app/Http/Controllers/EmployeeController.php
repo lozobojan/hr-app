@@ -7,6 +7,8 @@ use App\Models\EmployeeSalary;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
+use App\Exports\EmployeeExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -18,7 +20,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $objects = Employee::with('employeeSalary')->get();
-        return view("employees",  compact("objects" ));
+        return view("employees.index",  compact("objects" ));
     }
 
 
@@ -46,6 +48,15 @@ class EmployeeController extends Controller
     }
 
 
+    public function show($id)
+    {
+        $employee = Employee::with('EmployeeSalary')
+            ->where('id', $id)
+            ->select('id', 'name', 'last_name', 'jmbg', 'birth_date', 'email', 'mobile_number', 'telephone_number','qualifications','home_address' )
+            ->first();
+        return view('employees.show', compact("employee"));
+    }
+
 
 
 
@@ -60,5 +71,13 @@ class EmployeeController extends Controller
         if($object)
             $object->delete();
         return back()->with("success", "Element uspješno obrisan!");
+    }
+
+    public function export($id)
+    {
+        $employee = new EmployeeExport($id);
+        $name = $employee->fileName();
+        return Excel::download($employee, "$name.xlsx");
+        return redirect()->back();
     }
 }

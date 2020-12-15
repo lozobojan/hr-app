@@ -24,7 +24,7 @@ class EmployeeFactory extends Factory
         return [
             'name' => $this->faker->firstNameMale,
             'last_name' => $this->faker->lastName,
-            'image_path' => "https://source.unsplash.com/600x600/?nature,water",
+            'image' => "https://source.unsplash.com/600x600/?nature,water",
             'birth_date' => $this->faker->date($format = 'd.m.Y.', $max = 'now'),
             'qualifications' => $this->faker->word,
             'home_address' => $this->faker->address,

@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="card-title mt-1 mb-1">Tabela zaposleni</h5>
+                                    <h5 class="card-title mt-1 mb-1">Tabela zaposleni {{ $objects->count() }}</h5>
                                 </div>
                                 <div class="col-6">
                                     <a id="add" class="btn btn-sm btn-info float-right ml-3" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
@@ -65,11 +65,11 @@
                                             <td class="text-center">{{ $object->employeeSalary->pay }}</td>
                                             <td class="text-center">
                                                 <form>
-                                                    <a href="javascript:void(0)" 
-                                                    data-toggle="modal" 
-                                                    data-id="{{$object->id}}" 
-                                                    data-route="employees/{{$object->id}}"
-                                                    data-target="#myModal" 
+                                                    <a href="javascript:void(0)"
+                                                    data-toggle="modal"
+                                                    data-id="{{$object->id}}"
+                                                    data-route="employees/one/{{$object->id}}"
+                                                    data-target="#myModal"
                                                     class="edit show-object-data btn btn-sm btn-outline-primary"
                                                     >
                                                        <i class="far fa-edit"></i>
@@ -80,7 +80,7 @@
                                                 <form class="deleteForm text-center" action="{{ route('employees/delete', $object->id) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></button>
+                                                    <button type="button" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -117,7 +117,7 @@
 
 
         $('.table').DataTable({
-    
+
             "columnDefs": [
                 { orderable: false, targets: [1,2,3,4,5,6,7,8] }
             ],
@@ -139,7 +139,7 @@
             "order": [[ 0, "asc" ]],
             "ordering": true
         });
- 
+
         function showData(returndata){
             $('#name').val(returndata.name );
             $('#last_name').val(returndata.last_name );
@@ -148,9 +148,11 @@
             $('#qualifications').val(returndata.qualifications );
             $('#home_address').val(returndata.home_address );
             $('#email').val(returndata.email );
-            $('#image_path').val(returndata.image_path );
+            $('#imageHolder').attr({ 'src': returndata.image });
             $('#pay').val(returndata.employee_salary.pay );
             $('#bonus').val(returndata.employee_salary.bonus );
+            $('#input_date').val(returndata.employee_salary.input_date );
+            $('#bank_number').val(returndata.employee_salary.bank_number );
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
 
@@ -185,6 +187,21 @@
                         <div class="form-group">
                             <label class="col-form-label" for="text_en">Prezime *</label>
                             <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <img width="100%" style="max-height:25%" id="imageHolder"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="image">Fotografija *</label>
+                            <input type="file" id="image" class="form-control" name="image"/>
                         </div>
                     </div>
                 </div>
@@ -297,14 +314,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Slika URL *</label>
-                            <textarea class="form-control" id="image_path" name="image_path" placeholder="Slika url" ></textarea>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
