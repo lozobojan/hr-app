@@ -56,30 +56,53 @@
 
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
 
+        var data;
+        // var sectorName = [];
+        // var sectorSalary = [];
+        // var count = [];
 
+        data = axios.get('/api/employees-sector')
+        .then((response) => {return response});
+            // data = response.data;
+            // for((const [key, value] of Object.entries(sectors)) {
+            //     console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
+            // }
+            // for(var i = 0; i < sectors.length; i++){
+            //     for (const key in sectors[i]) {
+            //         data['id' =>]
+            //         console.log("key", key);
+            //         console.log("value", obj[key]);
+            //     }
+            //     sectorName[i] = sectors[i].name;
+            //     sectorSalary[i] = sectors[i].salarySum;
+            //     count[i] = count[i].salarySum;
+            // }
+
+        console.log(data);
         // Vertical bar chart
-        var ctxV = document.getElementById('barChart').getContext('2d');
-        var myBarChart = new Chart(ctxV, {
-            type: 'bar',
-            data: {
-                labels: ['Sektor 1', 'Sektor 2', 'Sektor 3'],
-                datasets: [{
-                    data: [12, 19, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                }]
-            },
-            options: {
-                legend: {
-                    display: false
-                }
-            }
-        });
+        // var ctxV = document.getElementById('barChart').getContext('2d');
+        // var myBarChart = new Chart(ctxV, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: data.sectors.forEach(element => console.log(element.name)),
+        //         datasets: [{
+        //             data: data.sectors.forEach(element => element.salarySum),
+        //             backgroundColor: [
+        //                 'rgba(255, 99, 132, 1)',
+        //                 'rgba(54, 162, 235, 1)',
+        //                 'rgba(255, 206, 86, 1)'
+        //             ],
+        //         }]
+        //     },
+        //     options: {
+        //         legend: {
+        //             display: false
+        //         }
+        //     }
+        // });
 
         // Pie chart
         var ctxpie = document.getElementById('chart3').getContext('2d');

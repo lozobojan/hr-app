@@ -16,7 +16,6 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->string('name');
             $table->string('last_name');
             $table->string('image_path');
@@ -25,18 +24,13 @@ class CreateEmployeesTable extends Migration
             $table->string('home_address')->nullable();
             $table->string('jmbg')->nullable();
             $table->text('additional_info')->nullable();
-
             $table->string('email')->nullable();
             $table->string('mobile_number')->nullable();
             $table->string('telephone_number')->nullable();
             $table->integer('office_number')->nullable();
             $table->text('additional_info_contact')->nullable();
-
-            // $table->foreignId('pid')->constrained('employees');
-
             $table->unsignedBigInteger('pid')->nullable();
             $table->foreign('pid')->references('id')->on('employees')->onDelete('set null');
-            // $table->integer('pid')->nullable();
         });
     }
 

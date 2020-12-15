@@ -62,7 +62,7 @@
                                             <td class="text-center">{{ $object->home_address }}</td>
                                             <td class="text-center">{{ $object->jmbg }}</td>
                                             <td class="text-center">{{ $object->email }}</td>
-                                            <td class="text-center">{{ $object->employeeSalary->pay }}</td>
+                                            <td class="text-center">{{ $object->employeeSalary->pay}}</td>
                                             <td class="text-center">
                                                 <form>
                                                     <a href="javascript:void(0)" 

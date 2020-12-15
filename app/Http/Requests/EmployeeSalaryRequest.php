@@ -38,7 +38,6 @@ class EmployeeSalaryRequest extends FormRequest
 
             'pay' => 'required',
             'bank_number' => 'required',
-            'input_date' => 'required',
             'bonus' => 'required',
 
 

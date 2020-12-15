@@ -22,7 +22,10 @@ class EmployeeJobDescriptionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'workplace' => $this->faker->word,
+            'job_description' => $this->faker->sentences($nb = 1, $asText = true),
+            'skills' => $this->faker->sentences($nb = 1, $asText = true),
+            'sector_id' => rand(1, 4),
         ];
     }
 }
