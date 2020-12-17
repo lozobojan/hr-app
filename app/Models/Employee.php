@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Http\Requests\EmployeeSalaryRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use App\Traits\FileHandling;
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory,FileHandling;
     protected $table = 'employees';
 
     public $primaryKey = "id";
@@ -23,9 +25,22 @@ class Employee extends Model
     {
         $this->attributes["birth_date"] = Carbon::createFromFormat("d.m.Y.", $value);
     }
+    public function setImageAttribute($value)
+    {
+        if($value)
+            $this->attributes["image"] = is_string($value) ? $value : Employee::storeFile($value, "employees");
+    }
 
     public function employeeSalary()
     {
         return $this->hasOne(EmployeeSalary::class);
+    }
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($employee) { // before delete() method call this
+            $employee->employeeSalary()->delete();
+            // do the rest of the cleanup...
+        });
     }
 }

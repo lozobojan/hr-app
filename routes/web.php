@@ -23,13 +23,14 @@ Auth::routes();
 
 
 Route::middleware('auth')->group(function () {
-    
+
     Route::get('/employees',  [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
     Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
-    Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
+    Route::get('/employees/one/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
     Route::post('/employees/{object}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees/edit');
     Route::post('/employees/store', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees/store');
-    
+    Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees/show');
+    Route::get('/employees/export/{id}', [\App\Http\Controllers\EmployeeController::class, 'export'])->name('employee.export');
     // -------------------------------------------- Home page ---------------------------------------------------
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -38,9 +39,9 @@ Route::middleware('auth')->group(function () {
 
     // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
     Route::get('/structure', function(){return view('structure');})->name('structure');
-    
-    // ------------------------------------------- Statistika ---------------------------------------------------        
+
+    // ------------------------------------------- Statistika ---------------------------------------------------
     Route::get('/statistics', function(){return view('statistics');})->name('statistics');
-    
+
 });
 

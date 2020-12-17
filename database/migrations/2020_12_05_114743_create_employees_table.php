@@ -18,7 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('last_name');
-            $table->string('image_path');
+            $table->string('image');
             $table->date("birth_date")->nullable();
             $table->string('qualifications')->nullable();
             $table->string('home_address')->nullable();
