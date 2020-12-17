@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\EmployeeSalary;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
@@ -64,8 +65,10 @@ class EmployeeController extends Controller
             ->where('id', $id)
 
             ->first();
-
-        return view('employees.pdf', compact("employee"));
+        $pdf = PDF::loadView('employees.pdf');
+       // dd($pdf);
+        return $pdf->download('employees.pdf');
+        //return view('employees.pdf', compact("employee"));
     }
 
 

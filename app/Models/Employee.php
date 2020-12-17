@@ -35,6 +35,10 @@ class Employee extends Model
     {
         return $this->hasOne(EmployeeSalary::class);
     }
+    public function employeeJobDescription()
+    {
+        return $this->hasOne(EmployeeJobDescription::class);
+    }
     public static function boot() {
         parent::boot();
 

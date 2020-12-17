@@ -26,9 +26,7 @@
 <title>Statistika</title>
 <!------ Include the above in your HEAD tag ---------->
 <style>
-    body{
-        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
-    }
+
     .emp-profile{
         padding: 3%;
         margin-top: 3%;
@@ -121,24 +119,24 @@
         font-weight: 600;
         color: #0062cc;
     }</style>
-<div class="container emp-profile">
+<div class="container emp-profile p-0">
     <form method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="{{ $employee->image }}" alt=""/>
+                    <img src="{{--{{ $employee->image }}--}}" alt=""/>
 
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        Kshiti Ghelani
+                        {{--{{ $employee->name }} {{ $employee->last_name }}--}}
                     </h5>
                     <h6>
-                        Web Developer and Designer
+                        {{--{{ $employee->employeeJobDescription->workplace }}--}}
                     </h6>
-                    <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                    <p class="proile-rating">{{--{{ $employee->employeeJobDescription->job_description }}--}}</p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Osnovne Informacije</a>
@@ -146,9 +144,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-2">
-                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -173,7 +169,7 @@
                                 <label>Ime</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Kshiti123</p>
+                                <p>{{--{{ $employee->name }}--}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -181,7 +177,7 @@
                                 <label>Prezime</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $employee->last_name }}</p>
+                                <p>{{--{{ $employee->last_name }}--}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -189,7 +185,7 @@
                                 <label>Datum rodjenja</label>
                             </div>
                             <div class="col-md-6">
-                                <p>kshitighelani@gmail.com</p>
+                                <p>{{--{{ $employee->birth_date }}--}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -197,68 +193,31 @@
                                 <label>Mobilni</label>
                             </div>
                             <div class="col-md-6">
-                                <p>123 456 7890</p>
+                                <p>{{--{{ $employee->mobile_number }}--}}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Profession</label>
+                                <label>JMBG</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Web Developer and Designer</p>
+                                <p>{{--{{ $employee->jmbg }}--}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Experience</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Hourly Rate</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>10$/hr</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Total Projects</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>230</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>English Level</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Expert</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Availability</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>6 months</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Your Bio</label><br/>
-                                <p>Your detail description</p>
-                            </div>
+
+            </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Osnovne Informacije</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </form>
 </div>
