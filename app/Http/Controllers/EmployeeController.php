@@ -58,6 +58,15 @@ class EmployeeController extends Controller
     }
 
 
+    public function pdf($id)
+    {
+        $employee = Employee::with('EmployeeSalary')
+            ->where('id', $id)
+
+            ->first();
+
+        return view('employees.pdf', compact("employee"));
+    }
 
 
 

@@ -22,7 +22,7 @@ class EmployeeSeeder extends Seeder
             Employee::create([
                 'name' => $employee->faker->firstNameMale,
                 'last_name' => $employee->faker->lastName,
-                'image_path' => $employee->faker->imageUrl($width = 200, $height = 200, 'person'),
+                'image' => $employee->faker->imageUrl($width = 200, $height = 200, 'person'),
                 'birth_date' => $employee->faker->date($format = 'd.m.Y.', $max = 'now'),
                 'qualifications' => $employee->faker->word,
                 'home_address' => $employee->faker->address,
