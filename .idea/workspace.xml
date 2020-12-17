@@ -21,15 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e52b8a37-ed63-4b33-96fb-5673c1a639ae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EmployeeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EmployeeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/EmployeeRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/EmployeeRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Employee.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Employee.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/EmployeeSalary.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/EmployeeSalary.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/EmployeeFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/EmployeeFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/EmployeeSalaryFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/EmployeeSalaryFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_05_114916_create_employee_salaries_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_12_05_114916_create_employee_salaries_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeders/EmployeeSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/EmployeeSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/employees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/employees.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +142,14 @@
       <path value="$PROJECT_DIR$/vendor/ramsey/collection" />
       <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/maennchen/zipstream-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/paxha/laravel-recursive-relationships" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/maatwebsite/excel" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
     </include_path>
   </component>
   <component name="ProjectId" id="1l3yekfR3vUirEa7XT8uIRpYvx3" />
