@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Employee;
 use App\Models\EmployeeSalary;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
 use App\Exports\EmployeeExport;
+
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -59,19 +61,21 @@ class EmployeeController extends Controller
     }
 
 
-    public function pdf($id)
-    {
-        $employee = Employee::with('EmployeeSalary')
-            ->where('id', $id)
 
+
+    public function createPDF($id) {
+        // retreive all records from db
+        $data = Employee::with('EmployeeSalary')
+            ->where('id', $id)
             ->first();
-        $pdf = PDF::loadView('employees.pdf');
-       // dd($pdf);
-        return $pdf->download('employees.pdf');
+        //// share data to view
+        view()->share('employee',$data);
+        $pdf = PDF::loadView('employees.pdf', $data);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
         //return view('employees.pdf', compact("employee"));
     }
-
-
 
 
     public function destroy($id){

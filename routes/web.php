@@ -1,6 +1,5 @@
 <?php
 
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,11 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees/show');
     Route::get('/employees/export/{id}', [\App\Http\Controllers\EmployeeController::class, 'export'])->name('employee.export');
    // Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'pdf'])->name('employee.pdf');
-Route::get('/pdf', function(){
-    $pdf = PDF::loadView('employees.pdf');
-    // dd($pdf);
-    return $pdf->download('employees.pdf');
-});
+Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'createPDF']);
     // -------------------------------------------- Home page ---------------------------------------------------
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

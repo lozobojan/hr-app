@@ -124,19 +124,19 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="{{--{{ $employee->image }}--}}" alt=""/>
+                    <img src="{{ $employee->image }}" alt=""/>
 
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        {{--{{ $employee->name }} {{ $employee->last_name }}--}}
+                        {{ $employee->name }} {{ $employee->last_name }}
                     </h5>
                     <h6>
-                        {{--{{ $employee->employeeJobDescription->workplace }}--}}
+                        {{ $employee->employeeJobDescription->workplace }}
                     </h6>
-                    <p class="proile-rating">{{--{{ $employee->employeeJobDescription->job_description }}--}}</p>
+                    <p class="proile-rating">{{ $employee->employeeJobDescription->job_description }}</p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Osnovne Informacije</a>
@@ -169,7 +169,7 @@
                                 <label>Ime</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{--{{ $employee->name }}--}}</p>
+                                <p>{--}}{{--{--{{ $employee->name }}--}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -177,7 +177,7 @@
                                 <label>Prezime</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{--{{ $employee->last_name }}--}}</p>
+                                <p>{{ $employee->last_name }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -185,7 +185,7 @@
                                 <label>Datum rodjenja</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{--{{ $employee->birth_date }}--}}</p>
+                                <p>{{ $employee->birth_date }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -193,7 +193,7 @@
                                 <label>Mobilni</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{--{{ $employee->mobile_number }}--}}</p>
+                                <p>{{ $employee->mobile_number }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -201,7 +201,7 @@
                                 <label>JMBG</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{--{{ $employee->jmbg }}--}}</p>
+                                <p>{{ $employee->jmbg }}</p>
                             </div>
                         </div>
                     </div>

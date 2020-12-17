@@ -5,6 +5,7 @@
 
 
 @section('content')
+    <a class="btn btn-primary" href="{{ URL::to('/pdf/1') }}">Export to PDF</a>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container-fluid ">
         <div class="dashboard-content">
