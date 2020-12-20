@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Sector;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Sector;
+
 
 class EmployeeJobDescription extends Model
 {
@@ -21,5 +22,10 @@ class EmployeeJobDescription extends Model
     public function employee(){
         return $this->belongsTo(Employee::class);
     }
+
+    public function sector(){
+        return $this->belongsTo(Sector::class);
+    }
+
 
 }

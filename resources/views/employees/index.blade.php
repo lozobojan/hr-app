@@ -5,6 +5,14 @@
 
 
 @section('content')
+    <style>
+        .head-light{
+            background-color: #ffffff;
+        }
+        .head-dark{
+            background-color: #cbcbcb;
+        }
+    </style>
     {{--<a class="btn btn-primary" href="{{ URL::to('/pdf/1') }}">Export to PDF</a>--}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container-fluid ">
@@ -41,6 +49,14 @@
                                 <table class="table table-striped table-bordered first">
                                     <thead>
                                     <tr>
+                                        <th></th>
+                                        <th colspan="6" class="text-center head-light">Osnovne Informacije</th>
+                                        <th colspan="5" class="text-center head-dark">Kontakt Informacije</th>
+                                        <th colspan="4" class="text-center head-light">Status Zaposlenja</th>
+                                        <th colspan="4" class="text-center head-dark">Opis Zaposlenja</th>
+                                        <th colspan="4" class="text-center head-light">Plata</th>
+                                    </tr>
+                                    <tr>
                                         <td></td>
                                         {{--LICNI PODACI--}}
                                         <th class="text-center">ID</th>
@@ -57,13 +73,23 @@
                                         <th class="text-center">Broj kancelarije</th>
                                         <th class="text-center">Dodatne informacije</th>
 
-                                        {{--KONTAKT INFORMACIJE--}}
+                                        {{--STATUS ZAPOSLENJA--}}
                                         <th class="text-center">Tip</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Datum zaposlenja</th>
                                         <th class="text-center">Dodatne informacije</th>
 
+                                        {{--OPIS ZAPOSLENJA--}}
+                                        <th class="text-center">Radno mjesto</th>
+                                        <th class="text-center">Opis posla</th>
+                                        <th class="text-center">Skills</th>
+                                        <th class="text-center">Sektor</th>
+
+                                        {{--PLATA--}}
                                         <th class="text-center">Plata</th>
+                                        <th class="text-center">Bonus</th>
+                                        <th class="text-center">Broj banke</th>
+                                        <th class="text-center">Banka</th>
 
 
                                         <th class="text-center">Akcije</th>
@@ -114,7 +140,19 @@
                                             <td class="text-center">{{ $object->employeeJobStatus->date_hired }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->additional_info ?? "NaN" }}</td>
 
+                                            {{--OPIS ZAPOSLENJA--}}
+                                            <td class="text-center">{{ $object->employeeJobDescription->workplace }}</td>
+                                            <td class="text-center">{{ $object->employeeJobDescription->job_description }}</td>
+                                            <td class="text-center">{{ $object->employeeJobDescription->skills }}</td>
+                                            <td class="text-center">{{ $object->employeeJobDescription->sector->name }}</td>
+
+                                            {{--PLATA--}}
                                             <td class="text-center">{{ $object->employeeSalary->pay}}</td>
+                                            <td class="text-center">{{ $object->employeeSalary->bonus}}</td>
+                                            <td class="text-center">{{ $object->employeeSalary->bank_number}}</td>
+                                            <td class="text-center">{{ $object->employeeSalary->bank_name}}</td>
+
+
                                             <td class="text-center d-inline-block">
                                                 <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
 
@@ -176,8 +214,32 @@
 
 
 
-        $('.table').DataTable({
-
+        $('.tabless').DataTable({
+            "lengthMenu": [ 10, 25, 50, 75, 100 ],
+            "processing": true,
+           /* dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'colvisGroup',
+                    text: 'Osnovni podaci',
+                    className: 'btn-primary',
+                    show: [ 1, 2, 3,4,5,6],
+                    hide: [ 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 ]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Kontakt',
+                    className: 'btn-secondary',
+                    show: [7,8,9,10,11],
+                    hide: [  1, 2, 3,4,5,6,12,13,14,15,16,17,18,19,20,21,22,23 ]
+                },
+                {
+                    extend: 'colvisGroup',
+                    text: 'Show all',
+                    className: 'btn-success',
+                    show: ':hidden'
+                }
+            ],*/
             "columnDefs": [
                 { orderable: false, targets: [0,2,3,4,5,6,7,8] }
             ],

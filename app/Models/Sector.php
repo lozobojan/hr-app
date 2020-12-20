@@ -10,4 +10,18 @@ class Sector extends Model
 {
     use HasFactory;
 
+    protected $table = 'sectors';
+
+    public $primaryKey = "id";
+    protected $guarded = [];
+
+    /*public function employee(){
+       return $this->hasMany(Employee::class);
+  }*/
+
+    public function employeeJobDescription(){
+        return $this->hasMany(EmployeeJobDescription::class);
+    }
+
+
 }

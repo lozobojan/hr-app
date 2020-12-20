@@ -27,11 +27,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $objects = Employee::with('employeeSalary')->with('employeeJobStatus')->get();
+        $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
         $data = [
             "objects" => $objects,
-            "sectors" => $sectors
+            "sectors" => $sectors,
         ];
         return view("employees.index")->with($data);
     }

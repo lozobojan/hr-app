@@ -45,6 +45,12 @@ class Employee extends Model
     {
         return $this->hasOne(EmployeeJobStatus::class);
     }
+   /*public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }*/
+
+
 //-------------------------------------------- Relationships ---------------------------------------------------
 
     public static function boot() {

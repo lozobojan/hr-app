@@ -35,6 +35,8 @@ class EmployeeSeeder extends Seeder
                 'office_number' => $employee->faker->numberBetween($min = 1, $max = 12),
                 'additional_info_contact' => $employee->faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],
+                /*'sector_id' => 1,*/
+                /*'sector_id' => rand(1, 4),*/
             ]);
             EmployeeSalary::factory()->create(['employee_id'=>$i+1]);
             EmployeeJobDescription::factory()->create(['employee_id'=>$i+1]);
