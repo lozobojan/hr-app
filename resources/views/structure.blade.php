@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Organizaciona struktura')
-    
+
 
 @section('content')
 
@@ -35,13 +35,20 @@
     .then((response) => {
         datas = response.data.employees;
         for (i = 0; i < datas.length; i++) {
-            datas[i] = { id: datas[i].id, pid: datas[i].pid , Name: datas[i].name, "Last Name": datas[i].last_name, Photo: datas[i].image_path};
+            datas[i] = { id: datas[i].id,
+                pid: datas[i].pid ,
+                Name: datas[i].name,
+                "Last Name": datas[i].last_name,
+                Photo: datas[i].image,
+                Email: datas[i].email
+            };
         }
         var chart = new OrgChart(document.getElementById("tree"), {
             template: "ula",
             nodeBinding: {
                 field_0: "Name",
                 field_1: "Last Name",
+                field_2: "Email",
                 img_0: "Photo"
             },
             nodeMenu: {
@@ -49,11 +56,11 @@
                 edit: { text: "Edit" },
                 add: { text: "Add" },
                 remove: { text: "Remove" }
-            }           
+            }
         });
         nodes = datas;
-        chart.load(nodes);    
-    
+        chart.load(nodes);
+
     });
     </script>
     <script>

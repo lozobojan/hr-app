@@ -18,7 +18,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::select('id', 'name', 'last_name', 'image_path', 'pid')->orderBy("id", "DESC")->get();
+        $employees = Employee::select('id', 'name', 'last_name', 'image', 'pid', 'email')->orderBy("id", "DESC")->get();
         return response()->json(compact("employees"), 200);
     }
 

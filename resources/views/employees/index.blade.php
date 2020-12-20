@@ -41,49 +41,108 @@
                                 <table class="table table-striped table-bordered first">
                                     <thead>
                                     <tr>
+                                        <td></td>
+                                        {{--LICNI PODACI--}}
                                         <th class="text-center">ID</th>
                                         <th class="text-center">Ime i prezime</th>
                                         <th class="text-center">Datum rodjenja</th>
                                         <th class="text-center">Kvalifikacije</th>
                                         <th class="text-center">Adresa</th>
                                         <th class="text-center">JMBG</th>
+
+                                        {{--KONTAKT INFORMACIJE--}}
                                         <th class="text-center">Email</th>
+                                        <th class="text-center">Fiksni</th>
+                                        <th class="text-center">Mobilni</th>
+                                        <th class="text-center">Broj kancelarije</th>
+                                        <th class="text-center">Dodatne informacije</th>
+
+                                        {{--KONTAKT INFORMACIJE--}}
+                                        <th class="text-center">Tip</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Datum zaposlenja</th>
+                                        <th class="text-center">Dodatne informacije</th>
+
                                         <th class="text-center">Plata</th>
-                                        <th class="text-center">Izmijeni</th>
-                                        <th class="text-center">Obriši</th>
+
+
+                                        <th class="text-center">Akcije</th>
+                                        {{--<th class="text-center">Obriši</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
                                  @foreach($objects as $object)
                                         <tr>
+                                            <td class="text-center d-inline-block">
+                                                <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+
+                                                <a href="javascript:void(0)"
+                                                   data-toggle="modal"
+                                                   data-id="{{$object->id}}"
+                                                   data-route="employees/one/{{$object->id}}"
+                                                   data-target="#myModal"
+                                                   class="edit show-object-data btn btn-sm btn-outline-primary mt-1"
+                                                >
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+
+
+                                                <form class="deleteForm text-center mt-1" action="{{ route('employees/delete', $object->id) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                                </form>
+                                            </td>
+                                            {{--LICNI PODACI--}}
                                             <td class="text-center">{{ $object->id }}</td>
                                             <td class="text-center">{{ $object->name}} {{ $object->last_name }}</td>
                                             <td class="text-center">{{ $object->birth_date }}</td>
                                             <td class="text-center">{{ $object->qualifications }}</td>
                                             <td class="text-center">{{ $object->home_address }}</td>
                                             <td class="text-center">{{ $object->jmbg }}</td>
+
+                                            {{--KONTAKT INFORMACIJE--}}
                                             <td class="text-center">{{ $object->email }}</td>
+                                            <td class="text-center">{{ $object->telephone_number }}</td>
+                                            <td class="text-center">{{ $object->mobile_number }}</td>
+                                            <td class="text-center">{{ $object->office_number }}</td>
+                                            <td class="text-center">{{ $object->additional_info_contact ?? "NaN" }}</td>
+
+                                            {{--STATUS ZAPOSLENJA--}}
+                                            <td class="text-center">{{ $object->employeeJobStatus->type }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->status }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->date_hired }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->additional_info ?? "NaN" }}</td>
+
                                             <td class="text-center">{{ $object->employeeSalary->pay}}</td>
-                                            <td class="text-center">
-                                                <form>
+                                            <td class="text-center d-inline-block">
+                                                <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+
                                                     <a href="javascript:void(0)"
                                                     data-toggle="modal"
                                                     data-id="{{$object->id}}"
                                                     data-route="employees/one/{{$object->id}}"
                                                     data-target="#myModal"
-                                                    class="edit show-object-data btn btn-sm btn-outline-primary"
+                                                    class="edit show-object-data btn btn-sm btn-outline-primary mt-1"
                                                     >
                                                        <i class="far fa-edit"></i>
                                                     </a>
+
+
+                                                <form class="deleteForm text-center mt-1" action="{{ route('employees/delete', $object->id) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></a>
                                                 </form>
                                             </td>
-                                            <td class="text-center">
+
+                                         {{--   <td class="text-center">
                                                 <form class="deleteForm text-center" action="{{ route('employees/delete', $object->id) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="button" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
-                                            </td>
+                                            </td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -120,7 +179,7 @@
         $('.table').DataTable({
 
             "columnDefs": [
-                { orderable: false, targets: [1,2,3,4,5,6,7,8] }
+                { orderable: false, targets: [0,2,3,4,5,6,7,8] }
             ],
             "language": {
                 "emptyTable": "Nema podataka",
@@ -137,7 +196,7 @@
                     "previous":   "Prethodna"
                 },
             },
-            "order": [[ 0, "asc" ]],
+            "order": [[ 1, "asc" ]],
             "ordering": true,
             stateSave: true
         });
@@ -168,6 +227,10 @@
             $('#date_hired').val(returndata.employee_job_status.date_hired);
             $('#additional_info').val(returndata.employee_job_status.additional_info);
 
+            /*Job description*/
+            $('#workplace').val(returndata.employee_job_description.workplace);
+            $('#job_description').val(returndata.employee_job_description.job_description);
+            $('#skills').val(returndata.employee_job_description.skills);
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
             console.log(returndata);
@@ -424,6 +487,53 @@
                     </div>
                 </div>
 
+
+                {{--JOB DESCRIPTIONS--}}
+
+                <div class="card-header bg-dark">
+                    Opis posla
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="workplace">Radno mjesto *</label>
+                            <input type="text" class="form-control" id="workplace" name="workplace" placeholder="Radno mjesto" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="job_description">Opis posla *</label>
+                            <input type="text" class="form-control" id="job_description" name="job_description" placeholder="Opis posla" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="skills">Skills *</label>
+                            <input type="text" class="form-control" id="skills" name="skills" placeholder="Skills" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="skills">Sektor *</label>
+                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
+                                <option value="">Odaberite sektor</option>
+                                @foreach($sectors as $sector)
+                                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

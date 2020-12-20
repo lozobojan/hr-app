@@ -9,6 +9,10 @@ use App\Models\Sector;
 class EmployeeJobDescription extends Model
 {
     use HasFactory;
+    protected $table = 'employee_job_descriptions';
+
+    public $primaryKey = "id";
+    protected $guarded = [];
 
     public function employeeSalary()
     {

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\EmployeeJobDescriptionRequest;
 use App\Models\Employee;
+use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
@@ -24,29 +27,37 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $objects = Employee::with('employeeSalary')->get();
-        return view("employees.index",  compact("objects" ));
+        $objects = Employee::with('employeeSalary')->with('employeeJobStatus')->get();
+        $sectors = Sector::get();
+        $data = [
+            "objects" => $objects,
+            "sectors" => $sectors
+        ];
+        return view("employees.index")->with($data);
     }
 
 
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->find($id);
+        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->find($id);
         return $object ? $object : null;
     }
 
 
-    public function store(EmployeeRequest $request, EmployeeSalaryRequest $data2, EmployeeJobStatusRequest $data3){
+    public function store(EmployeeRequest $request, EmployeeSalaryRequest $request2, EmployeeJobStatusRequest $request3, EmployeeJobDescriptionRequest  $request4){
 
         DB::beginTransaction();
         try {
             $data = $request->validated();
-            $salaryRequest = $data2->validated();
-            $jobStatusRequest = $data3->validated();
+            $salaryRequest = $request2->validated();
+            $jobStatusRequest = $request3->validated();
+            $jobDescriptionRequest = $request4->validated();
             $employee = Employee::create($data);
             $salaryRequest["employee_id"] = $employee->id;
             $jobStatusRequest["employee_id"] = $employee->id;
+            $jobDescriptionRequest["employee_id"] = $employee->id;
             EmployeeSalary::create($salaryRequest);
             EmployeeJobStatus::create($jobStatusRequest);
+            EmployeeJobDescription::create($jobDescriptionRequest);
 
             DB::commit();
         }catch (\Exception $ex){

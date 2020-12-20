@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EmployeeJobStatus;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\EmployeeSalary;
@@ -27,16 +28,17 @@ class EmployeeSeeder extends Seeder
                 'qualifications' => $employee->faker->word,
                 'home_address' => $employee->faker->address,
                 'jmbg' => $employee->faker->ean13,
-                'additional_info' => $employee->faker->realText($maxNbChars = 200, $indexSize = 2),
+                'additional_info' => $employee->faker->realText($maxNbChars = 20, $indexSize = 2),
                 'email' => $employee->faker->freeEmail,
                 'mobile_number' => $employee->faker->e164PhoneNumber,
                 'telephone_number' => $employee->faker->phoneNumber,
                 'office_number' => $employee->faker->numberBetween($min = 1, $max = 12),
-                'additional_info_contact' => $employee->faker->realText($maxNbChars = 200, $indexSize = 2),
+                'additional_info_contact' => $employee->faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],
             ]);
             EmployeeSalary::factory()->create(['employee_id'=>$i+1]);
             EmployeeJobDescription::factory()->create(['employee_id'=>$i+1]);
+            EmployeeJobStatus::factory()->create(['employee_id'=>$i+1]);
         }
     }
 }

@@ -31,6 +31,8 @@ class Employee extends Model
             $this->attributes["image"] = is_string($value) ? $value : Employee::storeFile($value, "employees");
     }
 
+
+//-------------------------------------------- Relationships ---------------------------------------------------
     public function employeeSalary()
     {
         return $this->hasOne(EmployeeSalary::class);
@@ -43,6 +45,8 @@ class Employee extends Model
     {
         return $this->hasOne(EmployeeJobStatus::class);
     }
+//-------------------------------------------- Relationships ---------------------------------------------------
+
     public static function boot() {
         parent::boot();
 
