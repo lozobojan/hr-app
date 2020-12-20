@@ -51,7 +51,11 @@ class EmployeeRequest extends FormRequest
             'jmbg' => 'required',
             'email' => 'required',
             'image' => 'required|max:5000|mimes:jpeg,png,jpg,gif,svg',
-
+            'pid' => 'required',
+            'additional_info_contact' => 'nullable',
+            'mobile_number' =>'nullable',
+            'telephone_number'=>'nullable',
+            'additional_info'=>'nullable',
         ];
     }
 
@@ -66,7 +70,12 @@ class EmployeeRequest extends FormRequest
             'home_address' => 'required',
             'jmbg' => 'required',
             'email' => 'required',
+            'pid' => 'nullable',
             'image' => 'nullable|max:5000|mimes:jpeg,png,jpg,gif,svg',
+            'additional_info_contact' => 'nullable',
+            'mobile_number' =>'nullable',
+            'telephone_number'=>'nullable',
+            'additional_info'=>'nullable',
         ];
     }
 

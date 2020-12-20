@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Employee;
+use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
+use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
-
+use DB;
 
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,17 +30,29 @@ class EmployeeController extends Controller
 
 
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->find($id);
+        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->find($id);
         return $object ? $object : null;
     }
 
 
-    public function store(EmployeeRequest $request, EmployeeSalaryRequest $data2){
-        $data = $request->validated();
-        $salaryRequest = $data2->validated();
-        $employee = Employee::create($data);
-        $salaryRequest["employee_id"] = $employee->id;
-        EmployeeSalary::create($salaryRequest);
+    public function store(EmployeeRequest $request, EmployeeSalaryRequest $data2, EmployeeJobStatusRequest $data3){
+
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $salaryRequest = $data2->validated();
+            $jobStatusRequest = $data3->validated();
+            $employee = Employee::create($data);
+            $salaryRequest["employee_id"] = $employee->id;
+            $jobStatusRequest["employee_id"] = $employee->id;
+            EmployeeSalary::create($salaryRequest);
+            EmployeeJobStatus::create($jobStatusRequest);
+
+            DB::commit();
+        }catch (\Exception $ex){
+            DB::rollBack();
+            throw $ex;
+        }
 
         return response()->json(["success" => "success"], 200);
     }

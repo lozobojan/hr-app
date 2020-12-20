@@ -5,7 +5,7 @@
 
 
 @section('content')
-    <a class="btn btn-primary" href="{{ URL::to('/pdf/1') }}">Export to PDF</a>
+    {{--<a class="btn btn-primary" href="{{ URL::to('/pdf/1') }}">Export to PDF</a>--}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container-fluid ">
         <div class="dashboard-content">
@@ -138,10 +138,12 @@
                 },
             },
             "order": [[ 0, "asc" ]],
-            "ordering": true
+            "ordering": true,
+            stateSave: true
         });
 
         function showData(returndata){
+            /*Osnovne informacije*/
             $('#name').val(returndata.name );
             $('#last_name').val(returndata.last_name );
             $('#birth_date').val(returndata.birth_date );
@@ -150,14 +152,30 @@
             $('#home_address').val(returndata.home_address );
             $('#email').val(returndata.email );
             $('#imageHolder').attr({ 'src': returndata.image });
+            $('#telephone_number').val(returndata.telephone_number );
+            $('#mobile_number').val(returndata.mobile_number );
+            $('#additional_info_contact').val(returndata.additional_info_contact );
+
+            /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
             $('#bonus').val(returndata.employee_salary.bonus );
-            $('#input_date').val(returndata.employee_salary.input_date );
             $('#bank_number').val(returndata.employee_salary.bank_number );
+            $('#bank_name').val(returndata.employee_salary.bank_name );
+
+            /*Job status*/
+            $('#type').val(returndata.employee_job_status.type);
+            $('#status').val(returndata.employee_job_status.status);
+            $('#date_hired').val(returndata.employee_job_status.date_hired);
+            $('#additional_info').val(returndata.employee_job_status.additional_info);
+
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
+            console.log(returndata);
 
         }
+        // In your Javascript (external .js resource or <script> tag)
+
+            $('.js-example-basic-single').select2();
 
     </script>
 
@@ -172,7 +190,9 @@
         <div class="modal-body">
             <div class="container">
 
-
+                <div class="card-header bg-dark">
+                    Osnovne informacije
+                </div>
 
                 <div class="row">
                     <div class="col-12">
@@ -193,8 +213,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
-                        <img width="100%" style="max-height:25%" id="imageHolder"/>
+                    <div class="col-12 text-center">
+                        <img width="40%" style="max-height:25%" id="imageHolder"/>
                     </div>
                 </div>
 
@@ -260,7 +280,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">JMBG *</label>
-                            <textarea class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" ></textarea>
+                            <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
                         </div>
                     </div>
                 </div>
@@ -272,6 +292,56 @@
                             <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="pid">Nadredjeni *</label>
+                            <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid">
+                                <option value="">Odaberite nadredjenog</option>
+                               @foreach($objects as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="additional_info_contact">Dodatne kontakt informacije *</label>
+                            <textarea class="form-control" id="additional_info_contact" name="additional_info_contact" placeholder="Dodatne kontakt informacije" ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="telephone_number">Fiksni broj *</label>
+                            <input type="text" class="form-control" id="telephone_number" name="telephone_number" placeholder="Fiksni broj" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="mobile_number">Mobilni broj *</label>
+                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" placeholder="Mobilni broj" >
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {{--PLATA--}}
+
+                <div class="card-header bg-dark">
+                    Plata
                 </div>
 
                 <div class="row">
@@ -295,8 +365,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="bank_number">Broj banke *</label>
-                            <input type="number" class="form-control" id="bank_number" name="bank_number" placeholder="Broj banke" />
+                            <label class="col-form-label" for="bank_name">Ime banke *</label>
+                            <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Ime banke" />
                         </div>
                     </div>
                 </div>
@@ -304,13 +374,52 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="input_date">Input date *</label>
-                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                <input name="input_date" id="input_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                                </div>
-                            </div>
+                            <label class="col-form-label" for="bank_number">Broj banke *</label>
+                            <input type="number" class="form-control" id="bank_number" name="bank_number" placeholder="Broj banke" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {{--JOB STATUS--}}
+
+                <div class="card-header bg-dark">
+                    Status posla
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="type">Tip *</label>
+                            <input type="text" class="form-control" id="type" name="type" placeholder="Tip posla" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="status">Status *</label>
+                            <input type="text" class="form-control" id="status" name="status" placeholder="Status posla" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="date_hired">Datum zaposljenja *</label>
+                            <input type="text" class="form-control" id="date_hired" name="date_hired" placeholder="Datum zaposlenja" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="additional_info">Dodatne informacije *</label>
+                            <input type="text" class="form-control" id="additional_info" name="additional_info" placeholder="Dodatne informacije" />
                         </div>
                     </div>
                 </div>
