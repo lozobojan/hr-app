@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests\EmployeeJobDescriptionRequest;
 use App\Models\Employee;
+use App\Models\EmployeeJobDescription;
+use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
+use App\Models\Sector;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
+use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
+use DB;
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
@@ -19,23 +27,43 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $objects = Employee::with('employeeSalary')->get();
-        return view("employees.index",  compact("objects" ));
+        $objects = Employee::with('employeeJobDescription')->get();
+        $sectors = Sector::get();
+        $data = [
+            "objects" => $objects,
+            "sectors" => $sectors,
+        ];
+        return view("employees.index")->with($data);
     }
 
 
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->find($id);
+        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->find($id);
         return $object ? $object : null;
     }
 
 
-    public function store(EmployeeRequest $request, EmployeeSalaryRequest $data2){
-        $data = $request->validated();
-        $salaryRequest = $data2->validated();
-        $employee = Employee::create($data);
-        $salaryRequest["employee_id"] = $employee->id;
-        EmployeeSalary::create($salaryRequest);
+    public function store(EmployeeRequest $request, EmployeeSalaryRequest $request2, EmployeeJobStatusRequest $request3, EmployeeJobDescriptionRequest  $request4){
+
+        DB::beginTransaction();
+        try {
+            $data = $request->validated();
+            $salaryRequest = $request2->validated();
+            $jobStatusRequest = $request3->validated();
+            $jobDescriptionRequest = $request4->validated();
+            $employee = Employee::create($data);
+            $salaryRequest["employee_id"] = $employee->id;
+            $jobStatusRequest["employee_id"] = $employee->id;
+            $jobDescriptionRequest["employee_id"] = $employee->id;
+            EmployeeSalary::create($salaryRequest);
+            EmployeeJobStatus::create($jobStatusRequest);
+            EmployeeJobDescription::create($jobDescriptionRequest);
+
+            DB::commit();
+        }catch (\Exception $ex){
+            DB::rollBack();
+            throw $ex;
+        }
 
         return response()->json(["success" => "success"], 200);
     }
@@ -60,6 +88,19 @@ class EmployeeController extends Controller
 
 
 
+    public function createPDF($id) {
+        // retreive all records from db
+        $data = Employee::with('EmployeeSalary')
+            ->where('id', $id)
+            ->first();
+        //// share data to view
+        view()->share('employee',$data);
+        $pdf = PDF::loadView('employees.pdf', $data);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+        //return view('employees.pdf', compact("employee"));
+    }
 
 
     public function destroy($id){

@@ -22,7 +22,14 @@ class EmployeeJobStatusFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'type' => $this->faker->word,
+            'status' => $this->faker->word,
+            'date_hired' => "2020-01-01",
+            'additional_info' => $this->faker->word,
+
+            'employee_id' => function() {
+                return factory(App\Models\Employee::class)->create()->id;
+            },
         ];
     }
 }

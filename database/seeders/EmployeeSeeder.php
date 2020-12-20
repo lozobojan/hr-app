@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EmployeeJobStatus;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\EmployeeSalary;
@@ -22,21 +23,24 @@ class EmployeeSeeder extends Seeder
             Employee::create([
                 'name' => $employee->faker->firstNameMale,
                 'last_name' => $employee->faker->lastName,
-                'image_path' => $employee->faker->imageUrl($width = 200, $height = 200, 'person'),
+                'image' => $employee->faker->imageUrl($width = 200, $height = 200, 'person'),
                 'birth_date' => $employee->faker->date($format = 'd.m.Y.', $max = 'now'),
                 'qualifications' => $employee->faker->word,
                 'home_address' => $employee->faker->address,
                 'jmbg' => $employee->faker->ean13,
-                'additional_info' => $employee->faker->realText($maxNbChars = 200, $indexSize = 2),
+                'additional_info' => $employee->faker->realText($maxNbChars = 20, $indexSize = 2),
                 'email' => $employee->faker->freeEmail,
                 'mobile_number' => $employee->faker->e164PhoneNumber,
                 'telephone_number' => $employee->faker->phoneNumber,
                 'office_number' => $employee->faker->numberBetween($min = 1, $max = 12),
-                'additional_info_contact' => $employee->faker->realText($maxNbChars = 200, $indexSize = 2),
+                'additional_info_contact' => $employee->faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],
+                /*'sector_id' => 1,*/
+                /*'sector_id' => rand(1, 4),*/
             ]);
             EmployeeSalary::factory()->create(['employee_id'=>$i+1]);
             EmployeeJobDescription::factory()->create(['employee_id'=>$i+1]);
+            EmployeeJobStatus::factory()->create(['employee_id'=>$i+1]);
         }
     }
 }

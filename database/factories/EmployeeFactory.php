@@ -23,23 +23,7 @@ class EmployeeFactory extends Factory
     {
 
         return [
-<<<<<<< HEAD
-            'name' => $this->faker->firstNameMale,
-            'last_name' => $this->faker->lastName,
-            'image' => "https://source.unsplash.com/600x600/?nature,water",
-            'birth_date' => $this->faker->date($format = 'd.m.Y.', $max = 'now'),
-            'qualifications' => $this->faker->word,
-            'home_address' => $this->faker->address,
-            'jmbg' => $this->faker->ean13,
-            'additional_info' => $this->faker->realText($maxNbChars = 200, $indexSize = 2),
-            'email' => $this->faker->freeEmail,
-            'mobile_number' => $this->faker->e164PhoneNumber,
-            'telephone_number' => $this->faker->phoneNumber,
-            'office_number' => $this->faker->numberBetween($min = 1, $max = 12),
-            'additional_info_contact' => $this->faker->realText($maxNbChars = 200, $indexSize = 2)
-=======
-            //
->>>>>>> 72e10bfdb51869f36edf9ee0dc7f5f52e326b606
+
         ];
     }
 }

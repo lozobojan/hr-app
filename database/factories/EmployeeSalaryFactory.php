@@ -24,8 +24,9 @@ class EmployeeSalaryFactory extends Factory
         return [
             'pay' => $this->faker->numberBetween($min = 100, $max = 9000),
             'bonus' => $this->faker->numberBetween($min = 10, $max = 90),
+            'bank_name' => $this->faker->company,
             'bank_number' => $this->faker->bankAccountNumber,
-            
+
             'employee_id' => function() {
                 return factory(App\Models\Employee::class)->create()->id;
             },

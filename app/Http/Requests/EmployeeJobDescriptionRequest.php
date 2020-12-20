@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeSalaryRequest extends FormRequest
+class EmployeeJobDescriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,18 +36,19 @@ class EmployeeSalaryRequest extends FormRequest
     public function createRules(){
         return [
 
-            'pay' => 'required',
-            'bank_number' => 'required',
-            'bonus' => 'required',
-            'bank_name' => 'required',
-
-
+            'workplace' => 'required',
+            'job_description' => 'required',
+            'skills' => 'required',
+            'sector_id' => 'required',
         ];
     }
 
     public function updateRules(){
         return [
-
+            'workplace' => 'required',
+            'job_description' => 'required',
+            'skills' => 'required',
+            'sector_id' => 'required',
         ];
     }
 

@@ -31,10 +31,28 @@ class Employee extends Model
             $this->attributes["image"] = is_string($value) ? $value : Employee::storeFile($value, "employees");
     }
 
+
+//-------------------------------------------- Relationships ---------------------------------------------------
     public function employeeSalary()
     {
         return $this->hasOne(EmployeeSalary::class);
     }
+    public function employeeJobDescription()
+    {
+        return $this->hasOne(EmployeeJobDescription::class);
+    }
+    public function employeeJobStatus()
+    {
+        return $this->hasOne(EmployeeJobStatus::class);
+    }
+   /*public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }*/
+
+
+//-------------------------------------------- Relationships ---------------------------------------------------
+
     public static function boot() {
         parent::boot();
 
