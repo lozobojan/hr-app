@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\EmployeeJobDescription;
+use Faker;
 
 class EmployeeJobDescriptionSeeder extends Seeder
 {
@@ -14,11 +15,12 @@ class EmployeeJobDescriptionSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 0; $i < 7; $i++){
+        $faker = Faker\Factory::create();
+        for($i = 0; $i < 28; $i++){
             EmployeeJobDescription::create([
-                'workplace' => $this->faker->word,
-                'job_description' => $this->faker->sentences($nb = 1, $asText = true),
-                'skills' => $this->faker->sentences($nb = 1, $asText = true),
+                'workplace' => $faker->word,
+                'job_description' => $faker->sentences($nb = 1, $asText = true),
+                'skills' => $faker->sentences($nb = 1, $asText = true),
                 'employee_id' => $i+1,
                 'sector_id' => rand(1, 4),
             ]);

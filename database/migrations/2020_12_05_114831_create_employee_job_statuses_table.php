@@ -16,13 +16,12 @@ class CreateEmployeeJobStatusesTable extends Migration
         Schema::create('employee_job_statuses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('type');
             $table->string('status');
             $table->date('date_hired');
             /*$table->string('bank_name');*/
             /*$table->string('bank_number');*/
             $table->string('additional_info');
-
+            $table->foreignId('type')->constrained('hire_types');
             $table->foreignId('employee_id')->constrained('employees');
         });
     }
