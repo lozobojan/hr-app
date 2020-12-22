@@ -128,6 +128,9 @@ class EmployeeController extends Controller
         $data = Employee::with('EmployeeSalary')
             ->where('id', $id)
             ->first();
+
+        $filename = $data->name .' '. $data->last_name;
+
        /* $headers = array(
 
             "Content-type"=>"text/html",
@@ -141,7 +144,7 @@ class EmployeeController extends Controller
 
         $contents = View::make('employees.docs.sample')->with('data', $data);
         $response = \Response::make($contents, 200);
-        $response->header('Content-Type', 'text/html')->header('Content-Disposition', 'attachment;Filename=myGeneratefile.doc');
+        $response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
         return $response;
         //// share data to view
         //return view('employees.docs.sample', compact('data'));

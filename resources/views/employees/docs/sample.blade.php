@@ -31,7 +31,7 @@ Contract</B></SPAN></FONT></P>
 </P>
 <P STYLE="margin-bottom: 0in"><SPAN LANG="en-US">This contract, dated
 on the ____ day of ______________ in the year 20____, is made between
-[company name] and [employee name] of [city, state]. This document
+[company name] and {{$data->name}} {{$data->last_name}} of [city, state]. This document
 constitutes an employment agreement between these two parties and is
 governed by the laws of [state or district].</SPAN></P>
 <P LANG="en-US" STYLE="margin-bottom: 0in"><BR>

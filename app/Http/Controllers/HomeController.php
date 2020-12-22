@@ -29,6 +29,6 @@ class HomeController extends Controller
             ->join('employees', 'employees.id', '=', 'employee_job_statuses.employee_id')
             ->whereRaw('datediff(date_hired_till, now()) < 60')->get();
 
-        return view('home', compact('objects'));
+        return view('home',);
     }
 }

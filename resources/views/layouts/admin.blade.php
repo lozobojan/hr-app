@@ -67,7 +67,7 @@
                     <span class="dropdown-item dropdown-header">{{count($notifications)}} ugovora uskoro isticu</span>
                     <div class="dropdown-divider"></div>
                     @foreach($notifications as $notification)
-                        <a href="#" class="dropdown-item">
+                        <a href="/employees/{{$notification->employee_id}}" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i> {{$notification->name}} {{$notification->last_name}}
                             <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
                         </a>
