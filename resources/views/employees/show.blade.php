@@ -11,12 +11,12 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header" id="top">
-                        <h2 class="pageheader-title"> {{ $employee->name }} {{$employee->last_name}}</h2>
+                        <h2 class="pageheader-title mt-3 text-center"> {{ $employee->name }} {{$employee->last_name}}</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
                     @include('partials.success')
@@ -26,7 +26,7 @@
                             <!-- Small boxes (Stat box) -->
 
                             <div class="row justify-content-around">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <div class="card card-default">
                                         <div class="card-header bg-info">
                                             <h3 class="card-title">
@@ -41,7 +41,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->name }} {{ $employee->last_name }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->name }} {{ $employee->last_name }}</h6>
                                             </div>
 
 
@@ -49,44 +49,46 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->birth_date }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->birth_date }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->sex }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->sex }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->home_address }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">
+                                                    {{ $employee->home_address}}
+                                                </h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->jmbg }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->jmbg }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->qualifications }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->qualifications }}</h6>
                                             </div>
 
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
                                 </div>
-                                <div class="col-9">
-                                    <div class="row justify-content-around">
-                                        <div class="col-6">
+                                <div class="col-8">
+                                    <div class="row ">
+                                        <div class="col-8">
                                             <div class="card card-default">
                                                 <div class="card-header bg-info">
                                                     <h3 class="card-title">
@@ -101,7 +103,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->email }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->email }}</h6>
                                                     </div>
 
 
@@ -109,34 +111,35 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->mobile_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->mobile_number }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->telephone_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->telephone_number }}</h6>
                                                     </div>
 
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
                                         </div>
-                                        <div class="col-4">
-                                            <a class="mt-5  btn btn-app w-75 bg-primary">
-                                                <i class="fas fa-edit"></i> Izmijeni
-                                            </a>
-                                            <br>
-                                            <br>
-                                            <a href="/employees/export/{{$employee->id}}" class="btn btn-app w-75 bg-success">
-                                                <i class="fas fa-file-export"></i> Izvezi
-                                            </a>
-
-
+                                        <div class="col-4 pb-4">
+                                            <div class="h-50 py-2">
+                                                <a href="/employees/export/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">
+                                                    <i class="fas fa-file-export"></i> Izvezi
+                                                </a>
+                                            </div>
+                                            <hr class="my-0">
+                                            <div class="h-50 py-2">
+                                                <a class="btn btn-app w-75 h-100 bg-primary ml-3">
+                                                    <i class="fas fa-edit"></i> Izmijeni
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-around">
+                                    <div class="row ">
                                         <div class="col-4">
 
                                             <div class="card card-default">
@@ -153,7 +156,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Dev</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Dev</h6>
                                                     </div>
 
 
@@ -161,21 +164,21 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Backend</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Backend</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Example data</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Example data</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Example data</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Example data</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +198,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Ugovor</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Ugovor</h6>
                                                     </div>
 
 
@@ -203,14 +206,14 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">29.03.2020</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">29.03.2020</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-info"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Status</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">Status</h6>
                                                     </div>
 
                                                 </div>
@@ -231,7 +234,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-euro-sign"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->pay }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->pay }}</h6>
                                                     </div>
 
 
@@ -239,14 +242,14 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-plus"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bonus }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bonus }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-university"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bank_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bank_number }}</h6>
                                                     </div>
 
                                                 </div>
