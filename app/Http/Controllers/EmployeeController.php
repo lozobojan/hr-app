@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\EmployeeJobDescriptionRequest;
+use App\Http\Requests\SaveEmployeeRequest;
 use App\Models\Employee;
 use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
@@ -69,10 +70,12 @@ class EmployeeController extends Controller
         return response()->json(["success" => "success"], 200);
     }
 
-    public function edit(EmployeeRequest $request, Employee $object) {
+    public function edit(SaveEmployeeRequest $request, Employee $object) {
         $data = $request->validated();
         $object->fill($data);
         $object->save();
+
+
         return response()->json(['success' => 'success'], 200);
     }
 
@@ -130,16 +133,6 @@ class EmployeeController extends Controller
             ->first();
 
         $filename = $data->name .' '. $data->last_name;
-
-       /* $headers = array(
-
-            "Content-type"=>"text/html",
-
-            "Content-Disposition"=>"attachment;Filename=myGeneratefile.doc"
-
-        );
-        $content = view()->share('employees.docs.sample',$data);
-        return \Response::make($content,200, $headers);*/
 
 
         $contents = View::make('employees.docs.sample')->with('data', $data);

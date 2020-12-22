@@ -24,6 +24,16 @@ class EmployeeJobStatus extends Model
     {
         $this->attributes["date_hired"] = Carbon::createFromFormat("d.m.Y.", $value);
     }
+
+    public function getDateHiredTillAttribute($value)
+    {
+        return Carbon::parse($value)->format("d.m.Y.");
+    }
+
+    public function setDateHiredTillAttribute($value)
+    {
+        $this->attributes["date_hired_till"] = Carbon::createFromFormat("d.m.Y.", $value);
+    }
     public function employee(){
         return $this->belongsTo(Employee::class);
     }

@@ -6,6 +6,68 @@
 
 @endsection--}}
 @section('content')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow text-white"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Broj zaposlenih</span>
+                        <span class="info-box-number">{{$employeesCount}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-danger"><i class="fas fa-venus-mars"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Pol</span>
+                        <span class="info-box-number"><i class="fas fa-mars"></i> {{ $gender['male'] }}</span>
+                        <span class="info-box-number"><i class="fas fa-venus"></i> {{ $gender['female'] }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-secondary"><i class="fas fa-venus-mars"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Prosjek godina</span>
+                        <span class="info-box-number">{{ $avgAge }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-primary"><i class="fas fa-money-bill"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Prosjecna plata</span>
+                        <span class="info-box-number">{{ $avgSalary }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+
+
+    </div>
+
+
     @if($notifications->isNotEmpty())
 <div class="container">
     <div class="row justify-content-center">
@@ -71,7 +133,27 @@
     </div>
     @endif
 
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Full Calendar Example</div>
+
+                    <div class="panel-body">
+                        {!! $calendar->calendar() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+    {!! $calendar->script() !!}
     <script>
 
 

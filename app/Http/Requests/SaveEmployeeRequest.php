@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\EmployeeSalary;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeRequest extends FormRequest
+class SaveEmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +24,28 @@ class EmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        return $this->is('employees/store') ? $this->createRules() : $this->updateRules();
+        $formRequests = [
+            EmployeeRequest::class,
+            EmployeeSalaryRequest::class,
+            EmployeeJobDescriptionRequest::class,
+            EmployeeJobStatusRequest::class,
+        ];
+
+        $rules = [];
+
+        foreach ($formRequests as $source) {
+            $rules = array_merge(
+                $rules,
+                (new $source)->rules()
+            );
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
-
-            'name.required'=> 'Morate unijeti Ime',
-            'last_name.required'=> 'Morate unijeti Prezime',
-            'image.required' => 'Morate unijeti fotografiju!',
-            'image.max' => 'Maksimalna veličina fotografije je 5mb!',
-            'image.mimes' => 'Fotografija može biti formata: jpeg,png,jpg,gif,svg!',
 
         ];
     }
@@ -42,27 +53,7 @@ class EmployeeRequest extends FormRequest
     public function createRules(){
         return [
 
-            'name' => 'required',
-            'last_name' => 'required',
-            'birth_date' => 'required|date_format:d.m.Y.',
-            'image_path' => 'nullable',
-            'qualifications' => 'nullable',
-            'home_address' => 'required',
-            'jmbg' => 'required',
-            'email' => 'required',
-            'image' => 'required|max:5000|mimes:jpeg,png,jpg,gif,svg',
-            'pid' => 'required',
-            'gender' => 'required',
-            'additional_info_contact' => 'nullable',
-            'mobile_number' =>'nullable',
-            'telephone_number'=>'nullable',
-            'additional_info'=>'nullable',
-        ];
-    }
-
-    public function updateRules(){
-        return [
-
+            //Employee
             'name' => 'required',
             'last_name' => 'required',
             'birth_date' => 'required|date_format:d.m.Y.',
@@ -72,12 +63,47 @@ class EmployeeRequest extends FormRequest
             'jmbg' => 'required',
             'email' => 'required',
             'pid' => 'nullable',
-            'gender' => 'nullable',
             'image' => 'nullable|max:5000|mimes:jpeg,png,jpg,gif,svg',
             'additional_info_contact' => 'nullable',
             'mobile_number' =>'nullable',
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
+
+            //salary
+            'pay' => 'required',
+            'bank_number' => 'required',
+            'bonus' => 'required',
+            'bank_name' => 'required',
+
+
+        ];
+    }
+
+    public function updateRules(){
+        return [
+
+
+            //Employee
+            'name' => 'required',
+            'last_name' => 'required',
+            'birth_date' => 'required|date_format:d.m.Y.',
+            'image_path' => 'nullable',
+            'qualifications' => 'nullable',
+            'home_address' => 'required',
+            'jmbg' => 'required',
+            'email' => 'required',
+            'pid' => 'nullable',
+            'image' => 'nullable|max:5000|mimes:jpeg,png,jpg,gif,svg',
+            'additional_info_contact' => 'nullable',
+            'mobile_number' =>'nullable',
+            'telephone_number'=>'nullable',
+            'additional_info'=>'nullable',
+
+            //salary
+            'pay' => 'required',
+            'bank_number' => 'required',
+            'bonus' => 'required',
+            'bank_name' => 'required',
         ];
     }
 

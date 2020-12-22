@@ -31,6 +31,10 @@ class Employee extends Model
             $this->attributes["image"] = is_string($value) ? $value : Employee::storeFile($value, "employees");
     }
 
+    public function currentSalary(){
+       return $this->employeeSalary()->orderBy('created_at', 'DESC')->first();
+    }
+
 
 //-------------------------------------------- Relationships ---------------------------------------------------
     public function employeeSalary()

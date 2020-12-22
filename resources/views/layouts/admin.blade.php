@@ -58,6 +58,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
+            @if($notifications->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
@@ -77,6 +78,7 @@
                     <a href="/home" class="dropdown-item dropdown-footer">Pogledaj detalje</a>
                 </div>
             </li>
+            @endif
         </ul>
     </nav>
     </nav>
@@ -126,7 +128,7 @@
 
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper mt-3">
+    <div class="content-wrapper pt-2">
         <!-- Content Header (Page header) -->
         {{-- <div class="content-header">
             <div class="container-fluid">

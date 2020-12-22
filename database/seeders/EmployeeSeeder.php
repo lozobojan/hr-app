@@ -31,6 +31,7 @@ class EmployeeSeeder extends Seeder
                 'email' => $faker->freeEmail,
                 'mobile_number' => $faker->e164PhoneNumber,
                 'telephone_number' => $faker->phoneNumber,
+                'gender' => $faker->numberBetween($min = 0, $max = 1),
                 'office_number' => $faker->numberBetween($min = 1, $max = 12),
                 'additional_info_contact' => $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],

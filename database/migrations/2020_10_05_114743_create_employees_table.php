@@ -29,6 +29,7 @@ class CreateEmployeesTable extends Migration
             $table->string('telephone_number')->nullable();
             $table->integer('office_number')->nullable();
             $table->text('additional_info_contact')->nullable();
+            $table->tinyInteger('gender', );
             $table->unsignedBigInteger('pid')->nullable();
             $table->foreign('pid')->references('id')->on('employees')->onDelete('set null');
         });

@@ -149,7 +149,8 @@
                                             <td class="text-center">{{ $object->employeeJobDescription->sector->name }}</td>
 
                                             {{--PLATA--}}
-                                            <td class="text-center">{{ $object->employeeSalary->pay}}</td>
+
+                                            <td class="text-center">{{ $object->currentSalary()->pay}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bonus}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bank_number}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bank_name}}</td>
@@ -217,7 +218,7 @@
 
 
 
-        $('.tabless').DataTable({
+        $('.table').DataTable({
             "lengthMenu": [ 10, 25, 50, 75, 100 ],
             "processing": true,
            /* dom: 'Bfrtip',
@@ -410,6 +411,18 @@
                         <div class="form-group">
                             <label class="col-form-label" for="text_me">JMBG *</label>
                             <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="text_me">Pol *</label>
+                            <input type="radio" id="male" name="gender" value="0">
+                            <label for="male">Male</label><br>
+                            <input type="radio" id="female" name="gender" value="1">
+                            <label for="female">Female</label><br>
                         </div>
                     </div>
                 </div>
