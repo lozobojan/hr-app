@@ -18,6 +18,7 @@ class CreateEmployeeJobStatusesTable extends Migration
             $table->timestamps();
             $table->string('status');
             $table->date('date_hired');
+            $table->date('date_hired_till')->nullable();
             /*$table->string('bank_name');*/
             /*$table->string('bank_number');*/
             $table->string('additional_info');

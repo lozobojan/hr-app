@@ -22,6 +22,7 @@ class EmployeeJobStatusSeeder extends Seeder
                 'status' => $faker->sentences($nb = 1, $asText = true),
                 'additional_info' => $faker->sentences($nb = 1, $asText = true),
                 'date_hired' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'date_hired_till' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+3 years'),
                 'employee_id' => $i+1,
             ]);
         }

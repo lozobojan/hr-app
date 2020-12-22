@@ -53,36 +53,32 @@
         <!-- SEARCH FORM -->
 
         <!-- Right navbar links -->
+
+       {{--@yield('notifications')--}}
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-danger navbar-badge">1</span>
+                    <span class="badge badge-danger">{{count($notifications)}}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width:500px!important;">
+                    <span class="dropdown-item dropdown-header">{{count($notifications)}} ugovora uskoro isticu</span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
+                    @foreach($notifications as $notification)
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i> {{$notification->name}} {{$notification->last_name}}
+                            <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="/home" class="dropdown-item dropdown-footer">Pogledaj detalje</a>
                 </div>
             </li>
         </ul>
+    </nav>
     </nav>
     <!-- /.navbar -->
 
@@ -166,17 +162,14 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
 <!-- overlayScrollbars -->
 <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('js/adminlte.min.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('js/demo.js') }}"></script>
 <!-- js start -->
 <script src="{{ asset('assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('assets/vendor/slimscroll/jquery.slimscroll.js') }}"></script>
 <script src="{{ asset('assets/vendor/multi-select/js/jquery.multi-select.js') }}"></script>

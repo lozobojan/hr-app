@@ -50,9 +50,9 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th colspan="6" class="text-center head-light">Osnovne Informacije</th>
+                                        <th colspan="6" class="text-center head-light basic">Osnovne Informacije</th>
                                         <th colspan="5" class="text-center head-dark">Kontakt Informacije</th>
-                                        <th colspan="4" class="text-center head-light">Status Zaposlenja</th>
+                                        <th colspan="5" class="text-center head-light">Status Zaposlenja</th>
                                         <th colspan="4" class="text-center head-dark">Opis Zaposlenja</th>
                                         <th colspan="4" class="text-center head-light">Plata</th>
                                     </tr>
@@ -77,6 +77,7 @@
                                         <th class="text-center">Tip</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Datum zaposlenja</th>
+                                        <th class="text-center">Zaposlen do</th>
                                         <th class="text-center">Dodatne informacije</th>
 
                                         {{--OPIS ZAPOSLENJA--}}
@@ -138,6 +139,7 @@
                                             <td class="text-center">{{ $object->employeeJobStatus->type }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->status }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->date_hired }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->date_hired_till }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->additional_info ?? "NaN" }}</td>
 
                                             {{--OPIS ZAPOSLENJA--}}
@@ -198,6 +200,7 @@
 @section('js')
 
     <script>
+
 
         $('#myModal').on('hidden.bs.modal', function () {
             $(".submitForm")[0].reset();
@@ -287,6 +290,7 @@
             $('#type').val(returndata.employee_job_status.type);
             $('#status').val(returndata.employee_job_status.status);
             $('#date_hired').val(returndata.employee_job_status.date_hired);
+            $('#date_hired_till').val(returndata.employee_job_status.date_hired_till);
             $('#additional_info').val(returndata.employee_job_status.additional_info);
 
             /*Job description*/
@@ -534,8 +538,22 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="date_hired">Datum zaposljenja *</label>
-                            <input type="text" class="form-control" id="date_hired" name="date_hired" placeholder="Datum zaposlenja" />
+                            <label class="col-form-label" for="birth_date">Datum zaposlenja *</label>
+                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                <input name="date_hired" id="date_hired" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="date_hired_till">Zaposlen do *</label>
+                            <input type="text" class="form-control" id="date_hired_till" name="date_hired_till" placeholder="Zaposlen do" />
                         </div>
                     </div>
                 </div>

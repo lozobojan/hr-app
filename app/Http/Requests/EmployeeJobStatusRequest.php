@@ -38,7 +38,8 @@ class EmployeeJobStatusRequest extends FormRequest
 
             'type' => 'required',
             'status' => 'required',
-            'date_hired' => 'required',
+            'date_hired' => 'required|date_format:d.m.Y.',
+            'date_hired_till' => 'required|date_format:d.m.Y.',
             'additional_info' => 'required',
         ];
     }
@@ -47,7 +48,8 @@ class EmployeeJobStatusRequest extends FormRequest
         return [
             'type' => 'required',
             'status' => 'required',
-            'date_hired' => 'required',
+            'date_hired' => 'required|date_format:d.m.Y.',
+            'date_hired_till' => 'required|date_format:d.m.Y.',
             'additional_info' => 'required',
         ];
     }

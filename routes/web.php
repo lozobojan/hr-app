@@ -24,6 +24,9 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
 
+
+
+
     Route::get('/employees',  [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
     Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
     Route::get('/employees/one/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
@@ -33,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees/export/{id}', [\App\Http\Controllers\EmployeeController::class, 'export'])->name('employee.export');
    // Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'pdf'])->name('employee.pdf');
 Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'createPDF']);
+Route::get('/doc/{id}', [\App\Http\Controllers\EmployeeController::class, 'doc']);
     // -------------------------------------------- Home page ---------------------------------------------------
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

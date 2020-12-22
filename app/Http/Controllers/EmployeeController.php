@@ -15,6 +15,7 @@ use App\Http\Requests\EmployeeSalaryRequest;
 use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
 use DB;
+use View;
 
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -120,5 +121,30 @@ class EmployeeController extends Controller
         $name = $employee->fileName();
         return Excel::download($employee, "$name.xlsx");
         return redirect()->back();
+    }
+
+    public function doc($id) {
+        // retreive all records from db
+        $data = Employee::with('EmployeeSalary')
+            ->where('id', $id)
+            ->first();
+       /* $headers = array(
+
+            "Content-type"=>"text/html",
+
+            "Content-Disposition"=>"attachment;Filename=myGeneratefile.doc"
+
+        );
+        $content = view()->share('employees.docs.sample',$data);
+        return \Response::make($content,200, $headers);*/
+
+
+        $contents = View::make('employees.docs.sample')->with('data', $data);
+        $response = \Response::make($contents, 200);
+        $response->header('Content-Type', 'text/html')->header('Content-Disposition', 'attachment;Filename=myGeneratefile.doc');
+        return $response;
+        //// share data to view
+        //return view('employees.docs.sample', compact('data'));
+
     }
 }

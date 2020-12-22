@@ -25,6 +25,7 @@ class EmployeeJobStatusFactory extends Factory
             'type' => $this->faker->word,
             'status' => $this->faker->word,
             'date_hired' => "2020-01-01",
+            'date_hired_till' => "2020-01-01",
             'additional_info' => $this->faker->word,
 
             'employee_id' => function() {
