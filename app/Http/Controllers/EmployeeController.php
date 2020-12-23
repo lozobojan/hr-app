@@ -40,7 +40,7 @@ class EmployeeController extends Controller
 
 
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->find($id);
+        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->with('parent')->find($id);
         return $object ? $object : null;
     }
 
@@ -82,10 +82,8 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        $employee = Employee::with('EmployeeSalary')
-            ->where('id', $id)
-            ->select('id', 'name', 'last_name', 'jmbg', 'birth_date', 'email', 'mobile_number', 'telephone_number','qualifications','home_address' )
-            ->first();
+        $employee = Employee::with('parent')->with('employeeJobStatus')
+            ->find($id);
         return view('employees.show', compact("employee"));
     }
 

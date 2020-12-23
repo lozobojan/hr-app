@@ -101,6 +101,7 @@ class HomeController extends Controller
         $calendar->addEvents($events)
             ->setOptions([
                 'locale' => 'sr',
+                'nowIndicator'=> true,
                 'initialView' => 'dayGridMonth',
                 'buttonText' => [
                   'today'=>    'Danas',
@@ -115,8 +116,17 @@ class HomeController extends Controller
             ]);
         $calendar->setId('1');
         $calendar->setCallbacks([
-            'eventMouseover' => 'function(event, jsEvent, view){console.log(event.title)}',
-            'eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}',
+            'eventDidMount' => "function(info) {
+
+      var tooltip = new Tooltip(info.el, {
+        title: info.event.title,
+        placement: 'top',
+        trigger: 'hover',
+        container: 'body'
+      });
+      console.log(tooltip);
+
+    }",
         ]);
  /*       $calendar =new Calendar();
         $calendar->addEvents($events)->setOptions(['firstDay' => 1])->setCallbacks(['eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}']);*/

@@ -56,7 +56,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
                                                 </div>
-                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->sex }}</h6>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->gender = 1? "Ž" : "M" }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
@@ -156,7 +156,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Dev</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->sector->name }}</h6>
                                                     </div>
 
 
@@ -164,21 +164,21 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Backend</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->workplace }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Example data</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->parent->name }} {{ $employee->parent->last_name }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Example data</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->skills }}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Ugovor</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->parent->name }}</h6>
                                                     </div>
 
 
@@ -213,7 +213,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-info"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">Status</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobStatus->hire_date }}</h6>
                                                     </div>
 
                                                 </div>

@@ -22,7 +22,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset("dist/css/adminlte.min.css")}}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset("plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
+
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{asset("plugins/daterangepicker/daterangepicker.css")}}">
     <!-- summernote -->
@@ -167,7 +167,7 @@
 
 
 <!-- overlayScrollbars -->
-<script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+
 <!-- AdminLTE App -->
 <!-- js start -->
 <script src="{{ asset('assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>

@@ -49,6 +49,12 @@ class Employee extends Model
     {
         return $this->hasOne(EmployeeJobStatus::class);
     }
+    public function parent() {
+        return $this->belongsTo(static::class, 'pid');
+    }
+    public function children() {
+        return $this->hasMany(static::class, 'pid');
+    }
    /*public function sector()
     {
         return $this->belongsTo(Sector::class);
