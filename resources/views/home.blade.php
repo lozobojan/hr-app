@@ -6,7 +6,9 @@
 
 @endsection--}}
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.css"/>
 
     <div class="container">
         <div class="row">
@@ -133,12 +135,13 @@
     </div>
     @endif
 
-
+    <style>
+        .tooltip { position: fixed!important; }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-12 ">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Full Calendar Example</div>
 
                     <div class="panel-body">
                         {!! $calendar->calendar() !!}
@@ -150,35 +153,47 @@
 
 
 
+
+
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-    {!! $calendar->script() !!}
     <script>
 
 
-    $('.table').DataTable({
-    "language": {
-    "emptyTable": "Nema podataka",
-    "info": "Prikazano _START_ do _END_ od _TOTAL_ unosa",
-    "lengthMenu": "Prikaži _MENU_ unosa",
-    "search": "Pretraži:",
-    "infoFiltered": "(filtrirano od _MAX_ unosa)",
-    "infoEmpty":      "Prikazano 0 do 0 od 0 unosa",
-    "zeroRecords": "Nema podataka",
-    "paginate": {
-    "first":      "Prva",
-    "last":       "Poslednja",
-    "next":       "Slijedeća",
-    "previous":   "ahahah"
-    },
-    },
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "bFilter": false
-    });
+        $('.table').DataTable({
+            "language": {
+                "emptyTable": "Nema podataka",
+                "info": "Prikazano _START_ do _END_ od _TOTAL_ unosa",
+                "lengthMenu": "Prikaži _MENU_ unosa",
+                "search": "Pretraži:",
+                "infoFiltered": "(filtrirano od _MAX_ unosa)",
+                "infoEmpty":      "Prikazano 0 do 0 od 0 unosa",
+                "zeroRecords": "Nema podataka",
+                "paginate": {
+                    "first":      "Prva",
+                    "last":       "Poslednja",
+                    "next":       "Slijedeća",
+                    "previous":   "ahahah"
+                },
+            },
+            "paging":   false,
+            "ordering": false,
+            "info":     false,
+            "bFilter": false
+        });
+
+
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js"></script>
+
+
+
+
+    {!! $calendar->script() !!}
+
+
 @endsection
 
 

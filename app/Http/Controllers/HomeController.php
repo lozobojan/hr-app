@@ -6,7 +6,7 @@ use App\Models\Employee;
 use App\Models\EmployeeSalary;
 use Illuminate\Http\Request;
 use DB;
-use Calendar;
+use Acaronlex\LaravelCalendar\Calendar;
 
 class HomeController extends Controller
 {
@@ -30,7 +30,7 @@ class HomeController extends Controller
         $objects = DB::table('employee_job_statuses')
             ->selectRaw('*, datediff(date_hired_till, now()) as days_till')
             ->join('employees', 'employees.id', '=', 'employee_job_statuses.employee_id')
-            ->whereRaw('datediff(date_hired_till, now()) < 60')->get();
+            ->whereRaw('datediff(date_hired_till, now()) < 60 AND datediff(date_hired_till, now()) >0')->get();
 
         $employeesCount = Employee::count();
         $avgSalary = EmployeeSalary::avg('pay');
@@ -58,8 +58,8 @@ class HomeController extends Controller
                     true,
                      /*$this->updateDate(date('Y-m-d',strtotime("$value->birth_date  + $i year"))),*/
                      date('Y-m-d',strtotime("$datum  + $i year")),
-                     date('Y-m-d',strtotime("$datum  + $i year")),
-                    null,
+                     date('Y-m-d',strtotime("$datum  + 1 day")),
+                    "user",
                     // Add color and link on event
                     [
                         'color' => '#f05050',
@@ -69,7 +69,57 @@ class HomeController extends Controller
             }
             }
         }
-        $calendar = Calendar::addEvents($events);
+
+
+        $event2 = Employee::with('employeeJobStatus')->get();
+        if($event2->count()) {
+
+            foreach ($event2 as $key => $value) {
+            $title = "UGOVOR \n $value->name $value->lst_name";
+                $datum = \DateTime::createFromFormat('d.m.Y.', $value->employeeJobStatus->date_hired_till)->format('Y-m-d');
+
+                    $events[] = Calendar::event(
+                        $title,
+                        true,
+                        /*$this->updateDate(date('Y-m-d',strtotime("$value->birth_date  + $i year"))),*/
+                        date('Y-m-d',strtotime("$datum")),
+                        date('Y-m-d',strtotime("$datum")),
+                        "user",
+
+                        // Add color and link on event
+                        [
+                            'color' => '#32a852',
+                            'description'=> 'yellow',
+                            'url' => '/employees/'.$value->id,
+                        ]
+                    );
+            }
+        }
+
+
+       $calendar = new Calendar();
+        $calendar->addEvents($events)
+            ->setOptions([
+                'locale' => 'sr',
+                'initialView' => 'dayGridMonth',
+                'buttonText' => [
+                  'today'=>    'Danas',
+                  'month'=>    'mesec',
+                  'week'=>     'nedelja',
+                  'day'=>      'dan',
+                  'list'=>     'list'
+                    ],
+                'headerToolbar' => [
+                    'end' => 'today prev,next dayGridMonth timeGridWeek timeGridDay'
+                ]
+            ]);
+        $calendar->setId('1');
+        $calendar->setCallbacks([
+            'eventMouseover' => 'function(event, jsEvent, view){console.log(event.title)}',
+            'eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}',
+        ]);
+ /*       $calendar =new Calendar();
+        $calendar->addEvents($events)->setOptions(['firstDay' => 1])->setCallbacks(['eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}']);*/
 
 
         $data = [
@@ -79,6 +129,7 @@ class HomeController extends Controller
             'gender' => ['male' => $gender[0]->count, 'female' => $gender[1]->count],
             'calendar' => $calendar
         ];
+
 
 
         return view('home')->with($data);
