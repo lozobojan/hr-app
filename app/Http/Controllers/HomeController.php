@@ -71,22 +71,23 @@ class HomeController extends Controller
         }
 
 
-        $event2 = Employee::with('employeeJobStatus')->get();
+    /*    $event2 = Employee::with('employeeJobStatus')->get();
         if($event2->count()) {
 
             foreach ($event2 as $key => $value) {
+
             $title = "UGOVOR \n $value->name $value->lst_name";
+
                 $datum = \DateTime::createFromFormat('d.m.Y.', $value->employeeJobStatus->date_hired_till)->format('Y-m-d');
 
                     $events[] = Calendar::event(
                         $title,
                         true,
-                        /*$this->updateDate(date('Y-m-d',strtotime("$value->birth_date  + $i year"))),*/
+               
                         date('Y-m-d',strtotime("$datum")),
                         date('Y-m-d',strtotime("$datum")),
                         "user",
 
-                        // Add color and link on event
                         [
                             'color' => '#32a852',
                             'description'=> 'yellow',
@@ -94,7 +95,7 @@ class HomeController extends Controller
                         ]
                     );
             }
-        }
+        }*/
 
 
        $calendar = new Calendar();
