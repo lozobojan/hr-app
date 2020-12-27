@@ -54,7 +54,7 @@ class HomeController extends Controller
                     $datum = \DateTime::createFromFormat('d.m.Y.', $datum)->format('d.m.Y.');
 
                     $events[] = Calendar::event(
-                    $value->name,
+                        "R: \n $value->name $value->last_name",
                     true,
                      /*$this->updateDate(date('Y-m-d',strtotime("$value->birth_date  + $i year"))),*/
                      date('Y-m-d',strtotime("$datum  + $i year")),
@@ -76,7 +76,7 @@ class HomeController extends Controller
 
             foreach ($event2 as $key => $value) {
 
-            $title = "UGOVOR \n $value->name $value->lst_name";
+            $title = "U: \n $value->name $value->lst_name";
 
                 $datum = \DateTime::createFromFormat('d.m.Y.', $value->employeeJobStatus->date_hired_till)->format('Y-m-d');
 
@@ -128,7 +128,8 @@ class HomeController extends Controller
       console.log(tooltip);
 
     }",
-        ]);
+            'eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}'
+        ],);
  /*       $calendar =new Calendar();
         $calendar->addEvents($events)->setOptions(['firstDay' => 1])->setCallbacks(['eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}']);*/
 
