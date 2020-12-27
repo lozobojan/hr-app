@@ -70,10 +70,46 @@ class EmployeeController extends Controller
         return response()->json(["success" => "success"], 200);
     }
 
-    public function edit(SaveEmployeeRequest $request, Employee $object) {
+    public function edit(SaveEmployeeRequest $request, Employee $object, EmployeeSalary $object2) {
         $data = $request->validated();
-        $object->fill($data);
-        $object->save();
+        $emp = [
+            "name" => $data['name'],
+            "last_name" => $data['last_name'],
+            "birth_date" => $data['birth_date'],
+            "jmbg" => $data['jmbg'],
+            "email" => $data['email'],
+            "qualifications" => $data['qualifications'],
+            "home_address" => $data['home_address'],
+            "additional_info" => $data['additional_info'],
+            "telephone_number" => $data['telephone_number'],
+            /*"office_number" => $data['office_number'],*/
+            "additional_info_contact" => $data['additional_info_contact'],
+            "gender" => $data['gender'],
+            "pid" => $data['pid'],
+        ];
+
+        $empSal = [
+            "pay" => $data['pay'],
+            "bonus" => $data['bonus'],
+            "bank_name" => $data['bank_name'],
+            "bank_number" => $data['bank_number'],
+            "employee_id" => $object->id,
+
+        ];
+        $empJobDesc = [
+            "workplace" => $data['workplace'],
+            "job_description" => $data['job_description'],
+            "skills" => $data['skills'],
+            "sector_id" => $data['sector_id'],
+            "employee_id" => $object->id,
+
+        ];
+        /*$object->fill($emp);*/
+        $object->update($emp);
+        $object->employeeSalary()->update($empSal);
+        $object->employeeJobDescription()->update($empJobDesc);
+      /*  $object2->fill($empSal);
+        $object2->update();*/
 
 
         return response()->json(['success' => 'success'], 200);

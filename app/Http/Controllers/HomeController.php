@@ -71,7 +71,7 @@ class HomeController extends Controller
         }
 
 
-    /*    $event2 = Employee::with('employeeJobStatus')->get();
+        $event2 = Employee::with('employeeJobStatus')->get();
         if($event2->count()) {
 
             foreach ($event2 as $key => $value) {
@@ -83,7 +83,7 @@ class HomeController extends Controller
                     $events[] = Calendar::event(
                         $title,
                         true,
-               
+
                         date('Y-m-d',strtotime("$datum")),
                         date('Y-m-d',strtotime("$datum")),
                         "user",
@@ -95,7 +95,7 @@ class HomeController extends Controller
                         ]
                     );
             }
-        }*/
+        }
 
 
        $calendar = new Calendar();

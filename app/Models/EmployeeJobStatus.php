@@ -15,7 +15,7 @@ class EmployeeJobStatus extends Model
     public $primaryKey = "id";
     protected $guarded = [];
 
-/*    public function getDateHiredAttribute($value)
+    public function getDateHiredAttribute($value)
     {
         return Carbon::parse($value)->format("d.m.Y.");
     }
@@ -33,7 +33,7 @@ class EmployeeJobStatus extends Model
     public function setDateHiredTillAttribute($value)
     {
         $this->attributes["date_hired_till"] = Carbon::createFromFormat("d.m.Y.", $value);
-    }*/
+    }
     public function employee(){
         return $this->belongsTo(Employee::class);
     }

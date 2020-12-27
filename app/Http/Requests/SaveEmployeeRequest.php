@@ -53,27 +53,6 @@ class SaveEmployeeRequest extends FormRequest
     public function createRules(){
         return [
 
-            //Employee
-            'name' => 'required',
-            'last_name' => 'required',
-            'birth_date' => 'required|date_format:d.m.Y.',
-            'image_path' => 'nullable',
-            'qualifications' => 'nullable',
-            'home_address' => 'required',
-            'jmbg' => 'required',
-            'email' => 'required',
-            'pid' => 'nullable',
-            'image' => 'nullable|max:5000|mimes:jpeg,png,jpg,gif,svg',
-            'additional_info_contact' => 'nullable',
-            'mobile_number' =>'nullable',
-            'telephone_number'=>'nullable',
-            'additional_info'=>'nullable',
-
-            //salary
-            'pay' => 'required',
-            'bank_number' => 'required',
-            'bonus' => 'required',
-            'bank_name' => 'required',
 
 
         ];
@@ -82,28 +61,6 @@ class SaveEmployeeRequest extends FormRequest
     public function updateRules(){
         return [
 
-
-            //Employee
-            'name' => 'required',
-            'last_name' => 'required',
-            'birth_date' => 'required|date_format:d.m.Y.',
-            'image_path' => 'nullable',
-            'qualifications' => 'nullable',
-            'home_address' => 'required',
-            'jmbg' => 'required',
-            'email' => 'required',
-            'pid' => 'nullable',
-            'image' => 'nullable|max:5000|mimes:jpeg,png,jpg,gif,svg',
-            'additional_info_contact' => 'nullable',
-            'mobile_number' =>'nullable',
-            'telephone_number'=>'nullable',
-            'additional_info'=>'nullable',
-
-            //salary
-            'pay' => 'required',
-            'bank_number' => 'required',
-            'bonus' => 'required',
-            'bank_name' => 'required',
         ];
     }
 

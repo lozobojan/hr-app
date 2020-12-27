@@ -77,10 +77,12 @@
         <div class="col-md-12">
 
             <div class="card">
+
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
                             <h5 class="card-title mt-1 mb-1">Zaposleni kojima uskoro istice ugovor</h5>
+                            <span class="badge badge-danger">New</span>
                         </div>
                     </div>
                 </div>
