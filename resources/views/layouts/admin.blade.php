@@ -200,6 +200,24 @@
 <script src="{{ asset('assets/vendor/datepicker/datepicker.js') }}"></script>
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    $(document).ready(function() {
+        
+        axios.get('/api/root-directories')
+            .then((response) => {
+                url = `{{url()->current()}}`;
+                for(var i = 0; i < response.data.directories.length; i++){
+                    if(url.substring(22) == 'directory/'+response.data.directories[i].id){
+                        $("#target-li").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link active"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                        continue;
+                    }
+                    $("#target-li").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                }
+            });
+    });
+</script>
+
 <!-- js end -->
 @yield('js')
 </body>

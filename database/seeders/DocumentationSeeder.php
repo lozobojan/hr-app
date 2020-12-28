@@ -40,7 +40,7 @@ class DocumentationSeeder extends Seeder
 
         for($i = 0; $i < count($this->names); $i++){
 
-            if($i === 4)
+            if($i === 4 || $i === 6 || $i === 7)
                 Documentation::create([
                     'name' => $this->names[$i],
                     'parent_id' => $this->parent_id[$i],

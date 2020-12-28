@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@extends('layouts.modal')
 
 @section('title', 'Dokumentacija')
     
@@ -70,15 +71,17 @@
     </style>
 
     <div class="tree">
+        <a id="add" class="btn btn-outline-info " href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+            Dodaj
+        </a>
         @php
+
 
             function type($current){
                 $current_descendents = \App\Models\Documentation::find($current->id)->descendents();
-                if(count($current_descendents))
-                    return '<span class="btn btn-warning"><i class="fas fa-minus"></i>&nbsp&nbsp'. $current->name. "</span>";
-                else if($current->is_folder)
-                    return '<span class="btn btn-danger"><i class="far fa-times-circle"></i>&nbsp&nbsp'. $current->name. "</span>";
-                return '<span class="btn btn-success"><i class="fas fa-leaf"></i>&nbsp&nbsp'. $current->name. "</span>";
+                if($current->is_folder)
+                    return '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $current->name. "</span>";
+                return '<span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $current->name. "</span>";
             }
 
             echo '<ul>';
@@ -87,24 +90,36 @@
                 $descendents = \App\Models\Documentation::find($roots[$j]->id)->descendents();
 
                 echo '<li>';
-                echo '<span class="btn btn-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
-                echo '&nbsp&nbsp<a href="#"><i class="fas fa-plus"></i></a>';
+                if($roots[$j]->is_folder){
+                    echo '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
+                    echo '&nbsp&nbsp<a href="#"
+                                        href="javascript:void(0)"
+                                        data-toggle="modal"
+                                        data-target="#myModal">
+                                        <i class="fas fa-plus" data-id="'.$roots[$j]->id.'"></i></a>';
+                }
+                if($roots[$j]->is_folder == 0){
+                    echo '<span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
+                    echo'&nbsp&nbsp<a href="'.$roots[$j]->file_path.'"><i class="fas fa-download"></i></a>';
+                }
                 if(count($descendents)){
                     echo '<ul>';
                     for($i = 0; $i < count($descendents); $i++){
 
                         echo '<li>';
                         echo type($descendents[$i]);
-                        echo '&nbsp&nbsp<a href="#"><i class="fas fa-plus"></i></a>';
+                        echo ($descendents[$i]->is_folder) ? '&nbsp&nbsp<a href="#"
+                                        href="javascript:void(0)"
+                                        data-toggle="modal"
+                                        data-target="#myModal">
+                                        <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>' : '&nbsp&nbsp<a href="'.$descendents[$i]->file_path.'"><i class="fas fa-download"></i></a>';
 
                         if(count($descendents[$i]->descendents()))
                             echo '<ul>';
 
-                        // Ako je leaf
                         if(!count($descendents[$i]->descendents())){
                             echo '</li>';
 
-                            // Zatvaramo zagrade sve do parent-a sledeceg descendent-a
                             $curr_id = $descendents[$i]->parent_id;
 
                             while($i !== count($descendents)-1 && $curr_id !== $descendents[$i+1]->parent_id){
@@ -138,6 +153,87 @@
                 }
                 e.stopPropagation();
             });
+
+            $(".fa-plus").click(function(){
+                $('#parent_id').val($(this).data('id'));
+            });
+
+            $("#add").click(function(){
+                $('#parent_id').val(null);
+            });
+            
+            $('input[type=radio][name=is_folder]').change(function() {
+                if (this.value == '1') {
+                    $('#name').attr("placeholder", "Naziv direktorijuma");
+                    $('#target-row').hide();
+                }
+                else if (this.value == '0') {
+                    $('#name').attr("placeholder", "Naziv fajla");
+                    $('#target-row').show();
+                }
+            });
         });
     </script>
+@endsection
+
+@section('modal-body')
+    <div class="modal-header">
+        <h4 class="modal-title">Dodaj</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+
+    <form class="submitForm objectForm" action="{{ route('directory/create') }}">
+        @csrf
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="name">Naziv</label>
+                            <input id="name" class="form-control" type="text" placeholder="Naziv direktorijuma ili fajla" name="name">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" hidden>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="parent_id">Lokacija:</label>
+                            <input type="text" name="parent_id" id="parent_id" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <label class="col-form-label">Tip:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_folder" id="file" value="0">
+                            <label class="form-check-label" for="is_folder">
+                                Fajl
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="is_folder" id="folder" value="1">
+                            <label class="form-check-label" for="is_folder">
+                                Folder
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="target-row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="file_path">Fajl</label>
+                            <input type="file" id="file_path" class="form-control" name="file_path">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
 @endsection

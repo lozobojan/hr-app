@@ -50,12 +50,6 @@
                 field_1: "Last Name",
                 field_2: "Email",
                 img_0: "Photo"
-            },
-            nodeMenu: {
-                details: { text: "Details" },
-                edit: { text: "Edit" },
-                add: { text: "Add" },
-                remove: { text: "Remove" }
             }
         });
         nodes = datas;
