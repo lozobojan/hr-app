@@ -14,33 +14,25 @@ class DocumentationSeeder extends Seeder
         $names = [
             'HR',
             'Marketing',
-            'Finansije',
-            'Testni PDF',
-            'Projektni zadatak'
+            'Finansije'
         ];
     
         $is_folder = [
             true,
             true,
-            true,
-            false,
-            false,
+            true
         ];
 
         $parent_id = [
             null,
             null,
-            null,
-            null,
-            null,
+            null
         ];
 
         $files = [
             null,
             null,
-            null,
-            'storage/files/lorem-ipsum.pdf',
-            'storage/files/HR Projektni.docx',
+            null
 
         ];
 

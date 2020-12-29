@@ -11,7 +11,10 @@ class DocumentationController extends Controller
 {
     public function showDirectories()
     {
-        $directories = Documentation::where('is_folder', 1)->orderBy('id', 'ASC')->get();
+        $directories = Documentation::where([
+            ['is_folder', 1],
+            ['parent_id', null]
+        ])->orderBy('id', 'ASC')->get();
         return response(compact('directories'));
     }
 
