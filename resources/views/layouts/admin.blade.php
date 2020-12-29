@@ -204,15 +204,23 @@
 <script>
     $(document).ready(function() {
         
-        axios.get('/api/root-directories')
+        axios.get('/api/directories')
             .then((response) => {
                 url = `{{url()->current()}}`;
                 for(var i = 0; i < response.data.directories.length; i++){
                     if(url.substring(22) == 'directory/'+response.data.directories[i].id){
-                        $("#target-li").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link active"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                        $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link active"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
                         continue;
                     }
-                    $("#target-li").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                    $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                }
+            });
+
+        axios.get('/api/files')
+            .then((response) => {
+                console.log(response);
+                for(var i = 0; i < response.data.files.length; i++){
+                    $("#target-file").append(`<li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.files[i].name +`</p></a></li>`);
                 }
             });
     });

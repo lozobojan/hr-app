@@ -42,14 +42,29 @@
                     <a href="#" class="nav-link {{ ((request()->is('directory*')) ) ? "active" : " "}}">
                         <i class="{{ ((request()->is('directory*')) ) ? "fas fa-folder-open" : "fas fa-folder"}}"></i>
                         <p>
-                            Root folderi
+                            Folderi
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-li">
+                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-dir">
                 
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-folder"></i>
+                        <p>
+                            Dokumenta
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display:none" id="target-file">
+                
+                    </ul>
+                </li>
+
+                
 
             </ul>
         </li>

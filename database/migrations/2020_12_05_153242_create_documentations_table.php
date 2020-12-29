@@ -18,7 +18,7 @@ class CreateDocumentationsTable extends Migration
             $table->string('name');
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('file_path')->nullable();
-            $table->boolean('is_folder')->default(true);
+            $table->boolean('is_folder');
             $table->timestamps();
         });
     }

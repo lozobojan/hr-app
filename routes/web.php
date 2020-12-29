@@ -42,8 +42,10 @@ Route::middleware('auth')->group(function () {
 
     // ------------------------------------------- Fajl sistem --------------------------------------------------
     Route::get('/documents', [\App\Http\Controllers\DocumentationController::class, 'index'])->name('documents');
-    Route::get('/directory/{id}', [\App\Http\Controllers\DocumentationController::class, 'getDir'])->name('directory');
-    Route::post('/directory/create', [\App\Http\Controllers\DocumentationController::class, 'mkDir'])->name('directory/create');
+    Route::get('/directory/{id}', [\App\Http\Controllers\DocumentationController::class, 'showByDirectory'])->name('directory');
+    Route::post('/directory/create', [\App\Http\Controllers\DocumentationController::class, 'store'])->name('directory/create');
+    Route::get('/directory/download/{id}', [\App\Http\Controllers\DocumentationController::class, 'download'])->name('directory/download');
+    
     // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
     Route::get('/structure', function(){return view('structure');})->name('structure');
 

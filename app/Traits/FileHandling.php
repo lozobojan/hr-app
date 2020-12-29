@@ -21,4 +21,13 @@ trait FileHandling {
 
     }
 
+    public function storeDocument($file){
+        $fileNameWithExt = $file->getClientOriginalName();
+        $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $fileNameToStore = $filename . '_'.time().'.'.$extension;
+        $path = $file->storeAs("public/files",$fileNameToStore);
+        return str_replace('public', 'storage', $path);
+    }
+
 }

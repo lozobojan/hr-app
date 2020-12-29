@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class DocumentationController extends Controller
 {
-    public function rootDirectories()
+    public function showDirectories()
     {
-        $directories = Documentation::where('parent_id', null)->where('is_folder', 1)->orderBy('id', 'DESC')->get();
+        $directories = Documentation::where('is_folder', 1)->orderBy('id', 'ASC')->get();
         return response(compact('directories'));
     }
+
+    public function showFiles(){
+        $files = Documentation::where('is_folder', 0)->orderBy('id', 'ASC')->get();
+        return response(compact('files'));
+    }
+    
 }

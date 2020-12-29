@@ -100,7 +100,7 @@
                 }
                 if($roots[$j]->is_folder == 0){
                     echo '<span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
-                    echo'&nbsp&nbsp<a href="'.$roots[$j]->file_path.'"><i class="fas fa-download"></i></a>';
+                    echo'&nbsp&nbsp<a href="directory/download/'.$roots[$j]->id.'"><i class="fas fa-eye"></i></a>';
                 }
                 if(count($descendents)){
                     echo '<ul>';
@@ -112,7 +112,7 @@
                                         href="javascript:void(0)"
                                         data-toggle="modal"
                                         data-target="#myModal">
-                                        <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>' : '&nbsp&nbsp<a href="'.$descendents[$i]->file_path.'"><i class="fas fa-download"></i></a>';
+                                        <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>' : '&nbsp&nbsp<a href="'.$descendents[$i]->file_path.'"><i class="fas fa-eye"></i></a>';
 
                         if(count($descendents[$i]->descendents()))
                             echo '<ul>';
