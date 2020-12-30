@@ -24,16 +24,17 @@
 
         <li class="nav-item {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
             <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "active" : " "}}">
-                <i class="nav-icon fas fa-book"></i>
+                <i class="nav-icon fas fa-database"></i>
+
                 <p>
-                    Dokumenta
+                    Fajl sistem
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "block" : "none"}};">
                 <li class="nav-item">
                     <a href="{{ route('documents') }}" class="nav-link {{strpos(Route::current()->getName(), 'documents' ) !== false ? "active" : ""}}">
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-database"></i>
                         <p>Prikazi sve</p>
                     </a>
                 </li>

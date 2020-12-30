@@ -15,12 +15,8 @@ class DocumentationController extends Controller
             ['is_folder', 1],
             ['parent_id', null]
         ])->orderBy('id', 'ASC')->get();
-        return response(compact('directories'));
-    }
-
-    public function showFiles(){
         $files = Documentation::where('is_folder', 0)->orderBy('id', 'ASC')->get();
-        return response(compact('files'));
+        return response(compact('directories', 'files'));
     }
     
 }

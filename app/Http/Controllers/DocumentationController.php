@@ -25,7 +25,7 @@ class DocumentationController extends Controller
     public function showByDirectory($id)
     {
         $roots = Documentation::where('parent_id', $id)->get();
-        return view('documentation', ['roots' => $roots]);
+        return view('documentation', compact ('roots', 'id'));
     }
 
     public function download($id)
@@ -44,7 +44,32 @@ class DocumentationController extends Controller
                 return response()->json(["errors" => ["file_path" => ["Morate unijeti fajl!"]]], 422);
             }
         }
+        if($data['parent_id'] == 0){
+            unset($data['parent_id']);
+        }
         Documentation::create($data);
         return Redirect::back()->withErrors(['msg', 'Uspjesno dodato!']);
+    }
+
+    public function delete($id){
+        Documentation::where('id', $id)->delete();
+        return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
+    }
+
+    public function deleteAll($id){
+        $doc = Documentation::where('id', $id)->first();
+        $descendents = $doc->descendents();
+        foreach($descendents as $descendent){
+            $descendent->delete();
+        }
+        $doc->delete();
+        return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
+    }
+
+    public function deleteDirectory($id){
+        $doc = Documentation::where('id', $id)->first();
+        Documentation::where('parent_id', $id)->update(['parent_id' => $doc->parent_id]);
+        $doc->delete();
+        return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
     }
 }

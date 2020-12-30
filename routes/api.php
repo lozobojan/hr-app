@@ -25,4 +25,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/employees' , [EmployeeController::class, 'index']);
 Route::get('/employees-sector' , [EmployeeController::class, 'employeesBySector']);
 Route::get('/directories' , [DocumentationController::class, 'showDirectories']);
-Route::get('/files' , [DocumentationController::class, 'showFiles']);
