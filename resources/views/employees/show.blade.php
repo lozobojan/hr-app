@@ -342,6 +342,8 @@
             $('#telephone_number').val(returndata.telephone_number );
             $('#mobile_number').val(returndata.mobile_number );
             $('#additional_info_contact').val(returndata.additional_info_contact );
+            $('#pid').val(returndata.pid );
+            $('#pid').select2().trigger('change');
 
             /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
@@ -355,11 +357,15 @@
             $('#date_hired').val(returndata.employee_job_status.date_hired);
             $('#date_hired_till').val(returndata.employee_job_status.date_hired_till);
             $('#additional_info').val(returndata.employee_job_status.additional_info);
+            $('#type').val(returndata.employee_job_status.type);
+            $('#type').select2().trigger('change');
 
             /*Job description*/
             $('#workplace').val(returndata.employee_job_description.workplace);
             $('#job_description').val(returndata.employee_job_description.job_description);
             $('#skills').val(returndata.employee_job_description.skills);
+            $('#sector_id').val(returndata.employee_job_description.sector_id);
+            $('#sector_id').select2().trigger('change');
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
             console.log(returndata);
@@ -373,7 +379,17 @@
 
 
     </script>
-
+            <style>
+                .select2-selection__rendered {
+                    line-height: 31px !important;
+                }
+                .select2-container .select2-selection--single {
+                    height: 35px !important;
+                }
+                .select2-selection__arrow {
+                    height: 34px !important;
+                }
+            </style>
         @section('modal-body')
             <div class="modal-header">
                 <h4 class="modal-title">Objekat</h4>
@@ -392,8 +408,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_me">Ime *</label>
-                                    <textarea class="form-control" id="name" name="name" placeholder="Ime" ></textarea>
+                                    <label class="col-form-label" for="name">Ime *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Ime" />
                                 </div>
                             </div>
                         </div>
@@ -401,7 +417,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_en">Prezime *</label>
+                                    <label class="col-form-label" for="last_name">Prezime *</label>
                                     <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
                                 </div>
                             </div>
@@ -456,7 +472,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_me">Kvalifikacije *</label>
+                                    <label class="col-form-label" for="qualifications">Kvalifikacije *</label>
                                     <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
                                 </div>
                             </div>
@@ -474,7 +490,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_me">JMBG *</label>
+                                    <label class="col-form-label" for="jmbg">JMBG *</label>
                                     <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
                                 </div>
                             </div>
@@ -483,7 +499,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_me">Pol *</label><br>
+                                    <label class="col-form-label" for="gender">Pol *</label><br>
                                     <input type="radio" id="male" name="gender" value="0" @if($employee->gender == 0) checked @endif>
                                     <label for="male">Male</label><br>
                                     <input type="radio" id="female" name="gender" value="1" @if($employee->gender == 1) checked @endif>
@@ -495,8 +511,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="text_me">Email *</label>
-                                    <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
+                                    <label class="col-form-label" for="email">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                 </div>
                             </div>
                         </div>
@@ -505,12 +521,10 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="col-form-label" for="pid">Nadredjeni *</label>
-                                    <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid">
+                                    <select class="js-" style="width: 100%;" name="pid" id="pid">
                                         <option value="">Odaberite nadredjenog</option>
-                                        @foreach($objects as $employees)
-                                            <option value="{{ $employee->id }}"
-                                            @if($employee->parent->id == $employees->id) selected @endif
-                                            >{{ $employees->name }} {{ $employees->last_name }}</option>
+                                        @foreach($objects as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -601,7 +615,13 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="col-form-label" for="type">Tip *</label>
-                                    <input type="text" class="form-control" id="type" name="type" placeholder="Tip posla" />
+                                    <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="type" id="type">
+                                        <option value="">Odaberite tip</option>
+                                        @foreach($types as $type)
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->type }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -664,6 +684,21 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
+                                    <label class="col-form-label" for="skills">Sektor *</label>
+                                    <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
+                                        <option value="">Odaberite sektor</option>
+                                        @foreach($sectors as $sector)
+                                            <option value="{{ $sector->id }}"
+                                            >{{ $sector->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
                                     <label class="col-form-label" for="workplace">Radno mjesto *</label>
                                     <input type="text" class="form-control" id="workplace" name="workplace" placeholder="Radno mjesto" />
                                 </div>
@@ -688,21 +723,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="skills">Sektor *</label>
-                                    <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
-                                        <option value="">Odaberite sektor</option>
-                                        @foreach($sectors as $sector)
-                                            <option value="{{ $sector->id }}"
-                                                    @if($employee->employeeJobDescription->sector_id == $sector->id) selected @endif
-                                            >{{ $sector->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>

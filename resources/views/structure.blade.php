@@ -49,7 +49,7 @@
                 field_0: "Name",
                 field_1: "Last Name",
                 field_2: "Email",
-                img_0: "Photo"
+                img_0: "Photo",
             }
         });
         nodes = datas;

@@ -72,6 +72,8 @@ class Employee extends Model
 
         static::deleting(function($employee) { // before delete() method call this
             $employee->employeeSalary()->delete();
+            $employee->employeeJobStatus()->delete();
+            $employee->employeeJobDescription()->delete();
             // do the rest of the cleanup...
         });
     }

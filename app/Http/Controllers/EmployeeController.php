@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
+use App\Models\HireType;
 use App\Models\Sector;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
@@ -32,9 +33,11 @@ class EmployeeController extends Controller
     {
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
+        $types = HireType::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
+            "types" => $types,
         ];
         return view("employees.index")->with($data);
     }
@@ -150,11 +153,13 @@ class EmployeeController extends Controller
             ->find($id);
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
+        $types = HireType::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "employee" => $employee,
-            "title" => "$employee->name $employee->last_name"
+            "title" => "$employee->name $employee->last_name",
+            "types" => $types
         ];
         return view('employees.show')->with($data);
     }

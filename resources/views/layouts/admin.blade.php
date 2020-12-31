@@ -39,6 +39,29 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<style>
+    .preloader
+    {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("{{asset("img/loader.gif")}}") 50% 50% no-repeat rgb(249,249,249);
+        opacity: .8;
+    }
+    body.loading .preloader {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+       modal element will be visible */
+    body.loading .preloader {
+        display: block;
+    }
+</style>
+<div  class="preloader"></div>
 <div class="wrapper">
 
     <!-- Navbar -->
@@ -204,7 +227,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     $(document).ready(function() {
-        
+        $('.preloader').hide();
+
         axios.get('/api/directories')
             .then((response) => {
                 url = `{{url()->current()}}`;
