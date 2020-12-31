@@ -25,10 +25,17 @@ class Employee extends Model
     {
         $this->attributes["birth_date"] = Carbon::createFromFormat("d.m.Y.", $value);
     }
+
+
+
     public function setImageAttribute($value)
     {
         if($value)
             $this->attributes["image"] = is_string($value) ? $value : Employee::storeFile($value, "employees");
+    }
+
+    public function currentSalary(){
+       return $this->employeeSalary()->orderBy('created_at', 'DESC')->first();
     }
 
 
@@ -45,6 +52,13 @@ class Employee extends Model
     {
         return $this->hasOne(EmployeeJobStatus::class);
     }
+    public function parent() {
+        return $this->belongsTo(static::class, 'pid');
+    }
+    public function children() {
+        return $this->hasMany(static::class, 'pid');
+    }
+
    /*public function sector()
     {
         return $this->belongsTo(Sector::class);
@@ -58,6 +72,8 @@ class Employee extends Model
 
         static::deleting(function($employee) { // before delete() method call this
             $employee->employeeSalary()->delete();
+            $employee->employeeJobStatus()->delete();
+            $employee->employeeJobDescription()->delete();
             // do the rest of the cleanup...
         });
     }

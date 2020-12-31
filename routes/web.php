@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,21 +26,31 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/employees',  [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
-    Route::delete('/employees/delete/{id}', [\App\Http\Controllers\EmployeeController::class, 'destroy'])->name('employees/delete');
-    Route::get('/employees/one/{id}', [\App\Http\Controllers\EmployeeController::class, 'getOne'])->name('employee/fetch');
-    Route::post('/employees/{object}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees/edit');
-    Route::post('/employees/store', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees/store');
-    Route::get('/employees/{id}', [\App\Http\Controllers\EmployeeController::class, 'show'])->name('employees/show');
-    Route::get('/employees/export/{id}', [\App\Http\Controllers\EmployeeController::class, 'export'])->name('employee.export');
-   // Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'pdf'])->name('employee.pdf');
-Route::get('/pdf/{id}', [\App\Http\Controllers\EmployeeController::class, 'createPDF']);
+
+
+
+    Route::get('/employees',  [EmployeeController::class, 'index'])->name('employees');
+    Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees/delete');
+    Route::get('/employees/one/{id}', [EmployeeController::class, 'getOne'])->name('employee/fetch');
+    Route::post('/employees/{object}/edit', [EmployeeController::class, 'edit'])->name('employees/edit');
+    Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees/store');
+    Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees/show');
+    Route::get('/employees/export/{id}', [EmployeeController::class, 'export'])->name('employee.export');
+   // Route::get('/pdf/{id}', [EmployeeController::class, 'pdf'])->name('employee.pdf');
+    Route::get('/pdf/{id}', [EmployeeController::class, 'createPDF']);
+    Route::get('/doc/{id}', [EmployeeController::class, 'doc']);
     // -------------------------------------------- Home page ---------------------------------------------------
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // ------------------------------------------- Fajl sistem --------------------------------------------------
-    Route::get('/documents', [\App\Http\Controllers\DocumentationController::class, 'index'])->name('documents');
-
+    Route::get('/documents', [DocumentationController::class, 'index'])->name('documents');
+    Route::get('/directory/{id}', [DocumentationController::class, 'showByDirectory'])->name('directory');
+    Route::post('/directory/create', [DocumentationController::class, 'store'])->name('directory/create');
+    Route::get('/directory/download/{id}', [DocumentationController::class, 'download'])->name('directory/download');
+    Route::get('/directory/delete/{id}', [DocumentationController::class, 'delete'])->name('directory/delete');
+    Route::get('/directory/delete-dir/{id}', [DocumentationController::class, 'deleteDirectory'])->name('directory/delete');
+    Route::get('/directory/delete-all/{id}', [DocumentationController::class, 'deleteAll'])->name('directory/delete');
+    
     // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
     Route::get('/structure', function(){return view('structure');})->name('structure');
 

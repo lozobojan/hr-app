@@ -50,9 +50,9 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th colspan="6" class="text-center head-light">Osnovne Informacije</th>
+                                        <th colspan="6" class="text-center head-light basic">Osnovne Informacije</th>
                                         <th colspan="5" class="text-center head-dark">Kontakt Informacije</th>
-                                        <th colspan="4" class="text-center head-light">Status Zaposlenja</th>
+                                        <th colspan="5" class="text-center head-light">Status Zaposlenja</th>
                                         <th colspan="4" class="text-center head-dark">Opis Zaposlenja</th>
                                         <th colspan="4" class="text-center head-light">Plata</th>
                                     </tr>
@@ -77,6 +77,7 @@
                                         <th class="text-center">Tip</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Datum zaposlenja</th>
+                                        <th class="text-center">Zaposlen do</th>
                                         <th class="text-center">Dodatne informacije</th>
 
                                         {{--OPIS ZAPOSLENJA--}}
@@ -138,6 +139,7 @@
                                             <td class="text-center">{{ $object->employeeJobStatus->type }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->status }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->date_hired }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->date_hired_till }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->additional_info ?? "NaN" }}</td>
 
                                             {{--OPIS ZAPOSLENJA--}}
@@ -147,7 +149,8 @@
                                             <td class="text-center">{{ $object->employeeJobDescription->sector->name }}</td>
 
                                             {{--PLATA--}}
-                                            <td class="text-center">{{ $object->employeeSalary->pay}}</td>
+
+                                            <td class="text-center">{{ $object->currentSalary()->pay}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bonus}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bank_number}}</td>
                                             <td class="text-center">{{ $object->employeeSalary->bank_name}}</td>
@@ -199,6 +202,11 @@
 
     <script>
 
+        /*$(window).load(function()
+        {
+            $("#preloaders").fadeOut(2000);
+        });*/
+
         $('#myModal').on('hidden.bs.modal', function () {
             $(".submitForm")[0].reset();
             var $image = $("#imageHolder");
@@ -210,11 +218,12 @@
             var url = "{{ route('employees/edit', ':id') }}";
             url = url.replace(':id', $(this).data('id'));
             $('.objectForm').attr('action', url);
+
         });
 
 
 
-        $('.tabless').DataTable({
+        $('.table').DataTable({
             "lengthMenu": [ 10, 25, 50, 75, 100 ],
             "processing": true,
            /* dom: 'Bfrtip',
@@ -276,6 +285,11 @@
             $('#telephone_number').val(returndata.telephone_number );
             $('#mobile_number').val(returndata.mobile_number );
             $('#additional_info_contact').val(returndata.additional_info_contact );
+            $('#pid').val(returndata.pid );
+            $('#pid').select2().trigger('change');
+            $("input[name=gender][value=" + returndata.gender + "]").prop('checked', true);
+
+
 
             /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
@@ -287,12 +301,17 @@
             $('#type').val(returndata.employee_job_status.type);
             $('#status').val(returndata.employee_job_status.status);
             $('#date_hired').val(returndata.employee_job_status.date_hired);
+            $('#date_hired_till').val(returndata.employee_job_status.date_hired_till);
             $('#additional_info').val(returndata.employee_job_status.additional_info);
+            $('#type').val(returndata.employee_job_status.type);
+            $('#type').select2().trigger('change');
 
             /*Job description*/
             $('#workplace').val(returndata.employee_job_description.workplace);
             $('#job_description').val(returndata.employee_job_description.job_description);
             $('#skills').val(returndata.employee_job_description.skills);
+            $('#sector_id').val(returndata.employee_job_description.sector_id);
+            $('#sector_id').select2().trigger('change');
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
             console.log(returndata);
@@ -303,7 +322,17 @@
             $('.js-example-basic-single').select2();
 
     </script>
-
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
 @section('modal-body')
     <div class="modal-header">
         <h4 class="modal-title">Objekat</h4>
@@ -322,8 +351,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_me">Ime *</label>
-                            <textarea class="form-control" id="name" name="name" placeholder="Ime" ></textarea>
+                            <label class="col-form-label" for="name">Ime *</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Ime" />
                         </div>
                     </div>
                 </div>
@@ -331,7 +360,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_en">Prezime *</label>
+                            <label class="col-form-label" for="last_name">Prezime *</label>
                             <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
                         </div>
                     </div>
@@ -395,8 +424,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_me">Adresa *</label>
-                            <textarea class="form-control" id="home_address" name="home_address" placeholder="Adresa" ></textarea>
+                            <label class="col-form-label" for="home_address">Adresa *</label>
+                            <input type="text" class="form-control" id="home_address" name="home_address" placeholder="Adresa" />
                         </div>
                     </div>
                 </div>
@@ -404,7 +433,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_me">JMBG *</label>
+                            <label class="col-form-label" for="jmbg">JMBG *</label>
                             <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
                         </div>
                     </div>
@@ -413,8 +442,20 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="text_me">Email *</label>
-                            <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
+                            <label class="col-form-label" for="text_me">Pol *</label><br>
+                            <input type="radio" id="male" name="gender" value="0" >
+                            <label for="male">Muško</label><br>
+                            <input type="radio" id="female" name="gender" value="1">
+                            <label for="female">Žensko</label><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="email">Email *</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
                         </div>
                     </div>
                 </div>
@@ -423,7 +464,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="pid">Nadredjeni *</label>
-                            <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid">
+                            <select class="js-" style="width: 100%;" name="pid" id="pid">
                                 <option value="">Odaberite nadredjenog</option>
                                @foreach($objects as $employee)
                                     <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
@@ -517,7 +558,13 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="type">Tip *</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="Tip posla" />
+                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="type" id="type">
+                                <option value="">Odaberite tip</option>
+                                @foreach($types as $type)
+                                    <option value="{{ $type->id }}">
+                                        {{ $type->type }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -534,8 +581,27 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="date_hired">Datum zaposljenja *</label>
-                            <input type="text" class="form-control" id="date_hired" name="date_hired" placeholder="Datum zaposlenja" />
+                            <label class="col-form-label" for="birth_date">Datum zaposlenja *</label>
+                            <div class="input-group date" id="datetimepickerdatzap" data-target-input="nearest">
+                                <input name="date_hired" id="date_hired" type="text" class="form-control datetimepicker-input" data-target="#datetimepickerdatzap" />
+                                <div class="input-group-append" data-target="#datetimepickerdatzap" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="birth_date">Zaposlen do *</label>
+                            <div class="input-group date" id="datetimepickertill" data-target-input="nearest">
+                                <input name="date_hired_till" id="date_hired_till" type="text" class="form-control datetimepicker-input" data-target="#datetimepickertill" />
+                                <div class="input-group-append" data-target="#datetimepickertill" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -554,6 +620,21 @@
 
                 <div class="card-header bg-dark">
                     Opis posla
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="skills">Sektor *</label>
+                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
+                                <option value="">Odaberite sektor</option>
+                                @foreach($sectors as $sector)
+                                    <option value="{{ $sector->id }}">
+                                        {{ $sector->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -583,19 +664,7 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="skills">Sektor *</label>
-                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
-                                <option value="">Odaberite sektor</option>
-                                @foreach($sectors as $sector)
-                                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
         </div>

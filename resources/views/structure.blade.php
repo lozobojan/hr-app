@@ -49,13 +49,7 @@
                 field_0: "Name",
                 field_1: "Last Name",
                 field_2: "Email",
-                img_0: "Photo"
-            },
-            nodeMenu: {
-                details: { text: "Details" },
-                edit: { text: "Edit" },
-                add: { text: "Add" },
-                remove: { text: "Remove" }
+                img_0: "Photo",
             }
         });
         nodes = datas;

@@ -35,7 +35,7 @@
                 <!-- Pie chart -->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Ugovor na (ne)odredjeno</h5>
+                        <h5 class="card-title text-center">Ugovor na odredjeno</h5>
                         <canvas id="chart3" class="card-body" style="height: 300px;"></canvas>
                     </div>
                 </div>
@@ -56,120 +56,189 @@
 
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
+@section('js')
     <script>
 
-        var data;
-        // var sectorName = [];
-        // var sectorSalary = [];
-        // var count = [];
-
-        data = axios.get('/api/employees-sector')
-        .then((response) => {return response});
-            // data = response.data;
-            // for((const [key, value] of Object.entries(sectors)) {
-            //     console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
-            // }
-            // for(var i = 0; i < sectors.length; i++){
-            //     for (const key in sectors[i]) {
-            //         data['id' =>]
-            //         console.log("key", key);
-            //         console.log("value", obj[key]);
-            //     }
-            //     sectorName[i] = sectors[i].name;
-            //     sectorSalary[i] = sectors[i].salarySum;
-            //     count[i] = count[i].salarySum;
-            // }
-
-        console.log(data);
-        // Vertical bar chart
-        // var ctxV = document.getElementById('barChart').getContext('2d');
-        // var myBarChart = new Chart(ctxV, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: data.sectors.forEach(element => console.log(element.name)),
-        //         datasets: [{
-        //             data: data.sectors.forEach(element => element.salarySum),
-        //             backgroundColor: [
-        //                 'rgba(255, 99, 132, 1)',
-        //                 'rgba(54, 162, 235, 1)',
-        //                 'rgba(255, 206, 86, 1)'
-        //             ],
-        //         }]
-        //     },
-        //     options: {
-        //         legend: {
-        //             display: false
-        //         }
-        //     }
-        // });
-
-        // Pie chart
-        var ctxpie = document.getElementById('chart3').getContext('2d');
-        var myPieChart = new Chart(ctxpie, {
-            type: 'pie',
-            data: {
-                labels: ['Sektor 1', 'Sektor 2', 'Sektor 3'],
-                datasets: [{
-                    data: [12, 19, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                }]
-            },
-        });
-
-        // Horizontal bar chart
-        var ctxH = document.getElementById('hBarChart').getContext('2d');
-        var myChart = new Chart(ctxH, {
-            type: 'horizontalBar',
-            data: {
-                labels: ['Sektor 1', 'Sektor 2', 'Sektor 3'],
-                datasets: [{
-                    data: [12, 19, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                }]
-            },
-            options: {
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        gridLines: {
-                            color: "rgba(0, 0, 0, 0)",
-                        },
-                        ticks: {
-                            beginAtZero: true
-                        }
+        function getHBarData(response) {
+            var sectors = new Array();
+            var count = new Array();
+            var color = new Array();
+            for(var i = 0; i < response.data.employeesBySector.length; i++){
+                sectors[i] = response.data.sectorSalaries[response.data.employeesBySector[i].sector_id - 1].name;
+                count[i] = response.data.employeesBySector[i].count;
+                color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
+            }
+            var data = {
+                type: 'horizontalBar',
+                data: {
+                    labels: sectors, 
+                    datasets:[{
+                        data: count,
+                        backgroundColor: color,
                     }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0)",
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1
+                            }
+                        }]
+                    }
+                }
+            };
+            return data;
+        }
+
+        function getPieChartData(response) {
+            var sectors = new Array();
+            var count = new Array();
+            var color = new Array();
+            for(var i = 0; i < response.data.EmployeeCount.length; i++){
+                sectors[i] = response.data.sectorSalaries[response.data.EmployeeCount[i].sector_id - 1].name;
+                count[i] = response.data.EmployeeCount[i].count;
+                color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
+            }
+            var data = {
+                type: 'pie',
+                data: {
+                    labels: sectors, 
+                    datasets:[{
+                        data: count,
+                        backgroundColor: color,
+                    }]
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontSize: 18
+                        }
+                    }
+                }
+            };
+            return data;
+        }
+
+        function getLineChartData(response) {
+            var years = new Array();
+            var count = new Array();
+            years[0] = response.data.employeeBirthYears[0].year;
+            count[0] = response.data.employeeBirthYears[0].count;
+            for(var i = 1; i < response.data.employeeBirthYears.length; i++){
+                years[i] = response.data.employeeBirthYears[i].year;
+                count[i] =  count[i - 1] + response.data.employeeBirthYears[i].count;
+            }
+            var data = {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        data: count,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
-        });
+            return data;
+        }
 
-        // Line chart
-        var ctxline = document.getElementById('lineChart').getContext('2d');
-        var myLineChart = new Chart(ctxline, {
-            type: 'line',
-            data: {
-                labels: ['2015', '2016', '2017', '2018', '2019', '2020'],
-                datasets: [{
-                    data: [12, 19, 25, 30, 25, 35],
-                }]
-            },
-            options: {
-                legend: {
-                    display: false
+        function getBarChartData(response){
+            var count = [0, 0, 0, 0, 0];
+            var color = new Array();
+            for(var i = 0; i < response.data.employeeBirthDates.length; i++){
+                if(i<5){
+                    color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
+                }
+                let birthday = new Date(response.data.employeeBirthDates[i].birth_date.substring(6), response.data.employeeBirthDates[i].birth_date.substring(3, 5), response.data.employeeBirthDates[i].birth_date.substring(0, 2))
+                var ageDifMs = Date.now() - birthday.getTime();
+                var ageDate = new Date(ageDifMs);
+                switch(true) {
+                    case (Math.abs(ageDate.getUTCFullYear() - 1970) <=25):
+                        count[0]++;
+                        break;
+                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >25 && Math.abs(ageDate.getUTCFullYear() - 1970) <=30):
+                        count[1]++;
+                        break;
+                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >30 && Math.abs(ageDate.getUTCFullYear() - 1970) <=35):
+                        count[2]++;
+                        break;
+                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >35 && Math.abs(ageDate.getUTCFullYear() - 1970) <=45):
+                        count[3]++;
+                        break;
+                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >45):
+                        count[4]++;
+                        break;
+                }                
+            }
+            var data = {
+                type: 'bar',
+                data: {
+                    labels: ['0-25', '25-30', '30-35', '35-45', '45+'],
+                    datasets: [{
+                        data: count,
+                        backgroundColor: color,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                color: "rgba(0, 0, 0, 0)",
+                            }
+                        }]
+                    }
                 }
             }
-        });
+            return data;
+        }
 
+        axios.get('/api/employees-sector')
+        .then((response) => {
+            
+            // Horizontal bar chart
+            var HBarData = getHBarData(response);
+            var ctxH = document.getElementById('hBarChart').getContext('2d');
+            var myChart = new Chart(ctxH, HBarData);
+            
+            // Pie chart
+            var PieChartData = getPieChartData(response);
+            var ctxpie = document.getElementById('chart3').getContext('2d');
+            var myPieChart = new Chart(ctxpie, PieChartData);
+
+            // Line chart
+            var lineChartData = getLineChartData(response);
+            var ctxline = document.getElementById('lineChart').getContext('2d');
+            var myLineChart = new Chart(ctxline, lineChartData);
+            
+            // Vertical bar chart
+            var barChartData = getBarChartData(response);
+            var ctxV = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctxV, barChartData);
+        });
 
     </script>
 

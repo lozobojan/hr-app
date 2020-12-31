@@ -39,6 +39,7 @@ class EmployeeJobStatusRequest extends FormRequest
             'type' => 'required',
             'status' => 'required',
             'date_hired' => 'required',
+            'date_hired_till' => 'required',
             'additional_info' => 'required',
         ];
     }
@@ -48,6 +49,7 @@ class EmployeeJobStatusRequest extends FormRequest
             'type' => 'required',
             'status' => 'required',
             'date_hired' => 'required',
+            'date_hired_till' => 'required',
             'additional_info' => 'required',
         ];
     }

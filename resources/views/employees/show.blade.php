@@ -1,7 +1,9 @@
 @extends('layouts.admin')
 @extends('layouts.modal')
 
-@section('title', 'Zaposleni')
+
+
+@section('title', $title)
 
 
 @section('content')
@@ -11,12 +13,12 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header" id="top">
-                        <h2 class="pageheader-title"> {{ $employee->name }} {{$employee->last_name}}</h2>
+                        <h2 class="pageheader-title mt-3 text-center"> {{ $employee->name }} {{$employee->last_name}}</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
                     @include('partials.success')
@@ -26,7 +28,7 @@
                             <!-- Small boxes (Stat box) -->
 
                             <div class="row justify-content-around">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <div class="card card-default">
                                         <div class="card-header bg-info">
                                             <h3 class="card-title">
@@ -41,7 +43,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->name }} {{ $employee->last_name }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->name }} {{ $employee->last_name }}</h6>
                                             </div>
 
 
@@ -49,44 +51,46 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->birth_date }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->birth_date }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->sex }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->gender == 1? "Ž" : "M" }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->home_address }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">
+                                                    {{ $employee->home_address}}
+                                                </h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->jmbg }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->jmbg }}</h6>
                                             </div>
 
                                             <div class="input-group mb-3 border">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
                                                 </div>
-                                                <h5 class="ml-4 mt-2 mb-2">{{ $employee->qualifications }}</h5>
+                                                <h6 class="ml-4 mt-2 mb-2">{{ $employee->qualifications }}</h6>
                                             </div>
 
                                         </div>
                                         <!-- /.card-body -->
                                     </div>
                                 </div>
-                                <div class="col-9">
-                                    <div class="row justify-content-around">
-                                        <div class="col-6">
+                                <div class="col-8">
+                                    <div class="row ">
+                                        <div class="col-8">
                                             <div class="card card-default">
                                                 <div class="card-header bg-info">
                                                     <h3 class="card-title">
@@ -101,7 +105,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->email }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->email }}</h6>
                                                     </div>
 
 
@@ -109,34 +113,41 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->mobile_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->mobile_number }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->telephone_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->telephone_number }}</h6>
                                                     </div>
 
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
                                         </div>
-                                        <div class="col-4">
-                                            <a class="mt-5  btn btn-app w-75 bg-primary">
-                                                <i class="fas fa-edit"></i> Izmijeni
-                                            </a>
-                                            <br>
-                                            <br>
-                                            <a href="/employees/export/{{$employee->id}}" class="btn btn-app w-75 bg-success">
-                                                <i class="fas fa-file-export"></i> Izvezi
-                                            </a>
-
-
+                                        <div class="col-4 pb-4">
+                                            <div class="h-50 py-2">
+                                                <a href="/employees/export/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">
+                                                    <i class="fas fa-file-export"></i> Izvezi
+                                                </a>
+                                            </div>
+                                            <hr class="my-0">
+                                            <div class="h-50 py-2">
+                                                <a href="javascript:void(0)"
+                                                   data-toggle="modal"
+                                                   data-id="{{$employee->id}}"
+                                                   data-route="/employees/one/{{$employee->id}}"
+                                                   data-target="#myModal"
+                                                   class="edit show-object-data btn btn-sm btn-outline-primary mt-1 ml-3 btn btn-app w-75 h-100 bg-primary"
+                                                >
+                                                    <i class="far fa-edit"></i>  Izmeni
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-around">
+                                    <div class="row ">
                                         <div class="col-4">
 
                                             <div class="card card-default">
@@ -153,7 +164,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Dev</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->sector->name }}</h6>
                                                     </div>
 
 
@@ -161,21 +172,25 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Backend</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->workplace }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Example data</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">@isset($employee->parent)
+                                                                {{ $employee->parent->name }} {{ $employee->parent->last_name }}
+                                                            @else
+                                                                                       NO
+                                                            @endisset</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Example data</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->skills }}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +210,10 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Ugovor</h5>
+                                                        @isset($employee->parent)
+
+                                                            <h6 class="ml-4 mt-2 mb-2">{{ $employee->parent->name }}</h6>
+                                                        @endisset
                                                     </div>
 
 
@@ -203,14 +221,14 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">29.03.2020</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobStatus->date_hired }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-info"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">Status</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobStatus->hire_date }}</h6>
                                                     </div>
 
                                                 </div>
@@ -231,7 +249,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-euro-sign"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->pay }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->pay }}</h6>
                                                     </div>
 
 
@@ -239,14 +257,14 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-plus"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bonus }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bonus }}</h6>
                                                     </div>
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-university"></i></span>
                                                         </div>
-                                                        <h5 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bank_number }}</h5>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeSalary->bank_number }}</h6>
                                                     </div>
 
                                                 </div>
@@ -282,6 +300,7 @@
             var url = "{{ route('employees/edit', ':id') }}";
             url = url.replace(':id', $(this).data('id'));
             $('.objectForm').attr('action', url);
+            console.log("test");
         });
 
 
@@ -311,6 +330,7 @@
         });
 
         function showData(returndata){
+            /*Osnovne informacije*/
             $('#name').val(returndata.name );
             $('#last_name').val(returndata.last_name );
             $('#birth_date').val(returndata.birth_date );
@@ -319,174 +339,394 @@
             $('#home_address').val(returndata.home_address );
             $('#email').val(returndata.email );
             $('#imageHolder').attr({ 'src': returndata.image });
+            $('#telephone_number').val(returndata.telephone_number );
+            $('#mobile_number').val(returndata.mobile_number );
+            $('#additional_info_contact').val(returndata.additional_info_contact );
+            $('#pid').val(returndata.pid );
+            $('#pid').select2().trigger('change');
+
+            /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
             $('#bonus').val(returndata.employee_salary.bonus );
-            $('#input_date').val(returndata.employee_salary.input_date );
             $('#bank_number').val(returndata.employee_salary.bank_number );
+            $('#bank_name').val(returndata.employee_salary.bank_name );
+
+            /*Job status*/
+            $('#type').val(returndata.employee_job_status.type);
+            $('#status').val(returndata.employee_job_status.status);
+            $('#date_hired').val(returndata.employee_job_status.date_hired);
+            $('#date_hired_till').val(returndata.employee_job_status.date_hired_till);
+            $('#additional_info').val(returndata.employee_job_status.additional_info);
+            $('#type').val(returndata.employee_job_status.type);
+            $('#type').select2().trigger('change');
+
+            /*Job description*/
+            $('#workplace').val(returndata.employee_job_description.workplace);
+            $('#job_description').val(returndata.employee_job_description.job_description);
+            $('#skills').val(returndata.employee_job_description.skills);
+            $('#sector_id').val(returndata.employee_job_description.sector_id);
+            $('#sector_id').select2().trigger('change');
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
+            console.log(returndata);
 
         }
+        // In your Javascript (external .js resource or <script> tag)
 
-    </script>
+        $('.js-example-basic-single').select2();
 
-@section('modal-body')
-    <div class="modal-header">
-        <h4 class="modal-title">Objekat</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-    </div>
-
-    <form class="submitForm objectForm" action="{{ route('employees/store') }}">
-        @csrf
-        <div class="modal-body">
-            <div class="container">
 
 
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Ime *</label>
-                            <textarea class="form-control" id="name" name="name" placeholder="Ime" ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_en">Prezime *</label>
-                            <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <img width="100%" style="max-height:25%" id="imageHolder"/>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="image">Fotografija *</label>
-                            <input type="file" id="image" class="form-control" name="image"/>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                {{--       <div class="row">
-                           <div class="col-12">
-                               <img width="100%" style="max-height:25%" id="imageHolder"/>
-                           </div>
-                       </div>--}}
-
-                {{--      <div class="row">
-                          <div class="col-12">
-                              <div class="form-group">
-                                  <label class="col-form-label" for="image">Fotografija *</label>
-                                  <input type="file" id="image" class="form-control" name="image"/>
-                              </div>
-                          </div>
-                      </div>--}}
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="birth_date">Datum rodjenja *</label>
-                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                <input name="birth_date" id="birth_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Kvalifikacije *</label>
-                            <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Adresa *</label>
-                            <textarea class="form-control" id="home_address" name="home_address" placeholder="Adresa" ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">JMBG *</label>
-                            <textarea class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Email *</label>
-                            <textarea class="form-control" id="email" name="email" placeholder="Email" ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="pay">Plata *</label>
-                            <input type="number" class="form-control" id="pay" name="pay" placeholder="Plata" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="bonus">Bonus *</label>
-                            <input type="number" class="form-control" id="bonus" name="bonus" placeholder="Bonus" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="bank_number">Broj banke *</label>
-                            <input type="number" class="form-control" id="bank_number" name="bank_number" placeholder="Broj banke" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="input_date">Input date *</label>
-                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                <input name="input_date" id="input_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+    </script>
+            <style>
+                .select2-selection__rendered {
+                    line-height: 31px !important;
+                }
+                .select2-container .select2-selection--single {
+                    height: 35px !important;
+                }
+                .select2-selection__arrow {
+                    height: 34px !important;
+                }
+            </style>
+        @section('modal-body')
+            <div class="modal-header">
+                <h4 class="modal-title">Objekat</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-        </div>
+
+            <form class="submitForm objectForm" action="{{ route('employees/store') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="container">
+
+                        <div class="card-header bg-dark">
+                            Osnovne informacije
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="name">Ime *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Ime" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="last_name">Prezime *</label>
+                                    <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img width="40%" style="max-height:25%" id="imageHolder"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="image">Fotografija *</label>
+                                    <input type="file" id="image" class="form-control" name="image"/>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        {{--       <div class="row">
+                                   <div class="col-12">
+                                       <img width="100%" style="max-height:25%" id="imageHolder"/>
+                                   </div>
+                               </div>--}}
+
+                        {{--      <div class="row">
+                                  <div class="col-12">
+                                      <div class="form-group">
+                                          <label class="col-form-label" for="image">Fotografija *</label>
+                                          <input type="file" id="image" class="form-control" name="image"/>
+                                      </div>
+                                  </div>
+                              </div>--}}
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="birth_date">Datum rodjenja *</label>
+                                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                        <input name="birth_date" id="birth_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                                        <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="qualifications">Kvalifikacije *</label>
+                                    <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="text_me">Adresa *</label>
+                                    <textarea class="form-control" id="home_address" name="home_address" placeholder="Adresa" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="jmbg">JMBG *</label>
+                                    <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="gender">Pol *</label><br>
+                                    <input type="radio" id="male" name="gender" value="0" @if($employee->gender == 0) checked @endif>
+                                    <label for="male">Male</label><br>
+                                    <input type="radio" id="female" name="gender" value="1" @if($employee->gender == 1) checked @endif>
+                                    <label for="female">Female</label><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="email">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="pid">Nadredjeni *</label>
+                                    <select class="js-" style="width: 100%;" name="pid" id="pid">
+                                        <option value="">Odaberite nadredjenog</option>
+                                        @foreach($objects as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="additional_info_contact">Dodatne kontakt informacije *</label>
+                                    <textarea class="form-control" id="additional_info_contact" name="additional_info_contact" placeholder="Dodatne kontakt informacije" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="telephone_number">Fiksni broj *</label>
+                                    <input type="text" class="form-control" id="telephone_number" name="telephone_number" placeholder="Fiksni broj" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="mobile_number">Mobilni broj *</label>
+                                    <input type="text" class="form-control" id="mobile_number" name="mobile_number" placeholder="Mobilni broj" >
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        {{--PLATA--}}
+
+                        <div class="card-header bg-dark">
+                            Plata
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="pay">Plata *</label>
+                                    <input type="number" class="form-control" id="pay" name="pay" placeholder="Plata" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bonus">Bonus *</label>
+                                    <input type="number" class="form-control" id="bonus" name="bonus" placeholder="Bonus" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bank_name">Ime banke *</label>
+                                    <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Ime banke" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bank_number">Broj banke *</label>
+                                    <input type="number" class="form-control" id="bank_number" name="bank_number" placeholder="Broj banke" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        {{--JOB STATUS--}}
+
+                        <div class="card-header bg-dark">
+                            Status posla
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="type">Tip *</label>
+                                    <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="type" id="type">
+                                        <option value="">Odaberite tip</option>
+                                        @foreach($types as $type)
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->type }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="status">Status *</label>
+                                    <input type="text" class="form-control" id="status" name="status" placeholder="Status posla" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="birth_date">Datum zaposlenja *</label>
+                                    <div class="input-group date" id="datetimepickerdatzap" data-target-input="nearest">
+                                        <input name="date_hired" id="date_hired" type="text" class="form-control datetimepicker-input" data-target="#datetimepickerdatzap" />
+                                        <div class="input-group-append" data-target="#datetimepickerdatzap" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="birth_date">Zaposlen do *</label>
+                                    <div class="input-group date" id="datetimepickertill" data-target-input="nearest">
+                                        <input name="date_hired_till" id="date_hired_till" type="text" class="form-control datetimepicker-input" data-target="#datetimepickertill" />
+                                        <div class="input-group-append" data-target="#datetimepickertill" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="additional_info">Dodatne informacije *</label>
+                                    <input type="text" class="form-control" id="additional_info" name="additional_info" placeholder="Dodatne informacije" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{--JOB DESCRIPTIONS--}}
+
+                        <div class="card-header bg-dark">
+                            Opis posla
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="skills">Sektor *</label>
+                                    <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
+                                        <option value="">Odaberite sektor</option>
+                                        @foreach($sectors as $sector)
+                                            <option value="{{ $sector->id }}"
+                                            >{{ $sector->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="workplace">Radno mjesto *</label>
+                                    <input type="text" class="form-control" id="workplace" name="workplace" placeholder="Radno mjesto" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="job_description">Opis posla *</label>
+                                    <input type="text" class="form-control" id="job_description" name="job_description" placeholder="Opis posla" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="skills">Skills *</label>
+                                    <input type="text" class="form-control" id="skills" name="skills" placeholder="Skills" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
 
 @endsection
 

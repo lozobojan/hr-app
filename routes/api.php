@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\EmployeeController;
+use App\Http\Controllers\API\DocumentationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Route::apiResource('employees', EmployeeController::class);
 
-Route::get('/employees' , [\App\Http\Controllers\API\EmployeeController::class, 'index']);
-Route::get('/employees-sector' , [\App\Http\Controllers\API\EmployeeController::class, 'employeesBySector']);
+Route::get('/employees' , [EmployeeController::class, 'index']);
+Route::get('/employees-sector' , [EmployeeController::class, 'employeesBySector']);
+Route::get('/directories' , [DocumentationController::class, 'showDirectories']);

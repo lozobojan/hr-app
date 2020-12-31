@@ -16,8 +16,10 @@ class CreateDocumentationsTable extends Migration
         Schema::create('documentations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('parent_id')->nullable();
-            $table->boolean('is_folder')->default(true);
+            $table->unsignedBigInteger("parent_id")->nullable();
+            $table->foreign("parent_id")->references("id")->on("documentations");
+            $table->string('file_path')->nullable();
+            $table->boolean('is_folder');
             $table->timestamps();
         });
     }

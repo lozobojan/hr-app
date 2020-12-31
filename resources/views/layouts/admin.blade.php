@@ -22,7 +22,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset("dist/css/adminlte.min.css")}}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset("plugins/overlayScrollbars/css/OverlayScrollbars.min.css")}}">
+
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{asset("plugins/daterangepicker/daterangepicker.css")}}">
     <!-- summernote -->
@@ -39,6 +39,29 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+<style>
+    .preloader
+    {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url("{{asset("img/loader.gif")}}") 50% 50% no-repeat rgb(249,249,249);
+        opacity: .8;
+    }
+    body.loading .preloader {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+       modal element will be visible */
+    body.loading .preloader {
+        display: block;
+    }
+</style>
+<div  class="preloader"></div>
 <div class="wrapper">
 
     <!-- Navbar -->
@@ -53,36 +76,34 @@
         <!-- SEARCH FORM -->
 
         <!-- Right navbar links -->
+
+       {{--@yield('notifications')--}}
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
+            @if($notifications->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-danger navbar-badge">1</span>
+                    <span class="badge badge-danger">{{count($notifications)}}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width:500px!important;">
+                    <span class="dropdown-item dropdown-header">{{count($notifications)}} ugovora uskoro isticu</span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
+                    @foreach($notifications as $notification)
+                        <a href="/employees/{{$notification->employee_id}}" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i> {{$notification->name}} {{$notification->last_name}}
+                            <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> 8 friend requests
-                        <span class="float-right text-muted text-sm">12 hours</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-file mr-2"></i> 3 new reports
-                        <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="/home" class="dropdown-item dropdown-footer">Pogledaj detalje</a>
                 </div>
             </li>
+            @endif
         </ul>
+    </nav>
     </nav>
     <!-- /.navbar -->
 
@@ -130,7 +151,7 @@
 
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper mt-3">
+    <div class="content-wrapper pt-2">
         <!-- Content Header (Page header) -->
         {{-- <div class="content-header">
             <div class="container-fluid">
@@ -166,17 +187,14 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
 <!-- overlayScrollbars -->
-<script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+
 <!-- AdminLTE App -->
-<script src="{{ asset('js/adminlte.min.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('js/demo.js') }}"></script>
 <!-- js start -->
 <script src="{{ asset('assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('assets/vendor/slimscroll/jquery.slimscroll.js') }}"></script>
 <script src="{{ asset('assets/vendor/multi-select/js/jquery.multi-select.js') }}"></script>
@@ -205,6 +223,35 @@
 <script src="{{ asset('assets/vendor/datepicker/datepicker.js') }}"></script>
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.preloader').hide();
+
+        axios.get('/api/directories')
+            .then((response) => {
+                url = `{{url()->current()}}`;
+                if(response.data.directories.length == 0){
+                    $("#target-dir").append(`<li class="nav-item"><a href="#" class="nav-link"><p>Nema foldera</p></a></li>`);
+                }
+                for(var i = 0; i < response.data.directories.length; i++){
+                    if(url.substring(22) == 'directory/'+response.data.directories[i].id){
+                        $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link active"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                        continue;
+                    }
+                    $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
+                }
+                if(response.data.files.length == 0){
+                    $("#target-file").append(`<li class="nav-item"><a href="#" class="nav-link"><p>Nema dokumenata</p></a></li>`);
+                }
+                for(var i = 0; i < response.data.files.length; i++){
+                    $("#target-file").append(`<li class="nav-item"><a href="/`+ response.data.files[i].file_path +`" target="_blank" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.files[i].name +`</p></a></li>`);
+                }
+            });
+    });
+</script>
+
 <!-- js end -->
 @yield('js')
 </body>

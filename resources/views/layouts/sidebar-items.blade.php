@@ -22,13 +22,52 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="{{ route('documents') }}" class="nav-link {{strpos(Route::current()->getName(), 'documents' ) !== false ? "active" : ""}}">
-                <i class="nav-icon fas fa-book"></i>
+        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
+            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "active" : " "}}">
+                <i class="nav-icon fas fa-database"></i>
+
                 <p>
-                    Dokumenta
+                    Fajl sistem
+                    <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
+            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+                <li class="nav-item">
+                    <a href="{{ route('documents') }}" class="nav-link {{strpos(Route::current()->getName(), 'documents' ) !== false ? "active" : ""}}">
+                        <i class="fas fa-database"></i>
+                        <p>Prikazi sve</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item {{ ((request()->is('directory*')) ) ? "menu-open" : " "}}">
+                    <a href="#" class="nav-link {{ ((request()->is('directory*')) ) ? "active" : " "}}">
+                        <i class="{{ ((request()->is('directory*')) ) ? "fas fa-folder-open" : "fas fa-folder"}}"></i>
+                        <p>
+                            Folderi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-dir">
+                
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-folder"></i>
+                        <p>
+                            Dokumenta
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display:none" id="target-file">
+                
+                    </ul>
+                </li>
+
+                
+
+            </ul>
         </li>
 
         <li class="nav-item">
@@ -67,3 +106,4 @@
 
     </ul>
 </nav>
+

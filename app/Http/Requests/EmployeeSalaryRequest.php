@@ -47,7 +47,10 @@ class EmployeeSalaryRequest extends FormRequest
 
     public function updateRules(){
         return [
-
+            'pay' => 'required',
+            'bank_number' => 'required',
+            'bonus' => 'required',
+            'bank_name' => 'required',
         ];
     }
 

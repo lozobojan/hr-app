@@ -37,6 +37,18 @@ jQuery(document).ready(function($) {
         });
 
     }
+    if ($("#datetimepickerdatzap").length) {
+        $('#datetimepickerdatzap').datetimepicker({
+            format: 'DD.MM.YYYY.'
+        });
+
+    }
+    if ($("#datetimepickertill").length) {
+        $('#datetimepickertill').datetimepicker({
+            format: 'DD.MM.YYYY.'
+        });
+
+    }
     if ($("#datetimepicker5").length) {
         $('#datetimepicker5').datetimepicker();
 
