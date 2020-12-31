@@ -81,7 +81,7 @@
                 $current_descendents = \App\Models\Documentation::find($current->id)->descendents();
                 if($current->is_folder)
                     return '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $current->name. "</span>";
-                return '<span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $current->name. "</span>";
+                return '<a href="'.$current->file_path.'" target="_blank"><span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $current->name. "</span></a>";
             }
 
             echo '<ul>';
@@ -92,15 +92,21 @@
                 echo '<li>';
                 if($roots[$j]->is_folder){
                     echo '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
-                    echo '&nbsp&nbsp<a href="#"
-                                        href="javascript:void(0)"
-                                        data-toggle="modal"
-                                        data-target="#myModal">
-                                        <i class="fas fa-plus" data-id="'.$roots[$j]->id.'"></i></a>';
+                    echo '&nbsp&nbsp
+                        <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+                            <i class="fas fa-plus" data-id="'.$roots[$j]->id.'"></i>
+                        </a>
+                        &nbsp&nbsp<a><i class="text-danger fas fa-folder-minus" data-id="'. $roots[$j]->id .'"></i></a>';
                 }
                 if($roots[$j]->is_folder == 0){
-                    echo '<span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
-                    echo'&nbsp&nbsp<a href="directory/download/'.$roots[$j]->id.'"><i class="fas fa-eye"></i></a>';
+                    echo '
+                        <a href="'.$roots[$j]->file_path.'" target="_blank"><span class="btn-outline-success"><i class="fas fa-file"></i>
+                        &nbsp&nbsp'. $roots[$j]->name.'</a></span>
+                        ';
+                    echo'
+                        &nbsp&nbsp<a href="directory/download/'.$roots[$j]->id.'"><i class="text-success fas fa-download"></i></a>
+                        &nbsp&nbsp<a href="directory/delete/'.$roots[$j]->id.'"><i class="text-danger fas fa-trash-alt"></i></a>
+                    ';
                 }
                 if(count($descendents)){
                     echo '<ul>';
@@ -108,11 +114,13 @@
 
                         echo '<li>';
                         echo type($descendents[$i]);
-                        echo ($descendents[$i]->is_folder) ? '&nbsp&nbsp<a href="#"
-                                        href="javascript:void(0)"
-                                        data-toggle="modal"
-                                        data-target="#myModal">
-                                        <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>' : '&nbsp&nbsp<a href="'.$descendents[$i]->file_path.'"><i class="fas fa-eye"></i></a>';
+                        echo ($descendents[$i]->is_folder) ? 
+                            '&nbsp&nbsp <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+                                <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>
+                            &nbsp&nbsp<a data-id=". $descendents[$i]->id ."><i class="fas fa-folder-minus text-danger" data-id="'. $descendents[$i]->id .'"></i></a>' : 
+                            '&nbsp&nbsp<a href="directory/download/'.$descendents[$i]->id.'"><i class="text-success fas fa-download"></i></a>
+                            &nbsp&nbsp<a href="directory/delete/'. $descendents[$i]->id .'"><i class="text-danger fas fa-trash-alt"></i></a>';
+
 
                         if(count($descendents[$i]->descendents()))
                             echo '<ul>';
@@ -158,8 +166,33 @@
                 $('#parent_id').val($(this).data('id'));
             });
 
+            $(".fa-folder-minus").click(function(){
+                var id = $(this).data("id");
+                console.log(id);
+                swal("Da li želite da izbrišete i sadržaj foldera?", {
+                    buttons: {
+                        da: {
+                            text: "Da!",
+                            value: "1",
+                        },
+                        ne:{
+                            text: 'Ne!',
+                            value: '2',
+                        },
+                        cancel: "Otkaži",
+                    },
+                }).then((value) => {
+                    if(value == 1){
+                        window.location.href = "directory/delete-all/" + id;
+                    }
+                    else if(value == 2){
+                        window.location.href = "directory/delete-dir/" + id;
+                    }
+                });
+            });
+
             $("#add").click(function(){
-                $('#parent_id').val(null);
+                $('#parent_id').val("{{ isset($id) ? $id : '0' }}");
             });
             
             $('input[type=radio][name=is_folder]').change(function() {

@@ -36,7 +36,7 @@ class DocumentationRequest extends FormRequest
     public function createRules(){
         return [
             'name' => 'required',
-            'parent_id' => '',
+            'parent_id' => 'numeric',
             'is_folder' => 'required',
             'file_path' => 'nullable',
         ];
@@ -45,7 +45,7 @@ class DocumentationRequest extends FormRequest
     public function updateRules(){
         return [
             'name' => 'required',
-            'parent_id' => '',
+            'parent_id' => 'numeric',
             'is_folder' => 'required',
             'file_path' => 'nullable',
         ];
