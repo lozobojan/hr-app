@@ -14,26 +14,33 @@ class DocumentationSeeder extends Seeder
         $names = [
             'HR',
             'Marketing',
-            'Finansije'
-        ];
-    
-        $is_folder = [
-            true,
-            true,
-            true
+            'Finansije',
+            'Level 1',
+            'Level 2',
+            'Level 3',
+            'Level 1',
+            'Level 2',
+            'Level 3',
+            'Level 4',
+            'Level 1',
+            'Level 2',
+            'Level 1',
         ];
 
         $parent_id = [
             null,
             null,
-            null
-        ];
-
-        $files = [
             null,
-            null,
-            null
-
+            1,
+            4,
+            5,
+            2,
+            7,
+            8,
+            9,
+            1,
+            11,
+            1
         ];
 
         for($i = 0; $i < count($names); $i++){
@@ -41,8 +48,8 @@ class DocumentationSeeder extends Seeder
             Documentation::create([
                 'name' => $names[$i],
                 'parent_id' => $parent_id[$i],
-                'is_folder' => $is_folder[$i],
-                'file_path' => $files[$i]
+                'is_folder' => true,
+                'file_path' => null
             ]);
         }
 

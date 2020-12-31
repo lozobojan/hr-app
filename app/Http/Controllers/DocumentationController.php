@@ -59,8 +59,8 @@ class DocumentationController extends Controller
     public function deleteAll($id){
         $doc = Documentation::where('id', $id)->first();
         $descendents = $doc->descendents();
-        foreach($descendents as $descendent){
-            $descendent->delete();
+        for($i = count($descendents) - 1; $i >= 0; $i--){
+            $descendents[$i]->delete();
         }
         $doc->delete();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);

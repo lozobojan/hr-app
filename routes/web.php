@@ -47,9 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/directory/{id}', [DocumentationController::class, 'showByDirectory'])->name('directory');
     Route::post('/directory/create', [DocumentationController::class, 'store'])->name('directory/create');
     Route::get('/directory/download/{id}', [DocumentationController::class, 'download'])->name('directory/download');
-    Route::get('/directory/delete/{id}', [DocumentationController::class, 'delete'])->name('directory/delete');
-    Route::get('/directory/delete-dir/{id}', [DocumentationController::class, 'deleteDirectory'])->name('directory/delete');
-    Route::get('/directory/delete-all/{id}', [DocumentationController::class, 'deleteAll'])->name('directory/delete');
+    Route::get('/directory/delete/{id}', [DocumentationController::class, 'delete']);
+    Route::get('/directory/delete-dir/{id}', [DocumentationController::class, 'deleteDirectory']);
+    Route::get('/directory/delete-all/{id}', [DocumentationController::class, 'deleteAll']);
     
     // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
     Route::get('/structure', function(){return view('structure');})->name('structure');

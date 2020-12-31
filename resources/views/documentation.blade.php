@@ -75,74 +75,42 @@
             Dodaj
         </a>
         @php
-
-
-            function type($current){
-                $current_descendents = \App\Models\Documentation::find($current->id)->descendents();
-                if($current->is_folder)
-                    return '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $current->name. "</span>";
-                return '<a href="'.$current->file_path.'" target="_blank"><span class="btn btn-outline-success"><i class="fas fa-file"></i>&nbsp&nbsp'. $current->name. "</span></a>";
-            }
-
-            echo '<ul>';
-            for($j = 0; $j < count($roots); $j++){
-
-                $descendents = \App\Models\Documentation::find($roots[$j]->id)->descendents();
-
-                echo '<li>';
-                if($roots[$j]->is_folder){
-                    echo '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $roots[$j]->name. "</span>";
-                    echo '&nbsp&nbsp
-                        <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
-                            <i class="fas fa-plus" data-id="'.$roots[$j]->id.'"></i>
-                        </a>
-                        &nbsp&nbsp<a><i class="text-danger fas fa-folder-minus" data-id="'. $roots[$j]->id .'"></i></a>';
+    
+            function showTree($descendent){
+                $descendents = \App\Models\Documentation::find($descendent->id)->descendents();
+                $return = '<li>';
+                if($descendent->is_folder){
+                    $return = $return . '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $descendent->name. '</span>&nbsp&nbsp
+                    <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+                        <i class="fas fa-plus" data-id="'.$descendent->id.'"></i>
+                    </a>
+                    &nbsp&nbsp<a><i class="text-danger fas fa-folder-minus" data-id="'. $descendent->id .'"></i></a>';
                 }
-                if($roots[$j]->is_folder == 0){
-                    echo '
-                        <a href="'.$roots[$j]->file_path.'" target="_blank"><span class="btn-outline-success"><i class="fas fa-file"></i>
-                        &nbsp&nbsp'. $roots[$j]->name.'</a></span>
-                        ';
-                    echo'
-                        &nbsp&nbsp<a href="directory/download/'.$roots[$j]->id.'"><i class="text-success fas fa-download"></i></a>
-                        &nbsp&nbsp<a href="directory/delete/'.$roots[$j]->id.'"><i class="text-danger fas fa-trash-alt"></i></a>
+                if($descendent->is_folder == 0){
+                    $return = $return . '
+                    <a href="'.$descendent->file_path.'" target="_blank"><span class="btn-outline-success"><i class="fas fa-file"></i>
+                    &nbsp&nbsp'. $descendent->name.'</span></a>
+                    &nbsp&nbsp<a href="directory/download/'.$descendent->id.'"><i class="text-success fas fa-download"></i></a>
+                    &nbsp&nbsp<a href="directory/delete/'.$descendent->id.'"><i class="text-danger fas fa-trash-alt"></i></a>
                     ';
                 }
                 if(count($descendents)){
-                    echo '<ul>';
+                    $return = $return . '<ul>';
                     for($i = 0; $i < count($descendents); $i++){
-
-                        echo '<li>';
-                        echo type($descendents[$i]);
-                        echo ($descendents[$i]->is_folder) ? 
-                            '&nbsp&nbsp <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
-                                <i class="fas fa-plus" data-id="'.$descendents[$i]->id.'"></i></a>
-                            &nbsp&nbsp<a data-id=". $descendents[$i]->id ."><i class="fas fa-folder-minus text-danger" data-id="'. $descendents[$i]->id .'"></i></a>' : 
-                            '&nbsp&nbsp<a href="directory/download/'.$descendents[$i]->id.'"><i class="text-success fas fa-download"></i></a>
-                            &nbsp&nbsp<a href="directory/delete/'. $descendents[$i]->id .'"><i class="text-danger fas fa-trash-alt"></i></a>';
-
-
-                        if(count($descendents[$i]->descendents()))
-                            echo '<ul>';
-
-                        if(!count($descendents[$i]->descendents())){
-                            echo '</li>';
-
-                            $curr_id = $descendents[$i]->parent_id;
-
-                            while($i !== count($descendents)-1 && $curr_id !== $descendents[$i+1]->parent_id){
-                                echo '</ul></li>';
-                                $curr_id = \App\Models\Documentation::where('id', $curr_id)->get()->first()->parent_id;
-                            }
+                        if($descendents[$i]->parent_id == $descendent->id){
+                            $return = $return . showTree($descendents[$i]);
                         }
-
                     }
-                    echo '</ul>';
-                    echo '</li>';
+                    $return = $return . '</ul>';
                 }
-                else
-                    echo '</li>';
+                return $return . '</li>' ;
             }
+
+            echo '<ul>';
+            foreach($roots as $root){
+                echo showTree($root);
+            }
+            echo '</ul>';
 
         @endphp
     </div>
@@ -183,10 +151,10 @@
                     },
                 }).then((value) => {
                     if(value == 1){
-                        window.location.href = "directory/delete-all/" + id;
+                        window.location.href = "/directory/delete-all/" + id;
                     }
                     else if(value == 2){
-                        window.location.href = "directory/delete-dir/" + id;
+                        window.location.href = "/directory/delete-dir/" + id;
                     }
                 });
             });
