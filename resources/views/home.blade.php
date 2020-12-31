@@ -42,7 +42,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-secondary"><i class="fas fa-venus-mars"></i></span>
+                    <span class="info-box-icon bg-secondary"><i class="fas fa-birthday-cake"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Prosjek godina</span>
@@ -146,7 +146,8 @@
             <div class="col-md-12 ">
 
                 <div class="panel panel-default">
-
+                    <div class="legend-red d-inline-block m-0" style="width: 15px; height: 15px; background-color: #f05050"></div> <p class="d-inline-block">Rodjendan</p>
+                    <div class="legend-red d-inline-block m-0" style="width: 15px; height: 15px; background-color: #32a852"></div> <p class="d-inline-block">Ugovor</p>
                     <div class="panel-body">
                         {!! $calendar->calendar() !!}
                     </div>

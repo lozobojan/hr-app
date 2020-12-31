@@ -32,13 +32,53 @@
 
                     <div class="card">
                         <div class="card-header">
+                            <div class="row advancedSearchOptions d-none">
+                                <div class="col">
+
+                                        <div class="row">
+                                            <div class="col-md-2 pl-1">
+                                                <div class="form-group">
+                                                    <label>Tip zaposlenja</label>
+                                                    <select name="typeFilter"  id="typeFilter" class="form-control">
+                                                        <option></option>
+                                                        <option>odredjeno</option>
+                                                        <option>neodredjeno</option>
+                                                        <option>stalno</option>
+                                                        <option>probni rad</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 pl-1">
+                                                <div class="form-group">
+                                                    <label for="sectorFilter">Sektor</label>
+                                                    <select name="sectorFilter"  id="sectorFilter" class="form-control">
+                                                        <option></option>
+                                                        <option>Marketing</option>
+                                                        <option>Delivery</option>
+                                                        <option>Human resources</option>
+                                                        <option>Finansije</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    <div class="text-center">
+                                        <a class="btn btn-success btn-sm filterTable" href="#"><i class="fa fa-filter "></i> Filter</a>
+                                        <a class="btn btn-secondary btn-sm filterTableClear"  href="#"><i class="fa fa-eraser "></i> Clear Filter</a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-6">
                                     <h5 class="card-title mt-1 mb-1">Tabela zaposleni {{ $objects->count() }}</h5>
                                 </div>
                                 <div class="col-6">
-                                    <a id="add" class="btn btn-sm btn-info float-right ml-3" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
-                                        Dodaj zaposlenog
+                                    <a id="add" class="btn btn-sm btn-primary float-right ml-3" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+                                        <i class="fas fa-user-plus mr-1"></i> Dodaj zaposlenog
+                                    </a>
+                                    <a id="advancedSearch" class="btn btn-sm btn-success text-white float-right ml-3">
+                                        <i class="fas fa-search-plus mr-1"></i>  Napredna pretraga
                                     </a>
                                 </div>
                             </div>
@@ -136,7 +176,7 @@
                                             <td class="text-center">{{ $object->additional_info_contact ?? "NaN" }}</td>
 
                                             {{--STATUS ZAPOSLENJA--}}
-                                            <td class="text-center">{{ $object->employeeJobStatus->type }}</td>
+                                            <td class="text-center">{{ $object->employeeJobStatus->hireType->type }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->status }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->date_hired }}</td>
                                             <td class="text-center">{{ $object->employeeJobStatus->date_hired_till }}</td>
@@ -202,6 +242,10 @@
 
     <script>
 
+
+        $("#advancedSearch").click(function(){
+            $(".advancedSearchOptions").toggleClass('d-none');
+        });
         /*$(window).load(function()
         {
             $("#preloaders").fadeOut(2000);
@@ -223,7 +267,8 @@
 
 
 
-        $('.table').DataTable({
+        var table = $('.table').DataTable({
+
             "lengthMenu": [ 10, 25, 50, 75, 100 ],
             "processing": true,
            /* dom: 'Bfrtip',
@@ -271,6 +316,33 @@
             "ordering": true,
             stateSave: true
         });
+        $('.filterTable').click(function() {
+            table.column(12).search("");
+            table.column(20).search("");
+            console.log("cleared");
+            table.draw();
+            if($("#typeFilter").val() == ""){
+                table.column(20).search($('#sectorFilter option:selected').val());
+            }
+            else if($("#sectorFilter").val() == ""){
+                table.column(12).search("^"+$('#typeFilter option:selected').val()+"$");
+            }
+            else{
+                table.column(12).search("^"+$('#typeFilter option:selected').val()+"$");
+                table.column(20).search($('#sectorFilter option:selected').val());
+            }
+
+            //console.log($('#sectorFilter option:selected').val());
+            table.draw();
+        });
+        $('.filterTableClear').click(function() {
+            table.column(12).search("");
+            table.column(20).search("");
+            console.log("cleared");
+            table.draw();
+
+        });
+
 
         function showData(returndata){
             /*Osnovne informacije*/

@@ -77,7 +77,7 @@ class HomeController extends Controller
             foreach ($event2 as $key => $value) {
                 //var_dump($value->employeeJobStatus->date_hired_till); continue;
 
-            $title = "U: \n $value->name $value->lst_name";
+            $title = "U: \n $value->name $value->last_name";
 
                 $datum = \DateTime::createFromFormat('d.m.Y.', $value->employeeJobStatus->date_hired_till)->format('Y-m-d');
 
