@@ -25,6 +25,9 @@ class Employee extends Model
     {
         $this->attributes["birth_date"] = Carbon::createFromFormat("d.m.Y.", $value);
     }
+
+
+
     public function setImageAttribute($value)
     {
         if($value)
@@ -55,6 +58,7 @@ class Employee extends Model
     public function children() {
         return $this->hasMany(static::class, 'pid');
     }
+
    /*public function sector()
     {
         return $this->belongsTo(Sector::class);

@@ -16,6 +16,7 @@ use App\Http\Requests\EmployeeSalaryRequest;
 use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
 use DB;
+use Illuminate\Support\Carbon;
 use View;
 
 use Maatwebsite\Excel\Facades\Excel;
@@ -41,6 +42,7 @@ class EmployeeController extends Controller
 
     public function getOne($id){
         $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->with('parent')->find($id);
+
         return $object ? $object : null;
     }
 
@@ -56,6 +58,9 @@ class EmployeeController extends Controller
             $employee = Employee::create($data);
             $salaryRequest["employee_id"] = $employee->id;
             $jobStatusRequest["employee_id"] = $employee->id;
+            $jobStatusRequest["date_hired"] = Carbon::createFromFormat("d.m.Y.",$jobStatusRequest['date_hired']);
+            $jobStatusRequest["date_hired_till"] = Carbon::createFromFormat("d.m.Y.",$jobStatusRequest['date_hired_till']);
+
             $jobDescriptionRequest["employee_id"] = $employee->id;
             EmployeeSalary::create($salaryRequest);
             EmployeeJobStatus::create($jobStatusRequest);
@@ -70,19 +75,20 @@ class EmployeeController extends Controller
         return response()->json(["success" => "success"], 200);
     }
 
-    public function edit(SaveEmployeeRequest $request, Employee $object, EmployeeSalary $object2) {
-        $data = $request->validated();
+    public function edit(SaveEmployeeRequest $request,EmployeeRequest $empReq,EmployeeJobStatusRequest  $empJobStatReq, EmployeeSalaryRequest $empSalReq, EmployeeJobDescriptionRequest  $empJobDesReq, Employee $object) {
+       /* $data = $request->validated();
         $emp = [
             "name" => $data['name'],
             "last_name" => $data['last_name'],
             "birth_date" => $data['birth_date'],
             "jmbg" => $data['jmbg'],
             "email" => $data['email'],
+            "image" => $data['image'],
             "qualifications" => $data['qualifications'],
             "home_address" => $data['home_address'],
             "additional_info" => $data['additional_info'],
             "telephone_number" => $data['telephone_number'],
-            /*"office_number" => $data['office_number'],*/
+            //"office_number" => $data['office_number'],
             "additional_info_contact" => $data['additional_info_contact'],
             "gender" => $data['gender'],
             "pid" => $data['pid'],
@@ -102,12 +108,34 @@ class EmployeeController extends Controller
             "skills" => $data['skills'],
             "sector_id" => $data['sector_id'],
             "employee_id" => $object->id,
-
         ];
+        $empJobStatus = [
+            "status" => $data['status'],
+            "date_hired" => Carbon::createFromFormat("d.m.Y.",$data['date_hired']),
+            "date_hired_till" => Carbon::createFromFormat("d.m.Y.",$data['date_hired_till']),
+           // "date_hired_till" => $data['date_hired_till'],
+            "additional_info" => $data['additional_info'],
+            "type" => $data['type'],
+            "employee_id" => $object->id,
+        ];*/
+
+        $empl = $empReq->validated();
+        $empSala = $empSalReq->validated();
+        $empJobDescr = $empJobDesReq->validated();
+        $empJobStat = $empJobStatReq->validated();
+
+        $empSala["employee_id"] = $object->id;
+        $empJobStat["date_hired"] = Carbon::createFromFormat("d.m.Y.",$empJobStat['date_hired']);
+        $empJobStat["date_hired_till"] = Carbon::createFromFormat("d.m.Y.",$empJobStat['date_hired_till']);
+        $empJobStat["employee_id"] = $object->id;
+        $empJobDescr["employee_id"] = $object->id;
+
+
         /*$object->fill($emp);*/
-        $object->update($emp);
-        $object->employeeSalary()->update($empSal);
-        $object->employeeJobDescription()->update($empJobDesc);
+        $object->update($empl);
+        $object->employeeSalary()->update($empSala);
+        $object->employeeJobDescription()->update($empJobDescr);
+        $object->employeeJobStatus()->update($empJobStat);
       /*  $object2->fill($empSal);
         $object2->update();*/
 
@@ -120,7 +148,15 @@ class EmployeeController extends Controller
     {
         $employee = Employee::with('parent')->with('employeeJobStatus')
             ->find($id);
-        return view('employees.show', compact("employee"));
+        $objects = Employee::with('employeeJobDescription')->get();
+        $sectors = Sector::get();
+        $data = [
+            "objects" => $objects,
+            "sectors" => $sectors,
+            "employee" => $employee,
+            "title" => "$employee->name $employee->last_name"
+        ];
+        return view('employees.show')->with($data);
     }
 
 

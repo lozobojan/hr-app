@@ -75,6 +75,7 @@ class HomeController extends Controller
         if($event2->count()) {
 
             foreach ($event2 as $key => $value) {
+                //var_dump($value->employeeJobStatus->date_hired_till); continue;
 
             $title = "U: \n $value->name $value->lst_name";
 

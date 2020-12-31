@@ -214,6 +214,7 @@
             var url = "{{ route('employees/edit', ':id') }}";
             url = url.replace(':id', $(this).data('id'));
             $('.objectForm').attr('action', url);
+
         });
 
 
@@ -280,6 +281,8 @@
             $('#telephone_number').val(returndata.telephone_number );
             $('#mobile_number').val(returndata.mobile_number );
             $('#additional_info_contact').val(returndata.additional_info_contact );
+            $('#pid').val(returndata.pid );
+            $('#pid').select2().trigger('change');
 
             /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
@@ -298,6 +301,8 @@
             $('#workplace').val(returndata.employee_job_description.workplace);
             $('#job_description').val(returndata.employee_job_description.job_description);
             $('#skills').val(returndata.employee_job_description.skills);
+            $('#sector_id').val(returndata.employee_job_description.sector_id);
+            $('#sector_id').select2().trigger('change');
             /* $('#cover_image').val(returndata.cover_image );*/
             $('#myModal').modal('show');
             console.log(returndata);
@@ -308,7 +313,17 @@
             $('.js-example-basic-single').select2();
 
     </script>
-
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
 @section('modal-body')
     <div class="modal-header">
         <h4 class="modal-title">Objekat</h4>
@@ -440,7 +455,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="pid">Nadredjeni *</label>
-                            <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid">
+                            <select class="js-" style="width: 100%;" name="pid" id="pid">
                                 <option value="">Odaberite nadredjenog</option>
                                @foreach($objects as $employee)
                                     <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
@@ -552,9 +567,9 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="birth_date">Datum zaposlenja *</label>
-                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                <input name="date_hired" id="date_hired" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                            <div class="input-group date" id="datetimepickerdatzap" data-target-input="nearest">
+                                <input name="date_hired" id="date_hired" type="text" class="form-control datetimepicker-input" data-target="#datetimepickerdatzap" />
+                                <div class="input-group-append" data-target="#datetimepickerdatzap" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                                 </div>
                             </div>
@@ -565,8 +580,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="date_hired_till">Zaposlen do *</label>
-                            <input type="text" class="form-control" id="date_hired_till" name="date_hired_till" placeholder="Zaposlen do" />
+                            <label class="col-form-label" for="birth_date">Zaposlen do *</label>
+                            <div class="input-group date" id="datetimepickertill" data-target-input="nearest">
+                                <input name="date_hired_till" id="date_hired_till" type="text" class="form-control datetimepicker-input" data-target="#datetimepickertill" />
+                                <div class="input-group-append" data-target="#datetimepickertill" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -585,6 +605,21 @@
 
                 <div class="card-header bg-dark">
                     Opis posla
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="skills">Sektor *</label>
+                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
+                                <option value="">Odaberite sektor</option>
+                                @foreach($sectors as $sector)
+                                    <option value="{{ $sector->id }}">
+                                        {{ $sector->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -614,19 +649,7 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="skills">Sektor *</label>
-                            <select class="js-example-basic-single" style="width: 100%; line-height: 36px;" name="sector_id" id="sector_id">
-                                <option value="">Odaberite sektor</option>
-                                @foreach($sectors as $sector)
-                                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
         </div>

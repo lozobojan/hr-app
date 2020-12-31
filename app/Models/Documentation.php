@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class Documentation extends Model
 {
     use HasFactory, \RecursiveRelationships\Traits\HasRecursiveRelationships, FileHandling;
-    
+
     protected $table = 'documentations';
 
     public $primaryKey = "id";
     protected $guarded = [];
+
+
 
 }
