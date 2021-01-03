@@ -20,10 +20,10 @@ class DocumentationController extends Controller
         $roots = Documentation::root()->get();
         $types = FileType::all();
         $sectors = Sector::all();
-
+        
         return view('documentation', compact('roots', 'types', 'sectors'));
     }
-
+    
     public function showByDirectory($id)
     {
         $roots = Documentation::where('parent_id', $id)->get();
@@ -48,11 +48,19 @@ class DocumentationController extends Controller
         return view('documentation', compact('roots', 'types', 'sectors'));
     }
 
+    public function search($word){
+        $roots = Documentation::where('name', 'like', '%'.$word.'%')->get();
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation', compact('roots', 'types', 'sectors'));
+    
+    }
+    
     public function download($id)
     {
         return response()->download(Documentation::find($id)->file_path);
     }
-
+    
     public function store(DocumentationRequest $request)
     {
         $data = $request->validated();
@@ -94,12 +102,5 @@ class DocumentationController extends Controller
         Documentation::where('parent_id', $id)->update(['parent_id' => $doc->parent_id]);
         $doc->delete();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
-    }
-
-    public function search($word){
-        $doc = Documentation::where('name', 'like', '%'.$word.'%')->get();
-        return view('documentation', [
-            'roots' => $doc
-        ]);
     }
 }
