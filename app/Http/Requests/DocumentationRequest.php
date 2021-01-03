@@ -29,7 +29,10 @@ class DocumentationRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => "Ime je obavezno polje!"
+            'name.required' => "Ime je obavezno polje!",
+            'expiration_date.after' => "Rok dokumenta mora biti datum u budućnosti!",
+            'file_path.mimes' => "Fajl mora biti formata .pdf ili .docx!",
+            'is_folder.required' => 'Morate odabrati tip podatka!'
         ];
     }
 
@@ -38,7 +41,10 @@ class DocumentationRequest extends FormRequest
             'name' => 'required',
             'parent_id' => 'numeric',
             'is_folder' => 'required',
-            'file_path' => 'nullable',
+            'file_path' => 'nullable|mimes:pdf, docx',
+            'expiration_date' => 'nullable|after:today',
+            'sector_id' => 'nullable',
+            'type_id' => 'nullable'
         ];
     }
 
@@ -47,7 +53,10 @@ class DocumentationRequest extends FormRequest
             'name' => 'required',
             'parent_id' => 'numeric',
             'is_folder' => 'required',
-            'file_path' => 'nullable',
+            'expiration_date' => 'nullable|after:today',
+            'file_path' => 'nullable|mimes:pdf, docx',
+            'sector_id' => 'nullable',
+            'type_id' => 'nullable'
         ];
     }
 

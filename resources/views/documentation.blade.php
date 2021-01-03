@@ -69,7 +69,6 @@
                 /*color:#000*/
             }
     </style>
-
     <div class="tree">
         <a id="add" class="btn btn-outline-info " href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
             Dodaj
@@ -164,6 +163,9 @@
             $("#add").click(function(){
                 $('input[type=radio]').prop('checked',false);
                 $("#name").val('');
+                $("#expiration_date").val('');
+                $("#type_id").val('');
+                $("#sector_id").val('');
                 $('#parent_id').val("{{ isset($id) ? $id : '0' }}");
             });
             
@@ -171,10 +173,16 @@
                 if (this.value == '1') {
                     $('#name').attr("placeholder", "Naziv direktorijuma");
                     $('#target-row').hide();
+                    $('#target-row-2').hide();
+                    $('#target-row-3').hide();
+                    $('#target-row-4').hide();
                 }
                 else if (this.value == '0') {
                     $('#name').attr("placeholder", "Naziv fajla");
                     $('#target-row').show();
+                    $('#target-row-2').show();
+                    $('#target-row-3').show();
+                    $('#target-row-4').show();
                 }
             });
         });
@@ -232,8 +240,45 @@
                 <div class="row" id="target-row">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="col-form-label" for="file_path">Fajl</label>
+                            <label class="col-form-label" for="file_path">Dokument</label>
                             <input type="file" id="file_path" class="form-control" name="file_path">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="target-row-2">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="expiration_date">Rok dokumenta</label>
+                            <input type="date" min="" id="expiration_date" class="form-control" name="expiration_date">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="target-row-3">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="expiration_date">Sektor</label>
+                            <select name="sector_id" class="form-control" id="sector_id">
+                                <option value="" selected></option>
+                                @foreach($sectors as $sector)
+                                    <option value="{{$sector->id}}">{{$sector->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="target-row-4">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="type_id">Tip</label>
+                            <select name="type_id" class="form-control" id="type_id">
+                                <option value="" selected></option>
+                                @foreach($types as $type)
+                                    <option value="{{$type->id}}">{{$type->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

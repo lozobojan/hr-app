@@ -18,8 +18,13 @@ class CreateDocumentationsTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger("parent_id")->nullable();
             $table->foreign("parent_id")->references("id")->on("documentations");
+            $table->unsignedBigInteger("type_id")->nullable();
+            $table->foreign("type_id")->references("id")->on("file_types");
+            $table->unsignedBigInteger('sector_id')->nullable();
+            $table->foreign('sector_id')->references('id')->on('sectors');
             $table->string('file_path')->nullable();
             $table->boolean('is_folder');
+            $table->date('expiration_date')->nullable();
             $table->timestamps();
         });
     }

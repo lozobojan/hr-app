@@ -22,8 +22,8 @@
             </a>
         </li>
 
-        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
-            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "active" : " "}}">
+        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
+            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "active" : " "}}">
                 <i class="nav-icon fas fa-database"></i>
 
                 <p>
@@ -31,7 +31,7 @@
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "block" : "none"}};">
 
                 <li class="nav-item">
                     <div class=" input-group">
@@ -77,7 +77,46 @@
                     </ul>
                 </li>
 
-                
+
+                <li class="nav-item {{ ((request()->is('tag*')) ) ? "menu-open" : " "}}">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tag"></i>
+                        <p>
+                            Tagovi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag*')) ) ? "block" : "none"}}">
+                        <li class="nav-item {{ ((request()->is('tag/sector*')) ) ? "menu-open" : " "}}">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-users"></i>
+                                <p>
+                                    Sektori
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/sector*')) ) ? "block" : "none"}}" id="target-sector">
+                            
+                            </ul>
+                        </li>
+
+                        <li class="nav-item {{ ((request()->is('tag/type*')) ) ? "menu-open" : " "}}">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-file"></i>
+                                <p>
+                                    Tip
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/type*')) ) ? "block" : "none"}}" id="target-type">
+                            
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </li>
+
 
             </ul>
         </li>
