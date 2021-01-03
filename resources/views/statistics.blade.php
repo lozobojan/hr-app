@@ -15,7 +15,7 @@
                 <!-- Horizontal bar chart -->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Zaposleni po sektorima</h5>
+                        <h5 class="card-title text-center" id="hbar-target">Zaposleni po sektorima</h5>
                         <canvas id="hBarChart" style="height: 300px"></canvas>
                     </div>
                 </div>
@@ -23,8 +23,16 @@
                 <!-- Line chart -->
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Broj zaposlenih</h5>
+                        <h5 class="card-title text-center" id="line-target">Broj zaposlenih</h5>
                         <canvas id="lineChart" style="height: 300px"></canvas>
+                    </div>
+                </div>
+
+                <!-- Horizontal bar chart 2 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" id="hbar-target2">Prosjecna plata po sektorima</h5>
+                        <canvas id="hBarChart2" style="height: 300px"></canvas>
                     </div>
                 </div>
 
@@ -35,16 +43,39 @@
                 <!-- Pie chart -->
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Ugovor na odredjeno</h5>
-                        <canvas id="chart3" class="card-body" style="height: 300px;"></canvas>
+                        <h5 class="card-title text-center" id="pie-target">Ugovor na odredjeno</h5>
+                        <canvas id="pie-chart" class="card-body" style="height: 300px;"></canvas>
                     </div>
                 </div>
 
                 <!-- Vertical bar chart -->
                 <div class="card mt-4">
                     <div class="card-body">
+                        <h5 class="card-title text-center" id="bar-target">Starost zaposlenih</h5>
                         <canvas id="barChart" class="card-body" style="height: 300px;"></canvas>
-                        <h5 class="card-title text-center">Starost zaposlenih</h5>
+                    </div>
+                </div>
+
+                <!-- Pie chart 2 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" id="pie-target2">Ugovor na neodredjeno</h5>
+                        <canvas id="pie-chart2" class="card-body" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- AVG salary -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"> Prosjecna plata: <input type="text form-control" disabled id="avg-target"></h5>
+                    </div>
+                </div>
+
+    
+                <!-- AVG years of service -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"> Prosjecan radni staz: <input type="text form-control" disabled id="avg-service-target"></h5>
                     </div>
                 </div>
 
@@ -60,13 +91,13 @@
 @section('js')
     <script>
 
-        function getHBarData(response) {
+        function getHBarData(data) {
             var sectors = new Array();
             var count = new Array();
             var color = new Array();
-            for(var i = 0; i < response.data.employeesBySector.length; i++){
-                sectors[i] = response.data.sectorSalaries[response.data.employeesBySector[i].sector_id - 1].name;
-                count[i] = response.data.employeesBySector[i].count;
+            for(var i = 0; i < data.length; i++){
+                sectors[i] = data[i].name;
+                count[i] = data[i].count;
                 color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
             }
             var data = {
@@ -94,7 +125,6 @@
                         xAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                stepSize: 1
                             }
                         }]
                     }
@@ -103,13 +133,13 @@
             return data;
         }
 
-        function getPieChartData(response) {
+        function getPieChartData(data) {
             var sectors = new Array();
             var count = new Array();
             var color = new Array();
-            for(var i = 0; i < response.data.EmployeeCount.length; i++){
-                sectors[i] = response.data.sectorSalaries[response.data.EmployeeCount[i].sector_id - 1].name;
-                count[i] = response.data.EmployeeCount[i].count;
+            for(var i = 0; i < data.length; i++){
+                sectors[i] = data[i].name;
+                count[i] = data[i].count;
                 color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
             }
             var data = {
@@ -132,14 +162,14 @@
             return data;
         }
 
-        function getLineChartData(response) {
+        function getLineChartData(data) {
             var years = new Array();
             var count = new Array();
-            years[0] = response.data.employeeBirthYears[0].year;
-            count[0] = response.data.employeeBirthYears[0].count;
-            for(var i = 1; i < response.data.employeeBirthYears.length; i++){
-                years[i] = response.data.employeeBirthYears[i].year;
-                count[i] =  count[i - 1] + response.data.employeeBirthYears[i].count;
+            years[0] = data[0].year;
+            count[0] = data[0].count;
+            for(var i = 1; i < data.length; i++){
+                years[i] = data[i].year;
+                count[i] =  count[i - 1] + data[i].count;
             }
             var data = {
                 type: 'line',
@@ -161,27 +191,24 @@
         function getBarChartData(response){
             var count = [0, 0, 0, 0, 0];
             var color = new Array();
-            for(var i = 0; i < response.data.employeeBirthDates.length; i++){
+            for(var i = 0; i < response.data.employeeAge.length; i++){
                 if(i<5){
                     color[i] = 'rgba(' + Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ 1 + ')';
                 }
-                let birthday = new Date(response.data.employeeBirthDates[i].birth_date.substring(6), response.data.employeeBirthDates[i].birth_date.substring(3, 5), response.data.employeeBirthDates[i].birth_date.substring(0, 2))
-                var ageDifMs = Date.now() - birthday.getTime();
-                var ageDate = new Date(ageDifMs);
                 switch(true) {
-                    case (Math.abs(ageDate.getUTCFullYear() - 1970) <=25):
+                    case (response.data.employeeAge[i] <=25):
                         count[0]++;
                         break;
-                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >25 && Math.abs(ageDate.getUTCFullYear() - 1970) <=30):
+                    case (response.data.employeeAge[i] >25 && response.data.employeeAge[i] <=30):
                         count[1]++;
                         break;
-                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >30 && Math.abs(ageDate.getUTCFullYear() - 1970) <=35):
+                    case (response.data.employeeAge[i] >30 && response.data.employeeAge[i] <=35):
                         count[2]++;
                         break;
-                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >35 && Math.abs(ageDate.getUTCFullYear() - 1970) <=45):
+                    case (response.data.employeeAge[i] >35 && response.data.employeeAge[i] <=45):
                         count[3]++;
                         break;
-                    case (Math.abs(ageDate.getUTCFullYear() - 1970) >45):
+                    case (response.data.employeeAge[i] >45):
                         count[4]++;
                         break;
                 }                
@@ -218,26 +245,82 @@
 
         axios.get('/api/employees-sector')
         .then((response) => {
-            
+            console.log(response);
+
+            $("#avg-target").val(response.data.avgSalary.salary);
+            $("#avg-service-target").val(response.data.avgService.date);
             // Horizontal bar chart
-            var HBarData = getHBarData(response);
-            var ctxH = document.getElementById('hBarChart').getContext('2d');
-            var myChart = new Chart(ctxH, HBarData);
+            if(response.data.employeeCountOne.length == 0){
+                $( "#hbar-target" ).after( "<br><p>Nema podataka</p>" );
+                $( "#hBarChart" ).attr('hidden', true);
+            }
+            else{
+                $( "#hBarChart" ).attr('hidden', false);
+                var HBarData = getHBarData(response.data.employeesBySector);
+                var ctxH = document.getElementById('hBarChart').getContext('2d');
+                var myChart = new Chart(ctxH, HBarData);
+            }
+
+            // Horizontal bar chart 2
+            if(response.data.employeeCountOne.length == 0){
+                $( "#hbar-target2" ).after( "<br><p>Nema podataka</p>" );
+                $( "#hBarChart2" ).attr('hidden', true);
+            }
+            else{
+                $( "#hBarChart2" ).attr('hidden', false);
+                var HBarData2 = getHBarData(response.data.salaryBySector);
+                var ctxH2 = document.getElementById('hBarChart2').getContext('2d');
+                var myChart = new Chart(ctxH2, HBarData2);
+            }
             
             // Pie chart
-            var PieChartData = getPieChartData(response);
-            var ctxpie = document.getElementById('chart3').getContext('2d');
-            var myPieChart = new Chart(ctxpie, PieChartData);
+            if(response.data.employeeCountOne.length == 0){
+                $( "#pie-target" ).after( "<br><p>Nema podataka</p>" );
+                $( "#pie-chart" ).attr('hidden', true);
+            }
+            else{
+                $( "#pie-chart" ).attr('hidden', false);
+                var PieChartData = getPieChartData(response.data.employeeCountOne);
+                var ctxpie = document.getElementById('pie-chart').getContext('2d');
+                var myPieChart = new Chart(ctxpie, PieChartData);
+            }
+
+            // Pie chart 2
+            if(response.data.employeeCountTwo.length == 0){
+                $( "#pie-target2" ).after( "<br><p>Nema podataka</p>" );
+                $( "#pie-chart2" ).attr('hidden', true);
+            }
+            else{
+                $( "#pie-chart2" ).attr('hidden', false);
+                var PieChartData2 = getPieChartData(response.data.employeeCountTwo);
+                var ctxpie2 = document.getElementById('pie-chart2').getContext('2d');
+                var myPieChart = new Chart(ctxpie2, PieChartData2);
+            }
 
             // Line chart
-            var lineChartData = getLineChartData(response);
-            var ctxline = document.getElementById('lineChart').getContext('2d');
-            var myLineChart = new Chart(ctxline, lineChartData);
-            
+            if(response.data.employeeBirthYears.length == 0){
+                $( "#line-target" ).after( "<br><p>Nema podataka</p>" );
+                $( "#lineChart" ).attr('hidden', true);
+            }
+            else{
+                $( "#lineChart" ).attr('hidden', false);
+                var lineChartData = getLineChartData(response.data.employeeBirthYears);
+                var ctxline = document.getElementById('lineChart').getContext('2d');
+                var myLineChart = new Chart(ctxline, lineChartData);
+            }
+
             // Vertical bar chart
-            var barChartData = getBarChartData(response);
-            var ctxV = document.getElementById('barChart').getContext('2d');
-            var myBarChart = new Chart(ctxV, barChartData);
+            if(response.data.employeeAge.length == 0){
+                $( "#bar-target" ).after( "<br><p>Nema podataka</p>" );
+                $( "#barChart" ).attr('hidden', true);
+            }
+            else{
+                $( "#barChart" ).attr('hidden', false);
+                var barChartData = getBarChartData(response);
+                var ctxV = document.getElementById('barChart').getContext('2d');
+                var myBarChart = new Chart(ctxV, barChartData);
+            }
+
         });
 
     </script>

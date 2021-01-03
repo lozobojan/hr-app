@@ -131,6 +131,8 @@
             });
 
             $(".fa-plus").click(function(){
+                $('input[type=radio]').prop('checked',false);
+                $("#name").val('');
                 $('#parent_id').val($(this).data('id'));
             });
 
@@ -160,6 +162,8 @@
             });
 
             $("#add").click(function(){
+                $('input[type=radio]').prop('checked',false);
+                $("#name").val('');
                 $('#parent_id').val("{{ isset($id) ? $id : '0' }}");
             });
             

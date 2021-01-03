@@ -16,6 +16,11 @@ class Employee extends Model
     public $primaryKey = "id";
     protected $guarded = [];
 
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->attributes['birth_date'])->age;
+    }
+
     public function getBirthDateAttribute($value)
     {
         return Carbon::parse($value)->format("d.m.Y.");

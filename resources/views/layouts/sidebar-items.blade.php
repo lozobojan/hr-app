@@ -32,7 +32,19 @@
                 </p>
             </a>
             <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+
                 <li class="nav-item">
+                    <div class=" input-group">
+                        <input class="form-control" type="search" placeholder="Pretraga" id="keyword">
+                        <span class="input-group-append mr-1">
+                        <button class="btn btn-outline-secondary border-left-0 border " id="search" type="button">
+                                <i class="fa fa-search"></i>
+                        </button>
+                        </span>
+                    </div>
+                </li>
+
+                <li class="nav-item mt-1">
                     <a href="{{ route('documents') }}" class="nav-link {{strpos(Route::current()->getName(), 'documents' ) !== false ? "active" : ""}}">
                         <i class="fas fa-database"></i>
                         <p>Prikazi sve</p>

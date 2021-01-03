@@ -72,4 +72,11 @@ class DocumentationController extends Controller
         $doc->delete();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
     }
+
+    public function search($word){
+        $doc = Documentation::where('name', 'like', '%'.$word.'%')->get();
+        return view('documentation', [
+            'roots' => $doc
+        ]);
+    }
 }

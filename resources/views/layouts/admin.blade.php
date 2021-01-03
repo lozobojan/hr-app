@@ -249,6 +249,10 @@
                     $("#target-file").append(`<li class="nav-item"><a href="/`+ response.data.files[i].file_path +`" target="_blank" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.files[i].name +`</p></a></li>`);
                 }
             });
+        $("#search").click(function(){
+            var keyword = $("#keyword").val();
+            window.location.href = "/directory/search/" + keyword;
+        });            
     });
 </script>
 
