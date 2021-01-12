@@ -22,8 +22,8 @@
             </a>
         </li>
 
-        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
-            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "active" : " "}}">
+        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('search*'))  || (request()->is('directory*')) ) ? "menu-open" : " "}}">
+            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('search*')) || (request()->is('directory*')) ) ? "active" : " "}}">
                 <i class="nav-icon fas fa-database"></i>
 
                 <p>
@@ -31,7 +31,7 @@
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('search*')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "block" : "none"}};">
 
                 <li class="nav-item">
                     <div class=" input-group">

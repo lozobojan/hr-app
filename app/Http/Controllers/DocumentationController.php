@@ -20,7 +20,6 @@ class DocumentationController extends Controller
         $roots = Documentation::root()->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        
         return view('documentation', compact('roots', 'types', 'sectors'));
     }
     

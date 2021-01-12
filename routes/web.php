@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/directory/delete/{id}', [DocumentationController::class, 'delete']);
     Route::get('/directory/delete-dir/{id}', [DocumentationController::class, 'deleteDirectory']);
     Route::get('/directory/delete-all/{id}', [DocumentationController::class, 'deleteAll']);
-    Route::get('/directory/search/{word}', [DocumentationController::class, 'search']);
+    Route::get('/search/{word}', [DocumentationController::class, 'search']);
     Route::get('/tag/sector/{id}', [DocumentationController::class, 'showBySector']);
     Route::get('/tag/type/{id}', [DocumentationController::class, 'showByType']);
     

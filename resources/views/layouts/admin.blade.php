@@ -269,7 +269,7 @@
             });
         $("#search").click(function(){
             var keyword = $("#keyword").val();
-            window.location.href = "/directory/search/" + keyword;
+            window.location.href = "/search/" + keyword;
         });            
     });
 </script>
