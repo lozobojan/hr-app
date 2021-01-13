@@ -11,7 +11,7 @@ function getChartData(data, type){
         { legend: { display: false }, scales: { yAxes: [{ ticks: { beginAtZero: true } }], xAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", } }] } },
         { legend: { display: false } }
     ];
-    var color = new Array();
+    var color = [`rgba(0,0,0,0.5)`];
     var labels = new Array();
     var count = new Array();
 
@@ -95,11 +95,11 @@ axios.get('/api/employees-sector')
     .then((response) => {
         console.log(response);
 
-        $("#avg-target").val(response.data.avgSalary.salary);
-        $("#avg-service-target").val(response.data.avgService.date);
+        $("#avg-target").val(`${response.data.avgSalary.salary} €`);
+        $("#avg-service-target").val(`${response.data.avgService.date} godina`);
 
         // Horizontal bar chart
-        checkForData(response.data.employeeCountOne, 'hbar', 1);
+        checkForData(response.data.employeesBySector, 'hbar', 1);
 
         // Horizontal bar chart 2
         checkForData(response.data.salaryBySector, 'hbar2', 1);
@@ -110,8 +110,14 @@ axios.get('/api/employees-sector')
         // Pie chart 2
         checkForData(response.data.employeeCountTwo, 'pie2', 0);
 
+        // Pie chart 3
+        checkForData(response.data.employeeCountThree, 'pie3', 0);
+        
+        // Pie chart 4
+        checkForData(response.data.employeeCountFour, 'pie4', 0);
+
         // Line chart
-        checkForData(response.data.employeeBirthYears, 'line', 3);
+        checkForData(response.data.employeeCountPerYear, 'line', 3);
 
         // Vertical bar chart
         checkForData(response.data.employeeAge, 'bar', 2);

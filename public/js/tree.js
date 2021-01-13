@@ -1,3 +1,12 @@
+function resetModal(){
+    $('input[type=radio]').prop('checked', false);
+    $("#name").val('');
+    $('#name').attr("placeholder", "Naziv direktorijuma ili fajla");
+    $("#expiration_date").val('');
+    $("#type_id").val('');
+    $("#sector_id").val('');
+    $('#file_input').hide();
+}
 
 $(function () {
 
@@ -13,16 +22,23 @@ $(function () {
         }
         e.stopPropagation();
     });
+    
+    $("#add").click(function () {
+        resetModal();
+        $('#parent_id').val($(this).data('id'));
+    });
 
     $(".fa-plus").click(function () {
-        $('input[type=radio]').prop('checked', false);
-        $("#name").val('');
+        resetModal();
         $('#parent_id').val($(this).data('id'));
     });
 
     $(".fa-folder-minus").click(function () {
         var id = $(this).data("id");
-        console.log(id);
+        if(id == 1){
+            swal("Brisanje foldera nije moguce!");
+            return;    
+        }
         swal("Da li želite da izbrišete i sadržaj foldera?", {
             buttons: {
                 da: {
@@ -45,14 +61,23 @@ $(function () {
         });
     });
 
-    $("#add").click(function () {
-        $('input[type=radio]').prop('checked', false);
-        $("#name").val('');
-        $("#expiration_date").val('');
-        $("#type_id").val('');
-        $("#sector_id").val('');
-        $('#parent_id').val("{{ isset($id) ? $id : '0' }}");
+    $(".fa-trash-alt").click(function () {
+        var id = $(this).data("id");
+        swal("Da li želite da izbrišete dokument?", {
+            buttons: {
+                da: {
+                    text: "Da!",
+                    value: "1",
+                },
+                cancel: "Otkaži",
+            },
+        }).then((value) => {
+            if (value == 1) {
+                window.location.href = "/directory/delete/" + id;
+            }
+        });
     });
+
 
     $('input[type=radio][name=is_folder]').change(function () {
         if (this.value == '1') {
@@ -64,6 +89,4 @@ $(function () {
             $('#file_input').show();
         }
     });
-
-    $('#file_input').hide();
 });

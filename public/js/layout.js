@@ -8,7 +8,7 @@ function navItem(data, currentURL){
         else{
             var deepKeys = Object.keys(data[keyValues[j]][0]);
             for(var i = 0; i < data[keyValues[j]].length; i++){
-                $(`#target-${keyValues[j]}`).append(`<li class="nav-item"><a href="${url[j]+data[keyValues[j]][i][deepKeys[0]]}" ${j == 1 ? 'target="_blank"' : ""} class="nav-link ${ currentURL.includes(url[j]+data[keyValues[j]][i][deepKeys[0]]) ? "active" : ""}"><i class="far fa-circle nav-icon"></i><p>${data[keyValues[j]][i][deepKeys[1]]}</p></a></li>`);
+                $(`#target-${keyValues[j]}`).append(`<li class="nav-item"><a href="${url[j]+data[keyValues[j]][i][deepKeys[0]]}" ${j == 1 ? 'target="_blank"' : ""} class="nav-link ${ currentURL.substr(21) == (url[j]+data[keyValues[j]][i][deepKeys[0]]) ? "active" : ""}"><i class="far fa-circle nav-icon"></i><p>${data[keyValues[j]][i][deepKeys[1]]}</p></a></li>`);
             }
         }
     }
@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     axios.get('/api/directories')
         .then((response) => {
-            var test = Object.keys(response.data);
+            console.log(response.data);
             url = window.location.href;
             navItem(response.data, url);
 

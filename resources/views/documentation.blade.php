@@ -14,17 +14,14 @@
 
 @section('content')
 <div class="tree">
-
-    <a id="add" class="btn btn-outline-info " href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
+    <a id="add" class="btn btn-outline-info " href="javascript:void(0)" data-toggle="modal" data-target="#myModal" data-id="{{ isset($id) ? $id : 0 }}">
         Dodaj
     </a>
-
     <ul>
         @foreach($roots as $root)
         {!!$root->showTree()!!}
         @endforeach
     </ul>
-
 </div>
 @endsection
 
