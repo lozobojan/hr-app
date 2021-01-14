@@ -55,10 +55,10 @@ function getChartData(data, type){
 
         case (3):
             labels[0] = data[0].year;
-            count[0] = data[0].count;
+            count[0] = parseInt(data[0].count);
             for (var i = 1; i < data.length; i++) {
                 labels[i] = data[i].year;
-                count[i] = count[i - 1] + data[i].count;
+                count[i] = count[i - 1] + parseInt(data[i].count);
             }
             break;
     }

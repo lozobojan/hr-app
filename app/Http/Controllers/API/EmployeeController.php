@@ -5,11 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\EmployeeJobDescription;
-use App\Models\EmployeeJobStatus;
-use App\Models\EmployeeSalary;
-use App\Models\Sector;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -32,59 +27,59 @@ class EmployeeController extends Controller
 
         //Prosjecan radni staz
         $avgService = DB::table('employee_job_statuses')
-        ->selectRaw('DATE_FORMAT(FROM_DAYS(CEILING(avg(DATEDIFF(CURRENT_DATE, date_hired)))), "%y") AS date ')->
-        first();
+            ->selectRaw('DATE_FORMAT(FROM_DAYS(CEILING(avg(DATEDIFF(CURRENT_DATE, date_hired)))), "%y") AS date ')
+            ->first();
         
         
         //Zaposleni po sektorima
         $employeesBySector = EmployeeJobDescription::join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->groupBy('sector_id')
-        ->selectRaw('sector_id, name, count(*) count')
-        ->get();
+            ->groupBy('sector_id')
+            ->selectRaw('sector_id, name, count(*) count')
+            ->get();
 
         //Prosjecna plata po sektorima
         $salaryBySector = DB::table('employee_job_descriptions')
-        ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->join('employee_salaries','employee_job_descriptions.employee_id','=','employee_salaries.employee_id')
-        ->groupBy('id')
-        ->selectRaw('sectors.name, sectors.id, AVG(employee_salaries.bonus + employee_salaries.pay) count')
-        ->get();
+            ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
+            ->join('employee_salaries','employee_job_descriptions.employee_id','=','employee_salaries.employee_id')
+            ->groupBy('id')
+            ->selectRaw('sectors.name, sectors.id, AVG(employee_salaries.bonus + employee_salaries.pay) count')
+            ->get();
         
         //Ugovor na odredjeno
         $employeeCountOne = DB::table('employee_job_descriptions')
-        ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-        ->where('type', 1)
-        ->select('sector_id', 'name', DB::raw('count(*) as count'))
-        ->groupBy('sector_id')
-        ->get();
+            ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
+            ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
+            ->where('type', 1)
+            ->select('sector_id', 'name', DB::raw('count(*) as count'))
+            ->groupBy('sector_id')
+            ->get();
         
         //Ugovor na neodredjeno
         $employeeCountTwo = DB::table('employee_job_descriptions')
-        ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-        ->where('type', 2   )
-        ->select('sector_id', 'name', DB::raw('count(*) as count'))
-        ->groupBy('sector_id')
-        ->get();
+            ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
+            ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
+            ->where('type', 2   )
+            ->select('sector_id', 'name', DB::raw('count(*) as count'))
+            ->groupBy('sector_id')
+            ->get();
 
         //Ugovor za stalno
         $employeeCountThree = DB::table('employee_job_descriptions')
-        ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-        ->where('type', 3)
-        ->select('sector_id', 'name', DB::raw('count(*) as count'))
-        ->groupBy('sector_id')
-        ->get();
+            ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
+            ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
+            ->where('type', 3)
+            ->select('sector_id', 'name', DB::raw('count(*) as count'))
+            ->groupBy('sector_id')
+            ->get();
 
         //Ugovor za probni rad
         $employeeCountFour = DB::table('employee_job_descriptions')
-        ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-        ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-        ->where('type', 4)
-        ->select('sector_id', 'name', DB::raw('count(*) as count'))
-        ->groupBy('sector_id')
-        ->get();
+            ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
+            ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
+            ->where('type', 4)
+            ->select('sector_id', 'name', DB::raw('count(*) as count'))
+            ->groupBy('sector_id')
+            ->get();
         
         //Starost zaposlenih
         $employeeBirthYears = Employee::select(DB::raw('YEAR(birth_date) year'))->get();
@@ -94,7 +89,24 @@ class EmployeeController extends Controller
         }
 
         //Broj zaposlenih po godinama
-        $employeeCountPerYear = EmployeeJobStatus::select(DB::raw('YEAR(date_hired) year'), DB::raw('count(*) as count'))->groupby('year')->get();
+        $employeeCountPerYear = DB::select('SELECT year, sum(count) as count
+                                            FROM(
+                                                SELECT year(date_hired) year, count(*) count FROM `employee_job_statuses` GROUP BY year
+                                                UNION
+                                                SELECT year(date_hired_till) year, -count(*) count FROM `employee_job_statuses` GROUP BY year
+                                            ) as test
+                                            GROUP BY year
+                                        ');
+                   
+        // $test = EmployeeJobStatus::select(DB::raw('year(date_hired) year'), DB::raw('count(*) count'))
+        //                         ->groupBy('year')
+        //                         ->union(
+        //         EmployeeJobStatus::select(DB::raw('year(date_hired_till) year'), DB::raw('count(*) count'))
+        //                         ->groupBy('year'))
+        //                         ->select('year', DB::raw('sum(count) as count'))
+        //                         ->groupBy('year')
+        //                         ->get();
+        // return $test;
 
         return response(compact('salaryBySector', 'employeesBySector', 'employeeCountOne','employeeCountTwo', 'employeeBirthYears', 'employeeAge' , 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'));
     }
