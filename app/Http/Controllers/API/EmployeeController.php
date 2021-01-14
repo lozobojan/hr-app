@@ -95,18 +95,9 @@ class EmployeeController extends Controller
                                                 UNION
                                                 SELECT year(date_hired_till) year, -count(*) count FROM `employee_job_statuses` GROUP BY year
                                             ) as test
+                                            WHERE year <= year(now())
                                             GROUP BY year
                                         ');
-                   
-        // $test = EmployeeJobStatus::select(DB::raw('year(date_hired) year'), DB::raw('count(*) count'))
-        //                         ->groupBy('year')
-        //                         ->union(
-        //         EmployeeJobStatus::select(DB::raw('year(date_hired_till) year'), DB::raw('count(*) count'))
-        //                         ->groupBy('year'))
-        //                         ->select('year', DB::raw('sum(count) as count'))
-        //                         ->groupBy('year')
-        //                         ->get();
-        // return $test;
 
         return response(compact('salaryBySector', 'employeesBySector', 'employeeCountOne','employeeCountTwo', 'employeeBirthYears', 'employeeAge' , 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'));
     }
