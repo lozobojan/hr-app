@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees/store');
     Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees/show');
     Route::get('/employees/export/{id}', [EmployeeController::class, 'export'])->name('employee.export');
+    Route::post('/employees/filter', [EmployeeController::class, 'filter'])->name('employees.filter');
    // Route::get('/pdf/{id}', [EmployeeController::class, 'pdf'])->name('employee.pdf');
     Route::get('/pdf/{id}', [EmployeeController::class, 'createPDF']);
     Route::get('/doc/{id}', [EmployeeController::class, 'doc']);
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/search/{word}', [DocumentationController::class, 'search']);
     Route::get('/tag/sector/{id}', [DocumentationController::class, 'showBySector']);
     Route::get('/tag/type/{id}', [DocumentationController::class, 'showByType']);
-    
+
     // ------------------------------------ Organizaciona struktura (drvo) --------------------------------------
     Route::get('/structure', function(){return view('structure');})->name('structure');
 

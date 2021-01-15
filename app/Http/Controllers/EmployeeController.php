@@ -172,6 +172,44 @@ class EmployeeController extends Controller
     }
 
 
+    public function filter(Request $request){
+       // dd($request);
+        $sector = $request->sector;
+        $type = $request->type;
+        $bank_name = $request->bank_name;
+        $salary = $request->salary;
+
+
+        $objects = Employee::with('employeeJobDescription');
+
+        $objects = Employee::whereHas('employeeJobDescription', function($q) use ($sector, $request) {
+            if($request->filled('sector')){
+                $q->where('employee_job_descriptions.sector_id', $sector);
+            }
+        })->whereHas('employeeSalary', function($q) use ($salary, $request, $bank_name){
+            if($request->filled('bank_name')){
+                $q->where('employee_salaries.bank_name','LIKE',$bank_name);
+            }
+            if($request->filled('salary')){
+                $q->where('employee_salaries.pay','>=',$salary);
+            }
+        })->whereHas('employeeJobStatus', function($q) use ($request, $type){
+            if($request->filled('type')){
+                $q->where('employee_job_statuses.type',$type);
+            }
+        })
+            ->get();
+
+        $sectors = Sector::get();
+        $types = HireType::get();
+        $data = [
+            "objects" => $objects,
+            "sectors" => $sectors,
+            "types" => $types,
+        ];
+        return view("employees.index")->with($data);
+    }
+
 
 
     public function createPDF($id) {
@@ -203,7 +241,7 @@ class EmployeeController extends Controller
     public function export($id)
     {
         $employee = new EmployeeExport($id);
-        
+
         $name = $employee->fileName();
         return Excel::download($employee, "$name.xlsx");
         return redirect()->back();

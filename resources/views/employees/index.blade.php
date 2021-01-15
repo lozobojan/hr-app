@@ -35,38 +35,57 @@
                             <div class="row advancedSearchOptions d-none">
                                 <div class="col">
 
+                                    <form action="{{route('employees.filter')}}" method="POST">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-md-2 pl-1">
                                                 <div class="form-group">
                                                     <label>Tip zaposlenja</label>
-                                                    <select name="typeFilter"  id="typeFilter" class="form-control">
-                                                        <option>Odaberi tip</option>
-                                                        <option>odredjeno</option>
-                                                        <option>neodredjeno</option>
-                                                        <option>stalno</option>
-                                                        <option>probni rad</option>
+                                                    <select name="type"  id="typeFilter" class="form-control">
+                                                        <option></option>
+                                                        @foreach($types as $type)
+                                                            <option value="{{ $type->id }}">
+                                                                {{ $type->type }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pl-1">
                                                 <div class="form-group">
                                                     <label for="sectorFilter">Sektor</label>
-                                                    <select name="sectorFilter"  id="sectorFilter" class="form-control">
-                                                        <option>Odaberi sektor</option>
-                                                        <option>Marketing</option>
-                                                        <option>Delivery</option>
-                                                        <option>Human resources</option>
-                                                        <option>Finansije</option>
+                                                    <select name="sector"  id="sectorFilter" class="form-control">
+                                                        <option></option>
+                                                        @foreach($sectors as $sector)
+                                                            <option value="{{ $sector->id }}">
+                                                                {{ $sector->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
 
-                                        </div>
+                                            <div class="col-md-2 pl-1">
+                                                <div class="form-group">
+                                                    <label for="bank">Banka</label>
+                                                    <input type="text" name="bank_name" class="form-control">
+                                                </div>
+                                            </div>
 
-                                    <div class="text-center">
-                                        <a class="btn btn-success btn-sm filterTable" href="#"><i class="fa fa-filter "></i> Filter</a>
-                                        <a class="btn btn-secondary btn-sm filterTableClear"  href="#"><i class="fa fa-eraser "></i> Clear Filter</a>
-                                    </div>
+                                            <div class="col-md-2 pl-1">
+                                                <div class="form-group">
+                                                    <label for="salary">Plata > od</label>
+                                                    <input type="number" name="salary" class="form-control" placeholder="Plata > od">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-filter "></i> Filter</button>
+
+                                            <a class="btn btn-secondary btn-sm filterTableClear"  href="{{route('employees')}}"><i class="fa fa-eraser "></i> Clear Filter</a>
+                                        </div>
+                                </form>
+
+
                                 </div>
                             </div>
                             <div class="row">
@@ -399,12 +418,12 @@
 $('.btnNext').click(function() {
     $('.nav-tabs-pills .active').parent().next('li').find('a').trigger('click');
     $("#myModal").delay(400).animate({ scrollTop: 0 }, "normal");
-  
+
 });
 
 $('.btnPrevious').click(function() {
     $('.nav-tabs-pills .active').parent().prev('li').find('a').trigger('click');
-    
+
     $("#myModal").delay(400).animate({ scrollTop: 0 }, "normal");
 });
 
@@ -455,7 +474,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -464,13 +483,13 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12 text-center">
                                 <img width="40%" style="max-height:25%" id="imageHolder"/>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -479,15 +498,15 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
-        
-        
+
+
+
                  {{--       <div class="row">
                             <div class="col-12">
                                 <img width="100%" style="max-height:25%" id="imageHolder"/>
                             </div>
                         </div>--}}
-        
+
                   {{--      <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -496,7 +515,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>--}}
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -510,7 +529,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -519,7 +538,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -528,7 +547,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -537,7 +556,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -549,7 +568,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -558,7 +577,7 @@ $('.btnPrevious').click(function() {
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -573,7 +592,7 @@ $('.btnPrevious').click(function() {
                             </div>
                         </div>
 
-                        
+
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -616,7 +635,7 @@ $('.btnPrevious').click(function() {
                 </div>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                        
+
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -663,7 +682,7 @@ $('.btnPrevious').click(function() {
                 </div>
                     </div>
                     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        
+
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -734,7 +753,7 @@ $('.btnPrevious').click(function() {
                 </div>
                     </div>
                     <div class="tab-pane fade" id="pills-contact2" role="tabpanel" aria-labelledby="pills-contact2-tab">
-                        
+
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -780,22 +799,22 @@ $('.btnPrevious').click(function() {
                     <div class="col-6 col-sm-auto" id="btnPrevious">
                         <a class="btn btn-primary text-white btnPrevious">Prethodni</a>
                     </div>
-            
+
                 </div>
-        
+
                     </div>
                   </div>
 
-                
 
 
-             
+
+
 
 
 
                 {{--PLATA--}}
 
-            
+
 
 
             </div>
