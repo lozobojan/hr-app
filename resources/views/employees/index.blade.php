@@ -40,7 +40,7 @@
                                                 <div class="form-group">
                                                     <label>Tip zaposlenja</label>
                                                     <select name="typeFilter"  id="typeFilter" class="form-control">
-                                                        <option></option>
+                                                        <option>Odaberi tip</option>
                                                         <option>odredjeno</option>
                                                         <option>neodredjeno</option>
                                                         <option>stalno</option>
@@ -52,7 +52,7 @@
                                                 <div class="form-group">
                                                     <label for="sectorFilter">Sektor</label>
                                                     <select name="sectorFilter"  id="sectorFilter" class="form-control">
-                                                        <option></option>
+                                                        <option>Odaberi sektor</option>
                                                         <option>Marketing</option>
                                                         <option>Delivery</option>
                                                         <option>Human resources</option>
@@ -321,11 +321,13 @@
             table.column(20).search("");
             console.log("cleared");
             table.draw();
-            if($("#typeFilter").val() == ""){
+            if($("#typeFilter").val() == "Odaberi tip"){
                 table.column(20).search($('#sectorFilter option:selected').val());
             }
-            else if($("#sectorFilter").val() == ""){
-                table.column(12).search("^"+$('#typeFilter option:selected').val()+"$");
+            else if($("#sectorFilter").val() == "Odaberi sektor"){
+                table.column(12).search($('#typeFilter option:selected').val());
+                console.log("TIP SE BIRA");
+                console.log("^"+$('#typeFilter option:selected').val()+"$");
             }
             else{
                 table.column(12).search("^"+$('#typeFilter option:selected').val()+"$");
@@ -357,6 +359,7 @@
             $('#telephone_number').val(returndata.telephone_number );
             $('#mobile_number').val(returndata.mobile_number );
             $('#additional_info_contact').val(returndata.additional_info_contact );
+            $('#office_number').val(returndata.office_number );
             $('#pid').val(returndata.pid );
             $('#pid').select2().trigger('change');
             $("input[name=gender][value=" + returndata.gender + "]").prop('checked', true);
@@ -393,6 +396,18 @@
 
             $('.js-example-basic-single').select2();
 
+$('.btnNext').click(function() {
+    $('.nav-tabs-pills .active').parent().next('li').find('a').trigger('click');
+    $("#myModal").delay(400).animate({ scrollTop: 0 }, "normal");
+  
+});
+
+$('.btnPrevious').click(function() {
+    $('.nav-tabs-pills .active').parent().prev('li').find('a').trigger('click');
+    
+    $("#myModal").delay(400).animate({ scrollTop: 0 }, "normal");
+});
+
     </script>
     <style>
         .select2-selection__rendered {
@@ -416,137 +431,149 @@
         <div class="modal-body">
             <div class="container">
 
-                <div class="card-header bg-dark">
-                    Osnovne informacije
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="name">Ime *</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Ime" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="last_name">Prezime *</label>
-                            <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <img width="40%" style="max-height:25%" id="imageHolder"/>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="image">Fotografija *</label>
-                            <input type="file" id="image" class="form-control" name="image"/>
-                        </div>
-                    </div>
-                </div>
-
-
-
-         {{--       <div class="row">
-                    <div class="col-12">
-                        <img width="100%" style="max-height:25%" id="imageHolder"/>
-                    </div>
-                </div>--}}
-
-          {{--      <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="image">Fotografija *</label>
-                            <input type="file" id="image" class="form-control" name="image"/>
-                        </div>
-                    </div>
-                </div>--}}
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="birth_date">Datum rodjenja *</label>
-                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                <input name="birth_date" id="birth_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                <ul class="nav nav-pills mb-3 nav-tabs-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Osnovne informacije</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Plata</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Status posla</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-contact2-tab" data-toggle="pill" href="#pills-contact2" role="tab" aria-controls="pills-contact2" aria-selected="false">Opis posla</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="name">Ime *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Ime" />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Kvalifikacije *</label>
-                            <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="last_name">Prezime *</label>
+                                    <input id="last_name" class="form-control" type="text" placeholder="Prezime" name="last_name">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="home_address">Adresa *</label>
-                            <input type="text" class="form-control" id="home_address" name="home_address" placeholder="Adresa" />
+        
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img width="40%" style="max-height:25%" id="imageHolder"/>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="jmbg">JMBG *</label>
-                            <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="image">Fotografija *</label>
+                                    <input type="file" id="image" class="form-control" name="image"/>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="text_me">Pol *</label><br>
-                            <input type="radio" id="male" name="gender" value="0" >
-                            <label for="male">Muško</label><br>
-                            <input type="radio" id="female" name="gender" value="1">
-                            <label for="female">Žensko</label><br>
+        
+        
+        
+                 {{--       <div class="row">
+                            <div class="col-12">
+                                <img width="100%" style="max-height:25%" id="imageHolder"/>
+                            </div>
+                        </div>--}}
+        
+                  {{--      <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="image">Fotografija *</label>
+                                    <input type="file" id="image" class="form-control" name="image"/>
+                                </div>
+                            </div>
+                        </div>--}}
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="birth_date">Datum rodjenja *</label>
+                                    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                        <input name="birth_date" id="birth_date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                                        <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="email">Email *</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="text_me">Kvalifikacije *</label>
+                                    <textarea class="form-control" id="qualifications" name="qualifications" placeholder="Kvalifikacije" ></textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="col-form-label" for="pid">Nadredjeni *</label>
-                            <select class="js-" style="width: 100%;" name="pid" id="pid">
-                                <option value="">Odaberite nadredjenog</option>
-                               @foreach($objects as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
-                                @endforeach
-                            </select>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="home_address">Adresa *</label>
+                                    <input type="text" class="form-control" id="home_address" name="home_address" placeholder="Adresa" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="jmbg">JMBG *</label>
+                                    <input type="number" class="form-control" id="jmbg" name="jmbg" placeholder="JMBG" >
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="text_me">Pol *</label><br>
+                                    <input type="radio" id="male" name="gender" value="0" >
+                                    <label for="male">Muško</label><br>
+                                    <input type="radio" id="female" name="gender" value="1">
+                                    <label for="female">Žensko</label><br>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="email">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="pid">Nadredjeni *</label>
+                                    <select class="js-" style="width: 100%;" name="pid" id="pid">
+                                        <option value="">Odaberite nadredjenog</option>
+                                       @foreach($objects as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-
+                        
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -564,7 +591,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -574,14 +600,23 @@
                     </div>
                 </div>
 
-
-
-                {{--PLATA--}}
-
-                <div class="card-header bg-dark">
-                    Plata
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="col-form-label" for="office_number">Broj kancelarije *</label>
+                            <input type="text" class="form-control" id="office_number" name="office_number" placeholder="Broj kancelarije" >
+                        </div>
+                    </div>
                 </div>
 
+                <div class="row navbuttons pt-5">
+                    <div class="col-6 col-sm-auto" id="btnNext">
+                        <a class="btn btn-primary text-white btnNext">Sledeći</a>
+                    </div>
+                </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -618,14 +653,17 @@
                     </div>
                 </div>
 
-
-
-                {{--JOB STATUS--}}
-
-                <div class="card-header bg-dark">
-                    Status posla
+                <div class="row navbuttons pt-5">
+                    <div class="col-6 col-sm-auto" id="btnPrevious">
+                        <a class="btn btn-primary text-white btnPrevious">Prethodni</a>
+                    </div>
+                    <div class="col-6 col-sm-auto" id="btnNext">
+                        <a class="btn btn-primary text-white btnNext">Sledeći</a>
+                    </div>
                 </div>
-
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -686,14 +724,17 @@
                         </div>
                     </div>
                 </div>
-
-
-                {{--JOB DESCRIPTIONS--}}
-
-                <div class="card-header bg-dark">
-                    Opis posla
+                <div class="row navbuttons pt-5">
+                    <div class="col-6 col-sm-auto" id="btnPrevious">
+                        <a class="btn btn-primary text-white btnPrevious">Prethodni</a>
+                    </div>
+                    <div class="col-6 col-sm-auto" id="btnNext">
+                        <a class="btn btn-primary text-white btnNext">Sledeći</a>
+                    </div>
                 </div>
-
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact2" role="tabpanel" aria-labelledby="pills-contact2-tab">
+                        
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group">
@@ -735,7 +776,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="row navbuttons pt-5">
+                    <div class="col-6 col-sm-auto" id="btnPrevious">
+                        <a class="btn btn-primary text-white btnPrevious">Prethodni</a>
+                    </div>
+            
+                </div>
+        
+                    </div>
+                  </div>
 
+                
+
+
+             
+
+
+
+                {{--PLATA--}}
+
+            
 
 
             </div>

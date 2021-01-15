@@ -57,6 +57,7 @@ class EmployeeRequest extends FormRequest
             'mobile_number' =>'nullable',
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
+            'office_number'=>'nullable',
         ];
     }
 
@@ -77,6 +78,7 @@ class EmployeeRequest extends FormRequest
             'mobile_number' =>'nullable',
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
+            'office_number'=>'nullable',
         ];
     }
 
