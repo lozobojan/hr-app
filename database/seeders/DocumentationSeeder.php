@@ -12,6 +12,7 @@ class DocumentationSeeder extends Seeder
     public function run(){
         
         $names = [
+            'Zaposleni',
             'HR',
             'Marketing',
             'Finansije',
@@ -23,24 +24,23 @@ class DocumentationSeeder extends Seeder
             'Level 3',
             'Level 4',
             'Level 1',
-            'Level 2',
-            'Level 1',
+            'Level 2'
         ];
 
         $parent_id = [
             null,
             null,
             null,
-            1,
-            4,
-            5,
+            null,
             2,
-            7,
+            5,
+            6,
+            3,
             8,
             9,
-            1,
-            11,
-            1
+            10,
+            4,
+            12
         ];
 
         for($i = 0; $i < count($names); $i++){

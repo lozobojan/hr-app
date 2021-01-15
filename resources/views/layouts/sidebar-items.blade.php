@@ -59,7 +59,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-dir">
+                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-directories">
                 
                     </ul>
                 </li>
@@ -72,7 +72,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display:none" id="target-file">
+                    <ul class="nav nav-treeview" style="display:none" id="target-files">
                 
                     </ul>
                 </li>
@@ -95,7 +95,7 @@
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/sector*')) ) ? "block" : "none"}}" id="target-sector">
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/sector*')) ) ? "block" : "none"}}" id="target-sectors">
                             
                             </ul>
                         </li>
@@ -108,7 +108,7 @@
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/type*')) ) ? "block" : "none"}}" id="target-type">
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/type*')) ) ? "block" : "none"}}" id="target-types">
                             
                             </ul>
                         </li>

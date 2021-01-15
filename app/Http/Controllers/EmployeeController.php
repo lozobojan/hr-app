@@ -16,6 +16,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
 use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
+use App\Models\Documentation;
 use DB;
 use Illuminate\Support\Carbon;
 use View;
@@ -59,6 +60,12 @@ class EmployeeController extends Controller
             $jobStatusRequest = $request3->validated();
             $jobDescriptionRequest = $request4->validated();
             $employee = Employee::create($data);
+            Documentation::create([
+                "name" => $employee->name." ".$employee->last_name,
+                "parent_id" => 1,
+                "sector_id" => $jobDescriptionRequest["sector_id"],
+                "is_folder" => 1
+            ]);
             $salaryRequest["employee_id"] = $employee->id;
             $jobStatusRequest["employee_id"] = $employee->id;
             $jobStatusRequest["date_hired"] = Carbon::createFromFormat("d.m.Y.",$jobStatusRequest['date_hired']);
