@@ -84,16 +84,17 @@
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
-            @if($notifications->isNotEmpty())
+            
+            @if($notificationsEmp->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-danger">{{count($notifications)}}</span>
+                    <span class="badge badge-danger">{{count($notificationsEmp)}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width:500px!important;">
-                    <span class="dropdown-item dropdown-header">{{count($notifications)}} ugovora uskoro isticu</span>
+                    <span class="dropdown-item dropdown-header">{{count($notificationsEmp)}} ugovora uskoro isticu</span>
                     <div class="dropdown-divider"></div>
-                    @foreach($notifications as $notification)
+                    @foreach($notificationsEmp as $notification)
                         <a href="/employees/{{$notification->employee_id}}" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i> {{$notification->name}} {{$notification->last_name}}
                             <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>

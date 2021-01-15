@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\EmployeeSalary;
+use App\Models\EmployeeJobStatus;
 use Illuminate\Http\Request;
 use DB;
 use Acaronlex\LaravelCalendar\Calendar;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -32,7 +34,9 @@ class HomeController extends Controller
             ->join('employees', 'employees.id', '=', 'employee_job_statuses.employee_id')
             ->whereRaw('datediff(date_hired_till, now()) < 60 AND datediff(date_hired_till, now()) >0')->get();
 
-        $employeesCount = Employee::count();
+
+        $employeesNumber = EmployeeJobStatus::whereDate('date_hired_till', '>', Carbon::now())->get();
+        $employeesCount = $employeesNumber->count();
         $avgSalary = EmployeeSalary::avg('pay');
         $avgAge = DB::table('employees')
             ->selectRaw("avg(DATE_FORMAT(FROM_DAYS(DATEDIFF(CURRENT_DATE, birth_date)),'%y')) AS age ")

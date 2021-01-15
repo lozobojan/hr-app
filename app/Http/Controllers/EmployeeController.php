@@ -203,6 +203,7 @@ class EmployeeController extends Controller
     public function export($id)
     {
         $employee = new EmployeeExport($id);
+        
         $name = $employee->fileName();
         return Excel::download($employee, "$name.xlsx");
         return redirect()->back();
@@ -220,7 +221,7 @@ class EmployeeController extends Controller
         $contents = View::make('employees.docs.sample')->with('data', $data);
         $response = \Response::make($contents, 200);
         $response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
-        return $response;
+        return view('employees.docs.sample', compact('data'));
         //// share data to view
         //return view('employees.docs.sample', compact('data'));
 

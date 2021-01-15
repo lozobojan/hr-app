@@ -13,7 +13,9 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header" id="top">
-                        <h2 class="pageheader-title mt-3 text-center"> {{ $employee->name }} {{$employee->last_name}}</h2>
+                        <h2 class="pageheader-title mt-3 text-center"> 
+                            <img src="{{ $employee->image }}" alt="..." class="img-thumbnail" style="width: 10%;">
+                            {{ $employee->name }} {{$employee->last_name}}</h2>
                     </div>
                 </div>
             </div>
@@ -188,9 +190,9 @@
 
                                                     <div class="input-group mb-3 border">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i class="fas fa-smile-beam"></i></span>
+                                                            <span class="input-group-text"><i class="fas fa-building"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobDescription->skills }}</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->office_number }}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +212,10 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                        @isset($employee->parent)
+                                                     
 
-                                                            <h6 class="ml-4 mt-2 mb-2">{{ $employee->parent->name }}</h6>
-                                                        @endisset
+                                                            <h6 class="ml-4 mt-2 mb-2"> {{ $employee->employeeJobStatus->hireType->type}}</h6>
+                                                    
                                                     </div>
 
 
@@ -228,7 +230,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-info"></i></span>
                                                         </div>
-                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobStatus->hire_date }}</h6>
+                                                        <h6 class="ml-4 mt-2 mb-2">{{ $employee->employeeJobStatus->status }}</h6>
                                                     </div>
 
                                                 </div>
@@ -341,6 +343,7 @@
             $('#imageHolder').attr({ 'src': returndata.image });
             $('#telephone_number').val(returndata.telephone_number );
             $('#mobile_number').val(returndata.mobile_number );
+            $('#office_number').val(returndata.office_number );
             $('#additional_info_contact').val(returndata.additional_info_contact );
             $('#pid').val(returndata.pid );
             $('#pid').select2().trigger('change');
@@ -400,11 +403,23 @@
                 @csrf
                 <div class="modal-body">
                     <div class="container">
-
-                        <div class="card-header bg-dark">
-                            Osnovne informacije
-                        </div>
-
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Osnovne infomracije</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Plata</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Status posla</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="contact2-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact2" aria-selected="false">Opis posla</a>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -558,15 +573,18 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-                        {{--PLATA--}}
-
-                        <div class="card-header bg-dark">
-                            Plata
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="office_number">Broj kancelarije *</label>
+                                    <input type="text" class="form-control" id="office_number" name="office_number" placeholder="Broj kancelarije" >
+                                </div>
+                            </div>
                         </div>
 
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -603,14 +621,9 @@
                             </div>
                         </div>
 
-
-
-                        {{--JOB STATUS--}}
-
-                        <div class="card-header bg-dark">
-                            Status posla
-                        </div>
-
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -674,13 +687,9 @@
                             </div>
                         </div>
 
-
-                        {{--JOB DESCRIPTIONS--}}
-
-                        <div class="card-header bg-dark">
-                            Opis posla
-                        </div>
-
+                            </div>
+                            <div class="tab-pane fade" id="contact2" role="tabpanel" aria-labelledby="contact2-tab">
+                                
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -722,6 +731,11 @@
                                 </div>
                             </div>
                         </div>
+
+                            </div>
+                          </div>
+
+            
 
 
 

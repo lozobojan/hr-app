@@ -64,6 +64,7 @@ class Employee extends Model
         return $this->hasMany(static::class, 'pid');
     }
 
+
    /*public function sector()
     {
         return $this->belongsTo(Sector::class);
