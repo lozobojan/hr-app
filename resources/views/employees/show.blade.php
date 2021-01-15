@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="page-header" id="top">
-                        <h2 class="pageheader-title mt-3 text-center"> 
+                        <h2 class="pageheader-title mt-3 text-center">
                             <img src="{{ $employee->image }}" alt="..." class="img-thumbnail" style="width: 10%;">
                             {{ $employee->name }} {{$employee->last_name}}</h2>
                     </div>
@@ -130,9 +130,14 @@
                                             </div>
                                         </div>
                                         <div class="col-4 pb-4">
-                                            <div class="h-50 py-2">
+                                            <div class="h-25 py-2">
                                                 <a href="/employees/export/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">
                                                     <i class="fas fa-file-export"></i> Izvezi
+                                                </a>
+                                            </div>
+                                            <div class="h-25 py-2">
+                                                <a href="/doc/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">
+                                                    <i class="fas fa-file-export"></i> Ugovor
                                                 </a>
                                             </div>
                                             <hr class="my-0">
@@ -212,10 +217,10 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                         </div>
-                                                     
+
 
                                                             <h6 class="ml-4 mt-2 mb-2"> {{ $employee->employeeJobStatus->hireType->type}}</h6>
-                                                    
+
                                                     </div>
 
 
@@ -419,7 +424,7 @@
                           </ul>
                           <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -584,7 +589,7 @@
 
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -623,7 +628,7 @@
 
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -689,7 +694,7 @@
 
                             </div>
                             <div class="tab-pane fade" id="contact2" role="tabpanel" aria-labelledby="contact2-tab">
-                                
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
@@ -735,7 +740,7 @@
                             </div>
                           </div>
 
-            
+
 
 
 

@@ -249,17 +249,24 @@ class EmployeeController extends Controller
 
     public function doc($id) {
         // retreive all records from db
-        $data = Employee::with('EmployeeSalary')
+        $employee = Employee::with('EmployeeSalary')
             ->where('id', $id)
             ->first();
+        $dt = Carbon::now()
+            ->format('d.m.Y.');
 
-        $filename = $data->name .' '. $data->last_name;
+        $stuff = [
+          'data' => $employee,
+            'today' => $dt
+        ];
+
+        //$filename = $data->name .' '. $data->last_name;
 
 
-        $contents = View::make('employees.docs.sample')->with('data', $data);
-        $response = \Response::make($contents, 200);
-        $response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
-        return view('employees.docs.sample', compact('data'));
+      //  $contents = View::make('employees.docs.sample')->with('data', $data);
+        //$response = \Response::make($contents, 200);
+        //$response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
+        return view('employees.docs.sample')->with($stuff);
         //// share data to view
         //return view('employees.docs.sample', compact('data'));
 
