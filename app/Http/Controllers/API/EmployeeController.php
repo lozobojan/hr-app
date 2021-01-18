@@ -143,7 +143,6 @@ class EmployeeController extends Controller
                                                     ) as o
                                                 GROUP BY year
                                                 ) as t1
-                                            WHERE (year <= YEAR(NOW()))
                                         ');
 
         return response(compact('salaryBySector', 'employeesBySector', 'employeeCountOne','employeeCountTwo', 'employeeAge' , 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'));
