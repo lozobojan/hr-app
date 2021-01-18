@@ -20,7 +20,7 @@ class EmployeeController extends Controller
         return response()->json(compact("employees"), 200);
     }
     
-    public function employeesBySector(){
+    public function employeesStatistics(){
         
         //Prosjecna plata
         $avgSalary = DB::table('employee_salaries')->selectRaw('ceiling(avg(pay)) as salary')->first();        
@@ -30,12 +30,19 @@ class EmployeeController extends Controller
             ->selectRaw('DATE_FORMAT(FROM_DAYS(CEILING(avg(DATEDIFF(CURRENT_DATE, date_hired)))), "%y") AS date ')
             ->first();
         
-        
         //Zaposleni po sektorima
-        $employeesBySector = EmployeeJobDescription::join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
-            ->groupBy('sector_id')
-            ->selectRaw('sector_id, name, count(*) count')
-            ->get();
+        $employeesBySector = DB::select("SELECT COUNT(*) as count, name
+                                        FROM(
+                                            SELECT sector_id
+                                            FROM(
+                                                SELECT *
+                                                FROM employee_job_statuses 
+                                                WHERE CAST(now() AS date) < date_hired_till
+                                                ) as o
+                                            INNER JOIN employee_job_descriptions ON employee_job_descriptions.employee_id=o.employee_id
+                                            ) as b
+                                            INNER JOIN sectors ON sectors.id=b.sector_id
+                                        GROUP BY sector_id");
 
         //Prosjecna plata po sektorima
         $salaryBySector = DB::table('employee_job_descriptions')
@@ -49,7 +56,7 @@ class EmployeeController extends Controller
         $employeeCountOne = DB::table('employee_job_descriptions')
             ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
             ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-            ->where('type', 1)
+            ->whereRaw('type = 1 AND CAST(now() AS date) < date_hired_till ')
             ->select('sector_id', 'name', DB::raw('count(*) as count'))
             ->groupBy('sector_id')
             ->get();
@@ -58,7 +65,7 @@ class EmployeeController extends Controller
         $employeeCountTwo = DB::table('employee_job_descriptions')
             ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
             ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-            ->where('type', 2   )
+            ->whereRaw('type = 2 AND CAST(now() AS date) < date_hired_till ')
             ->select('sector_id', 'name', DB::raw('count(*) as count'))
             ->groupBy('sector_id')
             ->get();
@@ -67,7 +74,7 @@ class EmployeeController extends Controller
         $employeeCountThree = DB::table('employee_job_descriptions')
             ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
             ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-            ->where('type', 3)
+            ->whereRaw('type = 3 AND CAST(now() AS date) < date_hired_till ')
             ->select('sector_id', 'name', DB::raw('count(*) as count'))
             ->groupBy('sector_id')
             ->get();
@@ -76,29 +83,69 @@ class EmployeeController extends Controller
         $employeeCountFour = DB::table('employee_job_descriptions')
             ->join('sectors','employee_job_descriptions.sector_id','=','sectors.id')
             ->join('employee_job_statuses','employee_job_descriptions.employee_id','=','employee_job_statuses.employee_id')
-            ->where('type', 4)
+            ->whereRaw('type = 4 AND CAST(now() AS date) < date_hired_till ')
             ->select('sector_id', 'name', DB::raw('count(*) as count'))
             ->groupBy('sector_id')
             ->get();
         
         //Starost zaposlenih
-        $employeeBirthYears = Employee::select(DB::raw('YEAR(birth_date) year'))->get();
-        $employeeAge = Employee::select('birth_date')->get();
-        for($i = 0; $i < count($employeeAge); $i++){
-            $employeeAge[$i] = $employeeAge[$i]->getAgeAttribute();
-        }
+        $employeeAge = DB::select(" SELECT '<25' as name, count(*) as count
+                                    FROM(
+                                        SELECT date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') age 
+                                        FROM `employees` 
+                                        WHERE(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') <= 25)
+                                        ) as t1
+                                    UNION
+                                    SELECT '25-30' as name, count(*) as count
+                                    FROM(
+                                        SELECT date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') age 
+                                        FROM `employees` 
+                                        WHERE(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') <= 30)
+                                        AND(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') > 25)
+                                        ) as t2
+                                    UNION
+                                    SELECT '30-35' as name, count(*) as count
+                                    FROM(
+                                        SELECT date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') age 
+                                        FROM `employees` 
+                                        WHERE(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') <= 35)
+                                        AND(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') > 30)
+                                        ) as t3
+                                    UNION
+                                    SELECT '35-45' as name, count(*) as count
+                                    FROM(
+                                        SELECT date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') age 
+                                        FROM `employees` 
+                                        WHERE(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') <= 45)
+                                        AND(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') > 35)
+                                        ) as t4
+                                    UNION
+                                    SELECT '45+' as name, count(*) as count
+                                    FROM(
+                                        SELECT date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') age 
+                                        FROM `employees` 
+                                        WHERE(date_format(FROM_DAYS(DATEDIFF(CAST(now() AS date), birth_date)),'%y') > 45)
+                                        ) as t5");
 
         //Broj zaposlenih po godinama
-        $employeeCountPerYear = DB::select('SELECT year, sum(count) as count
+        DB::statement( DB::raw( 'SET @SUM := 0'));
+        $employeeCountPerYear = DB::select('SELECT year as name, (@SUM := @SUM + count) as count
                                             FROM(
-                                                SELECT year(date_hired) year, count(*) count FROM `employee_job_statuses` GROUP BY year
-                                                UNION
-                                                SELECT year(date_hired_till) year, -count(*) count FROM `employee_job_statuses` GROUP BY year
-                                            ) as test
-                                            WHERE year <= year(now())
-                                            GROUP BY year
+                                                SELECT year, sum(count) as count
+                                                FROM(
+                                                    SELECT year(date_hired) year, count(*) count 
+                                                    FROM `employee_job_statuses` 
+                                                    GROUP BY year
+                                                    UNION
+                                                    SELECT year(date_hired_till) year, -count(*) count 
+                                                    FROM `employee_job_statuses` 
+                                                    GROUP BY year
+                                                    ) as o
+                                                GROUP BY year
+                                                ) as t1
+                                            WHERE (year <= YEAR(NOW()))
                                         ');
 
-        return response(compact('salaryBySector', 'employeesBySector', 'employeeCountOne','employeeCountTwo', 'employeeBirthYears', 'employeeAge' , 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'));
+        return response(compact('salaryBySector', 'employeesBySector', 'employeeCountOne','employeeCountTwo', 'employeeAge' , 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'));
     }
 }

@@ -11,56 +11,14 @@ function getChartData(data, type){
         { legend: { display: false }, scales: { yAxes: [{ ticks: { beginAtZero: true } }], xAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", } }] } },
         { legend: { display: false } }
     ];
-    var color = [`rgba(0,0,0,0.5)`];
+    var color = new Array();
     var labels = new Array();
     var count = new Array();
 
-    switch (type) {
-        
-        case (0):
-        case (1):
-            for (var i = 0; i < data.length; i++) {
-                labels[i] = data[i].name;
-                count[i] = data[i].count;
-                color[i] = randomColor();
-            }
-            break;
-        
-        case (2):
-            count = [0, 0, 0, 0, 0];
-            labels = ['<25', '25-30', '30-35', '35-45', '45+'];
-            for (var i = 0; i < data.length; i++) {
-                if (i < 5) {
-                    color[i] = randomColor();
-                }
-                switch (true) {
-                    case (data[i] <= 25):
-                        count[0]++;
-                        break;
-                    case (data[i] > 25 && data[i] <= 30):
-                        count[1]++;
-                        break;
-                    case (data[i] > 30 && data[i] <= 35):
-                        count[2]++;
-                        break;
-                    case (data[i] > 35 && data[i] <= 45):
-                        count[3]++;
-                        break;
-                    case (data[i] > 45):
-                        count[4]++;
-                        break;
-                }
-            }
-            break;
-
-        case (3):
-            labels[0] = data[0].year;
-            count[0] = parseInt(data[0].count);
-            for (var i = 1; i < data.length; i++) {
-                labels[i] = data[i].year;
-                count[i] = count[i - 1] + parseInt(data[i].count);
-            }
-            break;
+    for (var i = 0; i < data.length; i++) {
+        labels[i] = data[i].name;
+        count[i] = data[i].count;
+        color[i] = randomColor();
     }
 
     var data = {
@@ -91,7 +49,7 @@ function checkForData(data, id, type) {
     }
 }
 
-axios.get('/api/employees-sector')
+axios.get('/api/employees-statistics')
     .then((response) => {
         console.log(response);
 
