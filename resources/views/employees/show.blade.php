@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@extends('layouts.modal')
+
 
 
 
@@ -291,6 +291,7 @@
         </div>
     </div>
 @endsection
+
 
 @section('js')
 
@@ -750,3 +751,4 @@
 @endsection
 
 @endsection
+@extends('layouts.modal')
