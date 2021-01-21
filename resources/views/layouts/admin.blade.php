@@ -85,14 +85,15 @@
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
             
-            @if($notificationsEmp->isNotEmpty())
+            @if($notificationsEmp->isNotEmpty() || $notificationsDoc->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-danger">{{count($notificationsEmp)}}</span>
+                    <span class="badge badge-danger">{{$totalNotifications}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width:500px!important;">
-                    <span class="dropdown-item dropdown-header">{{count($notificationsEmp)}} ugovora uskoro isticu</span>
+                    @if($notificationsEmp->isNotEmpty())
+                    <span class="dropdown-item dropdown-header">@if(count($notificationsEmp) == 1) {{count($notificationsEmp)}} ugovor uskoro ističe @else {{count($notificationsEmp)}} ugovora uskoro ističu @endif</span>
                     <div class="dropdown-divider"></div>
                     @foreach($notificationsEmp as $notification)
                         <a href="/employees/{{$notification->employee_id}}" class="dropdown-item">
@@ -101,6 +102,19 @@
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
+                    <div class="dropdown-divider"></div>
+@endif
+@if($notificationsDoc->isNotEmpty())
+                    <span class="dropdown-item dropdown-header"> @if(count($notificationsDoc) == 1) {{count($notificationsDoc)}} dokument uskoro ističe @else {{count($notificationsDoc)}} dokumenata uskoro ističu @endif </span>
+                    <div class="dropdown-divider"></div>
+                    @foreach($notificationsDoc as $notification)
+                        <a href="/search/{{$notification->name}}" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> {{$notification->name}}
+                            <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        @endforeach
+                        @endif
                     <div class="dropdown-divider"></div>
                     <a href="/home" class="dropdown-item dropdown-footer">Pogledaj detalje</a>
                 </div>

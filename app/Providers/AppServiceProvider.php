@@ -35,12 +35,15 @@ class AppServiceProvider extends ServiceProvider
         $notificationsDoc = DB::table('documentations')
             ->selectRaw('*, datediff(expiration_date, now()) as days_till')
             ->whereRaw('datediff(expiration_date, now()) < 60 AND datediff(expiration_date, now()) >0')->get();
+
+        $totalNotifications = count($notificationsDoc) + count($notificationsEmp);
             $data = [
                 'notificationsEmp' => $notificationsEmp,
-                'notificationsDoc' => $notificationsDoc
+                'notificationsDoc' => $notificationsDoc,
+                'totalNotifications' => $totalNotifications
                 
             ];
-        View::share(['notificationsEmp' => $notificationsEmp, 'notificationsDoc' => $notificationsDoc]);
+        View::share(['notificationsEmp' => $notificationsEmp, 'notificationsDoc' => $notificationsDoc, 'totalNotifications' => $totalNotifications]);
 
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@extends('layouts.modal')
+
 
 @section('title', 'Zaposleni')
 
@@ -256,6 +256,8 @@
         </div>
     </div>
 @endsection
+
+
 
 @section('js')
 
@@ -823,3 +825,5 @@ $('.btnPrevious').click(function() {
 @endsection
 
 @endsection
+
+@extends('layouts.modal')

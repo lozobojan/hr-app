@@ -17,7 +17,7 @@ $(".submitForm").submit(function(event){
           $(".formSpinner").hide();
           $(".submitFormBtn").attr("disabled", false);
           if(xhr.status == 200 &&  statusText == 'success'){
-            swal("Poooof!", "Uspješno ste sačuvali podatke!", "success").then((value) => {
+            swal("Uspješno!", "Uspješno ste sačuvali podatke!", "success").then((value) => {
               $("form")[0].reset();
               window.location.reload(true);
             });
