@@ -58,6 +58,7 @@ class EmployeeRequest extends FormRequest
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
             'office_number'=>'nullable',
+            'city_id'=>'required',
         ];
     }
 
@@ -79,6 +80,7 @@ class EmployeeRequest extends FormRequest
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
             'office_number'=>'nullable',
+            'city_id'=>'required',
         ];
     }
 

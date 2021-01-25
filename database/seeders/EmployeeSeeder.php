@@ -18,6 +18,7 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
         $count = [null, 1, 1, 2, 2, 3, 6, 5, 1, 2, 2, 3, 6, 5,null, 1, 1, 2, 2, 3, 6, 5, 1, 2, 2, 3, 6, 5,];
+        
         for($i = 0; $i<28; $i++){
             $faker = Faker\Factory::create();
             $firstName = $faker->firstNameMale;
@@ -38,6 +39,7 @@ class EmployeeSeeder extends Seeder
                 'office_number' => $faker->numberBetween($min = 1, $max = 12),
                 'additional_info_contact' => $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],
+                'city_id' => rand(1,4),
             ]);
             Documentation::factory()->create([
                 'name' => $firstName." ".$lastName,

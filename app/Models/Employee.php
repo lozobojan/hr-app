@@ -63,6 +63,10 @@ class Employee extends Model
     public function children() {
         return $this->hasMany(static::class, 'pid');
     }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 
 
    /*public function sector()

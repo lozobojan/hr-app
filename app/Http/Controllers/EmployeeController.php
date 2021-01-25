@@ -11,6 +11,7 @@ use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
 use App\Models\HireType;
 use App\Models\Sector;
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
@@ -35,10 +36,12 @@ class EmployeeController extends Controller
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
         $types = HireType::get();
+        $city = City::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "types" => $types,
+            "cities" => $city,
         ];
         return view("employees.index")->with($data);
     }
@@ -161,12 +164,14 @@ class EmployeeController extends Controller
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
         $types = HireType::get();
+        $city = City::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "employee" => $employee,
             "title" => "$employee->name $employee->last_name",
-            "types" => $types
+            "types" => $types,
+            "cities" => $city
         ];
         return view('employees.show')->with($data);
     }

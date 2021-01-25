@@ -353,6 +353,8 @@
             $('#additional_info_contact').val(returndata.additional_info_contact );
             $('#pid').val(returndata.pid );
             $('#pid').select2().trigger('change');
+            $('#city_id').val(returndata.city_id );
+            $('#city_id').select2().trigger('change');
 
             /*Plata*/
             $('#pay').val(returndata.employee_salary.pay );
@@ -504,6 +506,20 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="text_me">Adresa *</label>
                                     <textarea class="form-control" id="home_address" name="home_address" placeholder="Adresa" ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="city_id">Grad *</label>
+                                    <select class="js-" style="width: 100%;" name="city_id" id="city_id">
+                                        <option value="">Odaberite grad</option>
+                                       @foreach($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

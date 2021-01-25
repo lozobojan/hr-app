@@ -32,6 +32,7 @@ class CreateEmployeesTable extends Migration
             $table->tinyInteger('gender', );
             $table->unsignedBigInteger('pid')->nullable();
             $table->foreign('pid')->references('id')->on('employees')->onDelete('set null');
+            $table->foreignId('city_id');
         });
     }
 

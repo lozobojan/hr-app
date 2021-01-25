@@ -109,7 +109,7 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th colspan="6" class="text-center head-light basic">Osnovne Informacije</th>
+                                        <th colspan="7" class="text-center head-light basic">Osnovne Informacije</th>
                                         <th colspan="5" class="text-center head-dark">Kontakt Informacije</th>
                                         <th colspan="5" class="text-center head-light">Status Zaposlenja</th>
                                         <th colspan="4" class="text-center head-dark">Opis Zaposlenja</th>
@@ -123,6 +123,7 @@
                                         <th class="text-center">Datum rodjenja</th>
                                         <th class="text-center">Kvalifikacije</th>
                                         <th class="text-center">Adresa</th>
+                                        <th class="text-center">Grad</th>
                                         <th class="text-center">JMBG</th>
 
                                         {{--KONTAKT INFORMACIJE--}}
@@ -161,7 +162,7 @@
                                         <tr>
                                             <td class="text-center d-inline-block">
                                                 <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
-
+                                                <a href="/doc/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-document"></i></a>
                                                 <a href="javascript:void(0)"
                                                    data-toggle="modal"
                                                    data-id="{{$object->id}}"
@@ -185,6 +186,7 @@
                                             <td class="text-center">{{ $object->birth_date }}</td>
                                             <td class="text-center">{{ $object->qualifications }}</td>
                                             <td class="text-center">{{ $object->home_address }}</td>
+                                            <td class="text-center">{{ $object->city->name }}</td>
                                             <td class="text-center">{{ $object->jmbg }}</td>
 
                                             {{--KONTAKT INFORMACIJE--}}
@@ -217,6 +219,7 @@
 
                                             <td class="text-center d-inline-block">
                                                 <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+                                                <a href="/doc/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-document"></i></a>
 
                                                     <a href="javascript:void(0)"
                                                     data-toggle="modal"
@@ -383,6 +386,8 @@
             $('#office_number').val(returndata.office_number );
             $('#pid').val(returndata.pid );
             $('#pid').select2().trigger('change');
+            $('#city_id').val(returndata.city_id );
+            $('#city_id').select2().trigger('change');
             $("input[name=gender][value=" + returndata.gender + "]").prop('checked', true);
 
 
@@ -546,6 +551,20 @@ $('.btnPrevious').click(function() {
                                 <div class="form-group">
                                     <label class="col-form-label" for="home_address">Adresa *</label>
                                     <input type="text" class="form-control" id="home_address" name="home_address" placeholder="Adresa" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="city_id">Grad *</label>
+                                    <select class="js-" style="width: 100%;" name="city_id" id="city_id">
+                                        <option value="">Odaberite grad</option>
+                                       @foreach($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
