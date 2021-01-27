@@ -99,6 +99,9 @@
                                     <a id="advancedSearch" class="btn btn-sm btn-success text-white float-right ml-3">
                                         <i class="fas fa-search-plus mr-1"></i>  Napredna pretraga
                                     </a>
+                                    <a href="{{route('employees.export_all')}}" class="btn btn-sm btn-info text-white float-right ml-3">
+                                        <i class="fas fa-file mr-1"></i>  Izvezi
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -161,9 +164,9 @@
                                  @foreach($objects as $object)
                                         <tr>
                                             <td class="text-center d-inline-block">
-                                                <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
-                                                <a href="/doc/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-document"></i></a>
-                                                <a href="javascript:void(0)"
+                                                <a href="/employees/{{$object->id}}" data-toggle="tooltip" title="Pogledaj zaposlenog" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+                                                <a href="/doc/{{$object->id}}" data-toggle="tooltip" title="Ugovor" class="btn btn-sm btn-outline-success mt-1"><i class="far fa-file"></i></a>
+                                                <span data-toggle="tooltip" title="Izmijeni zaposlenog" ><a href="javascript:void(0)"
                                                    data-toggle="modal"
                                                    data-id="{{$object->id}}"
                                                    data-route="employees/one/{{$object->id}}"
@@ -172,12 +175,13 @@
                                                 >
                                                     <i class="far fa-edit"></i>
                                                 </a>
+                                            </span>
 
 
                                                 <form class="deleteForm text-center mt-1" action="{{ route('employees/delete', $object->id) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i data-toggle="tooltip" title="Obriši zaposlenog" class="far fa-trash-alt"></i></a>
                                                 </form>
                                             </td>
                                             {{--LICNI PODACI--}}
@@ -218,24 +222,24 @@
 
 
                                             <td class="text-center d-inline-block">
-                                                <a href="/employees/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
-                                                <a href="/doc/{{$object->id}}" class="btn btn-sm btn-outline-success"><i class="far fa-document"></i></a>
-
-                                                    <a href="javascript:void(0)"
-                                                    data-toggle="modal"
-                                                    data-id="{{$object->id}}"
-                                                    data-route="employees/one/{{$object->id}}"
-                                                    data-target="#myModal"
-                                                    class="edit show-object-data btn btn-sm btn-outline-primary mt-1"
-                                                    >
-                                                       <i class="far fa-edit"></i>
-                                                    </a>
+                                                <a href="/employees/{{$object->id}}" data-toggle="tooltip" title="Pogledaj zaposlenog" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+                                                <a href="/doc/{{$object->id}}" data-toggle="tooltip" title="Ugovor" class="btn btn-sm btn-outline-success mt-1"><i class="far fa-file"></i></a>
+                                                <span data-toggle="tooltip" title="Izmijeni zaposlenog" ><a href="javascript:void(0)"
+                                                   data-toggle="modal"
+                                                   data-id="{{$object->id}}"
+                                                   data-route="employees/one/{{$object->id}}"
+                                                   data-target="#myModal"
+                                                   class="edit show-object-data btn btn-sm btn-outline-primary mt-1"
+                                                >
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                            </span>
 
 
                                                 <form class="deleteForm text-center mt-1" action="{{ route('employees/delete', $object->id) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i class="far fa-trash-alt"></i></a>
+                                                    <a type="submit" class="delBtn btn btn-sm btn-outline-danger"><i data-toggle="tooltip" title="Obriši zaposlenog" class="far fa-trash-alt"></i></a>
                                                 </form>
                                             </td>
 

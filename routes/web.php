@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees/store');
     Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees/show');
     Route::get('/employees/export/{id}', [EmployeeController::class, 'export'])->name('employee.export');
+    Route::get('/employees-export', [EmployeeController::class, 'export_all'])->name('employees.export_all');
     Route::post('/employees/filter', [EmployeeController::class, 'filter'])->name('employees.filter');
    // Route::get('/pdf/{id}', [EmployeeController::class, 'pdf'])->name('employee.pdf');
     Route::get('/pdf/{id}', [EmployeeController::class, 'createPDF']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Exports\EmployeeExportAll;
 use App\Http\Requests\EmployeeJobDescriptionRequest;
 use App\Http\Requests\SaveEmployeeRequest;
 use App\Models\Employee;
@@ -207,10 +208,12 @@ class EmployeeController extends Controller
 
         $sectors = Sector::get();
         $types = HireType::get();
+        $cities = City::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "types" => $types,
+            "cities" => $cities,
         ];
         return view("employees.index")->with($data);
     }
@@ -246,14 +249,20 @@ class EmployeeController extends Controller
     public function export($id)
     {
         $employee = new EmployeeExport($id);
-
         $name = $employee->fileName();
         return Excel::download($employee, "$name.xlsx");
-        return redirect()->back();
     }
 
+    public function export_all()
+    {
+        $employees = new EmployeeExportAll();
+        return Excel::download($employees, "zaposleni.xlsx");
+    }
+
+
+
+
     public function doc($id) {
-        // retreive all records from db
         $employee = Employee::with('EmployeeSalary')
             ->where('id', $id)
             ->first();
