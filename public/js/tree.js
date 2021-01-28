@@ -41,13 +41,15 @@ $(function () {
         e.stopPropagation();
     });
 
-    $(".fa-plus").click(function () {
+    $(".fa-folder-plus").click(function () {
         resetModal();
+        $('.modal-title').text('Dodavanje');
         $('#parent_id').val($(this).data('id'));
     });
 
     $(".fa-edit").click(function () {
         resetModal();
+        $('.modal-title').text('Izmjena');
         $("#target-type").hide();
         var url = `/document/edit/${$(this).data('id')}`;
         $('.objectForm').attr('action', url);
@@ -57,7 +59,7 @@ $(function () {
             $(this).children().eq(1).show();
         },
         function () {
-            $(this).children().eq(1).hide('fast');
+            $(this).children().eq(1).hide();
         }
     );
 
@@ -66,11 +68,11 @@ $(function () {
         swal("Da li želite da izbrišete i sadržaj foldera?", {
             buttons: {
                 da: {
-                    text: "Da!",
+                    text: "Da",
                     value: "1",
                 },
                 ne: {
-                    text: 'Ne!',
+                    text: 'Ne',
                     value: '2',
                 },
                 cancel: "Otkaži",
