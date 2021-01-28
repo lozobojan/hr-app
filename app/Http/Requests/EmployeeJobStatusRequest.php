@@ -29,7 +29,10 @@ class EmployeeJobStatusRequest extends FormRequest
     public function messages()
     {
         return [
-
+            'type.required' => 'Morate izabrati tip zaposlenja!',
+            'status.required' => 'Morate izabrati status zaposlenja!',
+            'date_hired.required' => 'Morate izabrati datum zaposlenja!',
+            'date_hired_till.required' => 'Morate izabrati datum važenja zaposlenja!',
         ];
     }
 
@@ -40,7 +43,7 @@ class EmployeeJobStatusRequest extends FormRequest
             'status' => 'required',
             'date_hired' => 'required',
             'date_hired_till' => 'required',
-            'additional_info' => 'required',
+            'additional_info' => 'nullable',
         ];
     }
 
@@ -50,7 +53,7 @@ class EmployeeJobStatusRequest extends FormRequest
             'status' => 'required',
             'date_hired' => 'required',
             'date_hired_till' => 'required',
-            'additional_info' => 'required',
+            'additional_info' => 'nullable',
         ];
     }
 

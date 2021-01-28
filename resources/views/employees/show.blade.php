@@ -135,11 +135,11 @@
                                                     <i class="fas fa-file-export"></i> Izvezi
                                                 </a>
                                             </div>
-                                            <div class="h-25 py-2">
-                                                <a href="/doc/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">
-                                                    <i class="fas fa-file-export"></i> Ugovor
-                                                </a>
-                                            </div>
+{{--                                            <div class="h-25 py-2">--}}
+{{--                                                <a href="/doc/{{$employee->id}}" class="ml-3 btn btn-app w-75 h-100 bg-success">--}}
+{{--                                                    <i class="fas fa-file-export"></i> Ugovor--}}
+{{--                                                </a>--}}
+{{--                                            </div>--}}
                                             <hr class="my-0">
                                             <div class="h-50 py-2">
                                                 <a href="javascript:void(0)"

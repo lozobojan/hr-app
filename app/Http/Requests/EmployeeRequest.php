@@ -35,6 +35,13 @@ class EmployeeRequest extends FormRequest
             'image.required' => 'Morate unijeti fotografiju!',
             'image.max' => 'Maksimalna veličina fotografije je 5mb!',
             'image.mimes' => 'Fotografija može biti formata: jpeg,png,jpg,gif,svg!',
+            'home_address.required' => 'Morate unijeti adresu!',
+            'jmbg.required' => 'Morate unijeti JMBG!',
+            'email.required' => 'Morate unijeti E-mail!',
+            'pid.required' => 'Morate izabrati nadređenog!',
+            'gender.required' => 'Morate izabrati pol!',
+            'city_id.required' => 'Morate izabrati grad!',
+            'birth_date.required' => 'Morate unijeti datum rođenja!',
 
         ];
     }
@@ -80,7 +87,7 @@ class EmployeeRequest extends FormRequest
             'telephone_number'=>'nullable',
             'additional_info'=>'nullable',
             'office_number'=>'nullable',
-            'city_id'=>'required',
+            'city_id'=>'required'
         ];
     }
 
