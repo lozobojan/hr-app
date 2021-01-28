@@ -29,7 +29,9 @@ class EmployeeSalaryRequest extends FormRequest
     public function messages()
     {
         return [
-
+            'pay.required' => 'Morate unijeti platu!',
+            'bank_number.required' => 'Morate unijeti broj računa banke!',
+            'bank_name.required' => 'Morate unijeti ime banke!',
         ];
     }
 
@@ -38,7 +40,7 @@ class EmployeeSalaryRequest extends FormRequest
 
             'pay' => 'required',
             'bank_number' => 'required',
-            'bonus' => 'required',
+            'bonus' => 'nullable',
             'bank_name' => 'required',
 
 
@@ -49,7 +51,7 @@ class EmployeeSalaryRequest extends FormRequest
         return [
             'pay' => 'required',
             'bank_number' => 'required',
-            'bonus' => 'required',
+            'bonus' => 'nullable',
             'bank_name' => 'required',
         ];
     }

@@ -21,7 +21,7 @@ class CreateEmployeeJobStatusesTable extends Migration
             $table->date('date_hired_till')->nullable();
             /*$table->string('bank_name');*/
             /*$table->string('bank_number');*/
-            $table->string('additional_info');
+            $table->string('additional_info')->nullable();
             $table->foreignId('type')->constrained('hire_types');
             $table->foreignId('employee_id')->constrained('employees');
         });

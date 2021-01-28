@@ -27,11 +27,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ //Index, Returns all data needed for the table
     public function index()
     {
         $objects = Employee::with('employeeJobDescription')->get();
@@ -47,14 +43,18 @@ class EmployeeController extends Controller
         return view("employees.index")->with($data);
     }
 
-
+//getOne returns data as a json for filling in the modal automatically
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->with('parent')->find($id);
+        $object = Employee::with('employeeSalary')
+            ->with('employeeJobStatus')
+            ->with('employeeJobDescription')
+            ->with('parent')
+            ->find($id);
 
         return $object ? $object : null;
     }
 
-
+//Store, creates a new employee entry and folders for those entries
     public function store(EmployeeRequest $request, EmployeeSalaryRequest $request2, EmployeeJobStatusRequest $request3, EmployeeJobDescriptionRequest  $request4){
 
         DB::beginTransaction();
@@ -85,53 +85,11 @@ class EmployeeController extends Controller
             DB::rollBack();
             throw $ex;
         }
-
         return response()->json(["success" => "success"], 200);
     }
 
+    //edit method that updates an employee entry and all it's relations
     public function edit(SaveEmployeeRequest $request,EmployeeRequest $empReq,EmployeeJobStatusRequest  $empJobStatReq, EmployeeSalaryRequest $empSalReq, EmployeeJobDescriptionRequest  $empJobDesReq, Employee $object) {
-       /* $data = $request->validated();
-        $emp = [
-            "name" => $data['name'],
-            "last_name" => $data['last_name'],
-            "birth_date" => $data['birth_date'],
-            "jmbg" => $data['jmbg'],
-            "email" => $data['email'],
-            "image" => $data['image'],
-            "qualifications" => $data['qualifications'],
-            "home_address" => $data['home_address'],
-            "additional_info" => $data['additional_info'],
-            "telephone_number" => $data['telephone_number'],
-            //"office_number" => $data['office_number'],
-            "additional_info_contact" => $data['additional_info_contact'],
-            "gender" => $data['gender'],
-            "pid" => $data['pid'],
-        ];
-
-        $empSal = [
-            "pay" => $data['pay'],
-            "bonus" => $data['bonus'],
-            "bank_name" => $data['bank_name'],
-            "bank_number" => $data['bank_number'],
-            "employee_id" => $object->id,
-
-        ];
-        $empJobDesc = [
-            "workplace" => $data['workplace'],
-            "job_description" => $data['job_description'],
-            "skills" => $data['skills'],
-            "sector_id" => $data['sector_id'],
-            "employee_id" => $object->id,
-        ];
-        $empJobStatus = [
-            "status" => $data['status'],
-            "date_hired" => Carbon::createFromFormat("d.m.Y.",$data['date_hired']),
-            "date_hired_till" => Carbon::createFromFormat("d.m.Y.",$data['date_hired_till']),
-           // "date_hired_till" => $data['date_hired_till'],
-            "additional_info" => $data['additional_info'],
-            "type" => $data['type'],
-            "employee_id" => $object->id,
-        ];*/
 
         $empl = $empReq->validated();
         $empSala = $empSalReq->validated();
@@ -144,20 +102,15 @@ class EmployeeController extends Controller
         $empJobStat["employee_id"] = $object->id;
         $empJobDescr["employee_id"] = $object->id;
 
-
-        /*$object->fill($emp);*/
         $object->update($empl);
         $object->employeeSalary()->update($empSala);
         $object->employeeJobDescription()->update($empJobDescr);
         $object->employeeJobStatus()->update($empJobStat);
-      /*  $object2->fill($empSal);
-        $object2->update();*/
-
 
         return response()->json(['success' => 'success'], 200);
     }
 
-
+    //show method that returns all data needed for the singular employee display
     public function show($id)
     {
         $employee = Employee::with('parent')->with('employeeJobStatus')
@@ -177,34 +130,39 @@ class EmployeeController extends Controller
         return view('employees.show')->with($data);
     }
 
-
+//filter method hat filters data from the table
     public function filter(Request $request){
-       // dd($request);
         $sector = $request->sector;
         $type = $request->type;
         $bank_name = $request->bank_name;
-        $salary = $request->salary;
+        $salary_less = $request->salary_less;
+        $salary_greater = $request->salary_greater;
+        $city = $request->city;
 
-
-        $objects = Employee::with('employeeJobDescription');
 
         $objects = Employee::whereHas('employeeJobDescription', function($q) use ($sector, $request) {
             if($request->filled('sector')){
                 $q->where('employee_job_descriptions.sector_id', $sector);
             }
-        })->whereHas('employeeSalary', function($q) use ($salary, $request, $bank_name){
+        })->whereHas('employeeSalary', function($q) use ($salary_greater, $salary_less, $request, $bank_name){
             if($request->filled('bank_name')){
                 $q->where('employee_salaries.bank_name','LIKE',$bank_name);
             }
-            if($request->filled('salary')){
-                $q->where('employee_salaries.pay','>=',$salary);
+            if($request->filled('salary_less')){
+                $q->where('employee_salaries.pay','<=',$salary_less);
+            }
+            if($request->filled('salary_greater')){
+                $q->where('employee_salaries.pay','>=',$salary_greater);
             }
         })->whereHas('employeeJobStatus', function($q) use ($request, $type){
             if($request->filled('type')){
                 $q->where('employee_job_statuses.type',$type);
             }
-        })
-            ->get();
+        })->whereHas('city', function($q) use ($request, $city){
+            if($request->filled('city')){
+                $q->where('city_id',$city);
+            }
+        })->get();
 
         $sectors = Sector::get();
         $types = HireType::get();
@@ -219,33 +177,15 @@ class EmployeeController extends Controller
     }
 
 
-
-    public function createPDF($id) {
-        // retreive all records from db
-        $data = Employee::with('EmployeeSalary')
-            ->where('id', $id)
-            ->first();
-        //// share data to view
-        view()->share('employee',$data);
-        $pdf = PDF::loadView('employees.pdf', $data);
-
-        // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
-        //return view('employees.pdf', compact("employee"));
-    }
-
-
+//destroy, deletes an employee entry
     public function destroy($id){
         $object = Employee::find($id);
-
-        // REORDER PARENTS FOR DELETE
-
 
         if($object)
             $object->delete();
         return back()->with("success", "Element uspješno obrisan!");
     }
-
+//export and export_all used for exporting data into excel file
     public function export($id)
     {
         $employee = new EmployeeExport($id);
@@ -261,7 +201,7 @@ class EmployeeController extends Controller
 
 
 
-
+//doc creates an contract out of the user data
     public function doc($id) {
         $employee = Employee::with('EmployeeSalary')
             ->where('id', $id)
@@ -273,16 +213,6 @@ class EmployeeController extends Controller
           'data' => $employee,
             'today' => $dt
         ];
-
-        //$filename = $data->name .' '. $data->last_name;
-
-
-      //  $contents = View::make('employees.docs.sample')->with('data', $data);
-        //$response = \Response::make($contents, 200);
-        //$response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
         return view('employees.docs.sample')->with($stuff);
-        //// share data to view
-        //return view('employees.docs.sample', compact('data'));
-
     }
 }

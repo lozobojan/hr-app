@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset("plugins/jqvmap/jqvmap.min.css")}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset("dist/css/adminlte.min.css")}}">
+    <link rel="stylesheet" href="{{asset("css/app.css")}}">
     <!-- overlayScrollbars -->
 
     <!-- Daterange picker -->
@@ -34,7 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-    
+
     @yield('css')
 
     <title>Statistika</title>
@@ -84,7 +85,7 @@
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
-            
+
             @if($notificationsEmp->isNotEmpty() || $notificationsDoc->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
@@ -243,6 +244,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
 
 <!-- Scipt -->
 <script src="{{ asset('js/layout.js') }}"></script>

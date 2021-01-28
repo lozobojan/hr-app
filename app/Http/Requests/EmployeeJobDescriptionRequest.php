@@ -29,7 +29,10 @@ class EmployeeJobDescriptionRequest extends FormRequest
     public function messages()
     {
         return [
-
+            'workplace.required' => 'Morate unijeti radno mjesto!',
+            'job_description.required' => 'Morate unijeti opis posla!',
+            'skills.required' => 'Morate unijeti vještine!',
+            'sector_id.required' => 'Morate odabrati sektor!',
         ];
     }
 
@@ -38,7 +41,7 @@ class EmployeeJobDescriptionRequest extends FormRequest
 
             'workplace' => 'required',
             'job_description' => 'required',
-            'skills' => 'required',
+            'skills' => 'nullable',
             'sector_id' => 'required',
         ];
     }
@@ -47,7 +50,7 @@ class EmployeeJobDescriptionRequest extends FormRequest
         return [
             'workplace' => 'required',
             'job_description' => 'required',
-            'skills' => 'required',
+            'skills' => 'nullable',
             'sector_id' => 'required',
         ];
     }
