@@ -22,19 +22,35 @@ class Documentation extends Model
         $return = '<li>';
 
         if($this->is_folder){
-            $return = $return . '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp&nbsp'. $this->name. '</span>&nbsp&nbsp
-            <a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">
-            <i class="fas fa-plus" data-id="'.$this->id.'"></i>
-            </a>
-            &nbsp&nbsp<a><i class="text-danger fas fa-folder-minus" data-id="'. $this->id .'"></i></a>';
+            $return = $return . '<span class="btn btn-outline-primary"><i class="fas fa-folder"></i>&nbsp'. $this->name. '</span>&nbsp
+            <button class="icon-holder btn btn-outline-primary">';
+                if($this->id == 1){
+                    $return = $return . '<a href="#" href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus" data-id="'.$this->id.'"></i></a>';
+                }
+                else{
+                        $return = $return .
+                        '<i class="fas fa-ellipsis-h"></i>
+                        <c>
+                            &nbsp<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus" data-id="'.$this->id.'"></i></a>
+                            &nbsp<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><i class="edit fas fa-edit show-object-data" data-route="document/'.$this->id.'" data-id="'.$this->id.'"></i></a>
+                            &nbsp<i class="text-danger fas fa-folder-minus" data-id="'.$this->id.'"></i>
+                        </c>';
+                    }
+                $return = $return . '</button>';
         }
         
         if($this->is_folder == 0){
             $return = $return . '
             <a href="/'.$this->file_path.'" target="_blank"><span class="btn-outline-success"><i class="fas fa-file"></i>
-            &nbsp&nbsp'. $this->name.'</span></a>
-            &nbsp&nbsp<a href="/directory/download/'.$this->id.'"><i class="text-success fas fa-download"></i></a>
-            &nbsp&nbsp<i class="text-danger fas fa-trash-alt" data-id="'. $this->id .'"></i>
+            &nbsp'. $this->name.'</span></a>
+            <button class="icon-holder btn btn-outline-success">
+                <i class="fas fa-ellipsis-h"></i>
+                <c>
+                    &nbsp<a href="/directory/download/'.$this->id.'"><i class="fas fa-download"></i></a>
+                    &nbsp<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><i class="fas edit show-object-data fa-edit" data-route="/document/'.$this->id.'" data-id="'.$this->id.'"></i></a>
+                    &nbsp<i class="text-danger fas fa-trash-alt" data-id="'. $this->id .'"></i>
+                </c>
+            </button>
             ';
         }
 

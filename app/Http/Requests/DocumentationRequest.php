@@ -31,7 +31,7 @@ class DocumentationRequest extends FormRequest
         return [
             'name.required' => "Ime je obavezno polje!",
             'expiration_date.after' => "Rok dokumenta mora biti datum u budućnosti!",
-            'file_path.mimes' => "Fajl mora biti formata .pdf ili .docx!",
+            'file_path.mimes' => "Fajl može biti formata pdf, docx!",
             'is_folder.required' => 'Morate odabrati tip podatka!'
         ];
     }
@@ -39,7 +39,7 @@ class DocumentationRequest extends FormRequest
     public function createRules(){
         return [
             'name' => 'required',
-            'parent_id' => 'numeric',
+            'parent_id' => 'nullable|numeric',
             'is_folder' => 'required',
             'file_path' => 'nullable|mimes:pdf, docx',
             'expiration_date' => 'nullable|after:today',
@@ -51,7 +51,7 @@ class DocumentationRequest extends FormRequest
     public function updateRules(){
         return [
             'name' => 'required',
-            'parent_id' => 'numeric',
+            'parent_id' => 'nullable|numeric',
             'is_folder' => 'required',
             'expiration_date' => 'nullable|after:today',
             'file_path' => 'nullable|mimes:pdf, docx',

@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="target-type">
                 <div class="col-12">
                     <label class="col-form-label">Tip:</label>
                     <div class="form-check">

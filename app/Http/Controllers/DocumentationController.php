@@ -81,6 +81,28 @@ class DocumentationController extends Controller
         return Redirect::back()->withErrors(['msg', 'Uspjesno dodato!']);
     }
 
+    public function edit(DocumentationRequest $request, Documentation $object)
+    {
+        $data = $request->validated();
+        if($data['is_folder'] == 0){
+            if($request->hasFile('file_path')){
+                $data['file_path'] = $this->storeDocument($request->file('file_path'));
+            }
+            if(!($request->expiration_date)){
+                return response()->json(["errors" => ["expiration_date" => ["Morate unijeti rok!"]]], 422);
+            }
+        }
+        $object->fill($data);
+        $object->save();
+        return Redirect::back()->withErrors(['msg', 'Uspjesno promijenjeno!']);
+    }
+
+    public function getOne($id)
+    {
+        $object = Documentation::find($id);
+        return $object ? $object : null;
+    }
+
     public function delete($id){
         Documentation::where('id', $id)->delete();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);

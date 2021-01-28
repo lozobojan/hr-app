@@ -1,4 +1,22 @@
+function showData(returndata) {
+    if (returndata.is_folder == '1') {
+        $('#name').attr("placeholder", "Naziv direktorijuma");
+        $('#file_input').hide();
+    }
+    else{
+        $('#name').attr("placeholder", "Naziv fajla");
+        $('#file_input').show();
+    }
+    $('#expiration_date').val(returndata.expiration_date);
+    $(`input[name=is_folder][value='${returndata.is_folder}']`).prop("checked",true);
+    $('#name').val(returndata.name);
+    $('#parent_id').val(returndata.parent_id);
+    $('#sector_id').val(returndata.sector_id);
+    $('#type_id').val(returndata.type_id);
+}
+
 function resetModal(){
+    $("#target-type").show();
     $('input[type=radio]').prop('checked', false);
     $("#name").val('');
     $('#name').attr("placeholder", "Naziv direktorijuma ili fajla");
@@ -22,23 +40,29 @@ $(function () {
         }
         e.stopPropagation();
     });
-    
-    $("#add").click(function () {
-        resetModal();
-        $('#parent_id').val($(this).data('id'));
-    });
 
     $(".fa-plus").click(function () {
         resetModal();
         $('#parent_id').val($(this).data('id'));
     });
 
+    $(".fa-edit").click(function () {
+        resetModal();
+        $("#target-type").hide();
+        var url = `/document/edit/${$(this).data('id')}`;
+        $('.objectForm').attr('action', url);
+    });
+    
+    $(".icon-holder").hover(function () {
+            $(this).children().eq(1).show();
+        },
+        function () {
+            $(this).children().eq(1).hide('fast');
+        }
+    );
+
     $(".fa-folder-minus").click(function () {
         var id = $(this).data("id");
-        if(id == 1){
-            swal("Brisanje foldera nije moguce!");
-            return;    
-        }
         swal("Da li želite da izbrišete i sadržaj foldera?", {
             buttons: {
                 da: {

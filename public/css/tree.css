@@ -1,3 +1,7 @@
+c{ display: none; }
+
+a { color: inherit; } 
+
 .tree {
     min-height:20px;
     padding:19px;

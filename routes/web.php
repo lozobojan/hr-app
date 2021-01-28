@@ -26,9 +26,6 @@ Auth::routes();
 
 Route::middleware('auth')->group(function () {
 
-
-
-
     Route::get('/employees',  [EmployeeController::class, 'index'])->name('employees');
     Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees/delete');
     Route::get('/employees/one/{id}', [EmployeeController::class, 'getOne'])->name('employee/fetch');
@@ -46,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     // ------------------------------------------- Fajl sistem --------------------------------------------------
     Route::get('/documents', [DocumentationController::class, 'index'])->name('documents');
+    Route::get('/document/{id}', [DocumentationController::class, 'getOne'])->name('document/fetch');
+    Route::post('/document/edit/{object}', [DocumentationController::class, 'edit'])->name('document/edit');
     Route::get('/directory/{id}', [DocumentationController::class, 'showByDirectory'])->name('directory');
     Route::post('/directory/create', [DocumentationController::class, 'store'])->name('directory/create');
     Route::get('/directory/download/{id}', [DocumentationController::class, 'download'])->name('directory/download');
