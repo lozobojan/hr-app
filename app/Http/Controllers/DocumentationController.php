@@ -52,7 +52,6 @@ class DocumentationController extends Controller
         $types = FileType::all();
         $sectors = Sector::all();
         return view('documentation.documentation', compact('roots', 'types', 'sectors'));
-    
     }
     
     public function download($id)
