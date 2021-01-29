@@ -2,6 +2,10 @@ c{ display: none; }
 
 a { color: inherit; } 
 
+.icon-holder:hover{
+    line-height:14pt;
+}
+
 .tree {
     min-height:20px;
     padding:19px;

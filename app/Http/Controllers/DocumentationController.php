@@ -20,7 +20,7 @@ class DocumentationController extends Controller
         $roots = Documentation::root()->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        return view('documentation', compact('roots', 'types', 'sectors'));
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
     
     public function showByDirectory($id)
@@ -28,7 +28,7 @@ class DocumentationController extends Controller
         $roots = Documentation::where('parent_id', $id)->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        return view('documentation', compact ('roots', 'id', 'types', 'sectors'));
+        return view('documentation.documentation', compact ('roots', 'id', 'types', 'sectors'));
     }
     
     public function showBySector($id)
@@ -36,7 +36,7 @@ class DocumentationController extends Controller
         $roots = Documentation::where('sector_id', $id)->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        return view('documentation', compact('roots', 'types', 'sectors'));
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
     
     public function showByType($id)
@@ -44,15 +44,14 @@ class DocumentationController extends Controller
         $roots = Documentation::where('type_id', $id)->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        return view('documentation', compact('roots', 'types', 'sectors'));
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
 
     public function search($word){
         $roots = Documentation::where('name', 'like', '%'.$word.'%')->get();
         $types = FileType::all();
         $sectors = Sector::all();
-        return view('documentation', compact('roots', 'types', 'sectors'));
-    
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
     
     public function download($id)
