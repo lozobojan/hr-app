@@ -30,10 +30,11 @@ class EmployeeController extends Controller
  //Index, Returns all data needed for the table
     public function index()
     {
-        $objects = Employee::with('employeeJobStatus')->whereHas('employeeJobStatus', function($q){
+        /*$objects = Employee::with('employeeJobStatus')->whereHas('employeeJobStatus', function($q){
                 $q->whereDate('date_hired_till', '>=', Carbon::now('Europe/Stockholm'));
 
-        })->get();
+        })->get();*/
+        $objects = Employee::get();
         $sectors = Sector::get();
         $types = HireType::get();
         $city = City::get();

@@ -35,7 +35,7 @@ class HomeController extends Controller
             ->whereRaw('datediff(date_hired_till, now()) < 60 AND datediff(date_hired_till, now()) >0')->get();
 
 
-        $employeesNumber = EmployeeJobStatus::whereDate('date_hired_till', '>', Carbon::now())->get();
+        $employeesNumber = EmployeeJobStatus::get(); //whereDate('date_hired_till', '>', Carbon::now())->
         $employeesCount = $employeesNumber->count();
         $avgSalary = EmployeeSalary::avg('pay');
         $avgAge = DB::table('employees')
@@ -43,10 +43,9 @@ class HomeController extends Controller
         ->get();
         $gender = DB::table('employees')
             ->selectRaw(" COUNT(*) AS count")->groupBy('gender')
-            ->join('employee_job_statuses' , 'employees.id', '=', 'employee_job_statuses.employee_id')
-            ->whereRaw('date_hired_till > now()')
+//            ->join('employee_job_statuses' , 'employees.id', '=', 'employee_job_statuses.employee_id')
+//            ->whereRaw('date_hired_till > now()')
             ->get();
-
 
 
         //Calendar
@@ -141,6 +140,7 @@ class HomeController extends Controller
         $calendar->addEvents($events)->setOptions(['firstDay' => 1])->setCallbacks(['eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}']);*/
 
 
+
         $data = [
             'employeesCount' => $employeesCount,
             'avgSalary' => round($avgSalary,1),
@@ -148,6 +148,7 @@ class HomeController extends Controller
             'gender' => ['male' => $gender[0]->count, 'female' => $gender[1]->count],
             'calendar' => $calendar
         ];
+
 
 
 
