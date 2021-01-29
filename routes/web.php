@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
    // Route::get('/pdf/{id}', [EmployeeController::class, 'pdf'])->name('employee.pdf');
     Route::get('/pdf/{id}', [EmployeeController::class, 'createPDF']);
     Route::get('/doc/{id}', [EmployeeController::class, 'doc']);
+   // Route::get('/show/{id}', [EmployeeController::class, 'show_new'])->name('employees/show');
     // -------------------------------------------- Home page ---------------------------------------------------
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

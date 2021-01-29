@@ -43,6 +43,8 @@ class HomeController extends Controller
         ->get();
         $gender = DB::table('employees')
             ->selectRaw(" COUNT(*) AS count")->groupBy('gender')
+            ->join('employee_job_statuses' , 'employees.id', '=', 'employee_job_statuses.employee_id')
+            ->whereRaw('date_hired_till > now()')
             ->get();
 
 

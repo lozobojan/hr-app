@@ -30,7 +30,10 @@ class EmployeeController extends Controller
  //Index, Returns all data needed for the table
     public function index()
     {
-        $objects = Employee::with('employeeJobDescription')->get();
+        $objects = Employee::with('employeeJobStatus')->whereHas('employeeJobStatus', function($q){
+                $q->whereDate('date_hired_till', '>=', Carbon::now('Europe/Stockholm'));
+
+        })->get();
         $sectors = Sector::get();
         $types = HireType::get();
         $city = City::get();
@@ -127,8 +130,10 @@ class EmployeeController extends Controller
             "types" => $types,
             "cities" => $city
         ];
-        return view('employees.show')->with($data);
+        return view('employees.show-new')->with($data);
     }
+
+
 
 //filter method hat filters data from the table
     public function filter(Request $request){

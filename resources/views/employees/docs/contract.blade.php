@@ -70,7 +70,7 @@
                 type:"blob",
                 mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             }) //Output the document using Data-URI
-            var title = "Ugovor - " + " " + name + last_name;
+            var title = "Ugovor - " + " " + name + " " + last_name;
             saveAs(out,title)
         })
     }
