@@ -20,13 +20,21 @@ $(document).ready(function() {
 
     axios.get('/api/directories')
         .then((response) => {
-            console.log(response.data);
             url = window.location.href;
             navItem(response.data, url);
 
+        })
+        .catch(error => {
+            swal("Greška!", "Desila se greška na serveru!", "error")
         });
+
     $("#search").click(function(){
-        var keyword = $("#keyword").val();
-        window.location.href = "/search/" + keyword;
+        if($("#keyword").val() != ''){
+            var keyword = $("#keyword").val();
+            window.location.href = "/search/" + keyword;
+        }
+        else{
+            swal("Greška!", "Morate unijeti ključnu riječ!", "error");
+        }
     });            
 });

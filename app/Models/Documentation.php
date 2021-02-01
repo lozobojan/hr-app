@@ -43,7 +43,7 @@ class Documentation extends Model
             $return = $return . '
             <a href="/'.$this->file_path.'" target="_blank"><span class="btn-outline-success"><i class="fas fa-file"></i>
             &nbsp'. $this->name.'</span></a>
-            <button class="icon-holder btn btn-outline-success">
+            &nbsp<button class="icon-holder btn btn-outline-success">
                 <i class="fas fa-ellipsis-h"></i>
                 <c>
                     &nbsp<a href="/directory/download/'.$this->id.'"><i class="fas fa-download"></i></a>

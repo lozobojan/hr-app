@@ -23,38 +23,64 @@ class DocumentationRequest extends FormRequest
      */
     public function rules()
     {
-        return $this->is('documentation/create') ? $this->createRules() : $this->updateRules();
+        if($this->is_folder == 1){
+            return $this->createFolder();
+        }
+        else if($this->is('directory/create')){
+            return $this->createFile();
+        }
+        else{
+            return $this->updateFile();
+        }
     }
 
     public function messages()
     {
         return [
             'name.required' => "Ime je obavezno polje!",
-            'expiration_date.after' => "Rok dokumenta mora biti datum u budućnosti!",
-            'file_path.mimes' => "Fajl može biti formata pdf, docx!",
-            'is_folder.required' => 'Morate odabrati tip podatka!'
+            'parent_id.numeric' => 'Parent folder mora biti numerička vrijednost!',
+            'is_folder.required' => 'Morate odabrati tip podatka!',
+            'file_path.required' => 'Morate unijeti fajl!',
+            'file_path.mimes' => 'Fajl može biti formata pdf ili docx',
+            "expiration_date.required" => "Morate unijeti rok!",
+            'expiration_date.after' => "Rok dokumenta mora biti datum u budućnosti!"
         ];
     }
 
-    public function createRules(){
+    public function createFolder()
+    {
         return [
             'name' => 'required',
             'parent_id' => 'nullable|numeric',
             'is_folder' => 'required',
-            'file_path' => 'nullable|mimes:pdf, docx',
-            'expiration_date' => 'nullable|after:today',
+            'file_path' => 'nullable',
+            'expiration_date' => 'nullable',
             'sector_id' => 'nullable',
             'type_id' => 'nullable'
         ];
     }
 
-    public function updateRules(){
+
+    public function createFile()
+    {
         return [
             'name' => 'required',
             'parent_id' => 'nullable|numeric',
             'is_folder' => 'required',
-            'expiration_date' => 'nullable|after:today',
+            'file_path' => 'required|mimes:pdf, docx',
+            'expiration_date' => 'required|after:today',
+            'sector_id' => 'nullable',
+            'type_id' => 'nullable'
+        ];
+    }
+
+    public function updateFile(){
+        return [
+            'name' => 'required',
+            'parent_id' => 'nullable|numeric',
+            'is_folder' => 'required',
             'file_path' => 'nullable|mimes:pdf, docx',
+            'expiration_date' => 'required|after:today',
             'sector_id' => 'nullable',
             'type_id' => 'nullable'
         ];

@@ -20,6 +20,7 @@ function resetModal(){
     $('input[type=radio]').prop('checked', false);
     $("#name").val('');
     $('#name').attr("placeholder", "Naziv direktorijuma ili fajla");
+    $('#file_path').val('');
     $("#expiration_date").val('');
     $("#type_id").val('');
     $("#sector_id").val('');
@@ -108,10 +109,15 @@ $(function () {
     $('input[type=radio][name=is_folder]').change(function () {
         if (this.value == '1') {
             $('#name').attr("placeholder", "Naziv direktorijuma");
+            $('#expiration_date').prop('required', false);
             $('#file_input').hide();
         }
         else if (this.value == '0') {
             $('#name').attr("placeholder", "Naziv fajla");
+            $('#expiration_date').prop('required', true);
+            $('#expiration_date').prop('min', function(){
+                return new Date().toJSON().split('T')[0];
+            });
             $('#file_input').show();
         }
     });

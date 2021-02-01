@@ -51,7 +51,6 @@ function checkForData(data, id, type) {
 
 axios.get('/api/employees-statistics')
     .then((response) => {
-        console.log(response);
 
         $("#avg-target").val(`${response.data.avgSalary.salary} €`);
         $("#avg-service-target").val(`${response.data.avgService.date} godina`);
@@ -80,5 +79,17 @@ axios.get('/api/employees-statistics')
         // Vertical bar chart
         checkForData(response.data.employeeAge, 'bar', 2);
 
+    }).catch(error => {
+        
+        checkForData([], 'hbar', 1);
+        checkForData([], 'hbar2', 1);
+        checkForData([], 'pie', 0);
+        checkForData([], 'pie2', 0);
+        checkForData([], 'pie3', 0);
+        checkForData([], 'pie4', 0);
+        checkForData([], 'line', 3);
+        checkForData([], 'bar', 2);
+
+        swal("Greška!", "Desila se greška na serveru! Pokušajte kasnije.", "error")
     });
     

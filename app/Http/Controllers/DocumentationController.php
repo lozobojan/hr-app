@@ -62,20 +62,6 @@ class DocumentationController extends Controller
     public function store(DocumentationRequest $request)
     {
         $data = $request->validated();
-        if($data['is_folder'] == 0){
-            if($request->hasFile('file_path')){
-                $data['file_path'] = $this->storeDocument($request->file('file_path'));
-            }
-            else{
-                return response()->json(["errors" => ["file_path" => ["Morate unijeti fajl!"]]], 422);
-            }
-            if(!($request->expiration_date)){
-                return response()->json(["errors" => ["expiration_date" => ["Morate unijeti rok!"]]], 422);
-            }
-        }
-        if($data['parent_id'] == 0){
-            unset($data['parent_id']);
-        }
         Documentation::create($data);
         return Redirect::back()->withErrors(['msg', 'Uspjesno dodato!']);
     }
@@ -83,14 +69,6 @@ class DocumentationController extends Controller
     public function edit(DocumentationRequest $request, Documentation $object)
     {
         $data = $request->validated();
-        if($data['is_folder'] == 0){
-            if($request->hasFile('file_path')){
-                $data['file_path'] = $this->storeDocument($request->file('file_path'));
-            }
-            if(!($request->expiration_date)){
-                return response()->json(["errors" => ["expiration_date" => ["Morate unijeti rok!"]]], 422);
-            }
-        }
         $object->fill($data);
         $object->save();
         return Redirect::back()->withErrors(['msg', 'Uspjesno promijenjeno!']);

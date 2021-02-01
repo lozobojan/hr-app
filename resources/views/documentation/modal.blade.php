@@ -12,7 +12,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label class="col-form-label" for="name">Naziv</label>
-                        <input id="name" class="form-control" type="text" placeholder="Naziv direktorijuma ili fajla" name="name">
+                        <input id="name" class="form-control" type="text" placeholder="Naziv direktorijuma ili fajla" name="name" required>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label class="col-form-label" for="parent_id">Lokacija:</label>
-                        <input type="text" name="parent_id" id="parent_id" value="">
+                        <input type="text" name="parent_id" id="parent_id" value="" required>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="col-12">
                     <label class="col-form-label">Tip:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_folder" id="file" value="0">
+                        <input class="form-check-input" type="radio" name="is_folder" id="file" value="0" required>
                         <label class="form-check-label" for="is_folder">
                             Fajl
                         </label>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_folder" id="folder" value="1">
+                        <input class="form-check-input" type="radio" name="is_folder" id="folder" value="1" required>
                         <label class="form-check-label" for="is_folder">
                             Folder
                         </label>
@@ -52,7 +52,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="col-form-label" for="file_path">Dokument</label>
-                            <input type="file" id="file_path" class="form-control" name="file_path">
+                            <input type="file" id="file_path" class="form-control" accept=".pdf, .docx" name="file_path">
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <label class="col-form-label" for="expiration_date">Sektor</label>
                             <select name="sector_id" class="form-control" id="sector_id">
-                                <option value="" selected></option>
+                                <option value="" selected>Odaberi</option>
                                 @foreach($sectors as $sector)
                                 <option value="{{$sector->id}}">{{$sector->name}}</option>
                                 @endforeach
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <label class="col-form-label" for="type_id">Tip</label>
                             <select name="type_id" class="form-control" id="type_id">
-                                <option value="" selected></option>
+                                <option value="" selected>Odaberi</option>
                                 @foreach($types as $type)
                                 <option value="{{$type->id}}">{{$type->name}}</option>
                                 @endforeach
