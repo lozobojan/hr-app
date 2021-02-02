@@ -38,7 +38,7 @@ class EmployeeController extends Controller
         $objects = Employee::get();
         $sectors = Sector::get();
         $types = HireType::get();
-        $city = City::get();
+        $city = City::orderBy('name')->get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
@@ -133,7 +133,8 @@ class EmployeeController extends Controller
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
         $types = HireType::get();
-        $city = City::get();
+        $city = City::orderBy('name')->get();
+
         $cityHistory = CityEmployeeHistory::where('employee_id', $id)->with('city')->get();
         $data = [
             "objects" => $objects,
