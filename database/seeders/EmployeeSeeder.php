@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CityEmployeeHistory;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\Documentation;
@@ -18,11 +19,12 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
         $count = [null, 1, 1, 2, 2, 3, 6, 5, 1, 2, 2, 3, 6, 5,null, 1, 1, 2, 2, 3, 6, 5, 1, 2, 2, 3, 6, 5,];
-        
+
         for($i = 0; $i<28; $i++){
             $faker = Faker\Factory::create();
             $firstName = $faker->firstNameMale;
             $lastName = $faker->lastName;
+            $city_id = rand(1,4);
             Employee::create([
                 'name' => $firstName,
                 'last_name' => $lastName,
@@ -39,7 +41,7 @@ class EmployeeSeeder extends Seeder
                 'office_number' => $faker->numberBetween($min = 1, $max = 12),
                 'additional_info_contact' => $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'pid' => $count[$i],
-                'city_id' => rand(1,4),
+                'city_id' => $city_id,
             ]);
             Documentation::factory()->create([
                 'name' => $firstName." ".$lastName,
@@ -48,6 +50,7 @@ class EmployeeSeeder extends Seeder
                 'file_path' => null
             ]);
             EmployeeSalary::factory()->create(['employee_id'=>$i+1]);
+            CityEmployeeHistory::factory()->create(['employee_id'=>$i+1, 'city_id' => $city_id]);
         }
     }
 }

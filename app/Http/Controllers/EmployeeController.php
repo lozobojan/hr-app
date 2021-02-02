@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Exports\EmployeeExportAll;
 use App\Http\Requests\EmployeeJobDescriptionRequest;
 use App\Http\Requests\SaveEmployeeRequest;
+use App\Models\CityEmployeeHistory;
 use App\Models\Employee;
 use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
@@ -83,6 +84,7 @@ class EmployeeController extends Controller
             EmployeeSalary::create($salaryRequest);
             EmployeeJobStatus::create($jobStatusRequest);
             EmployeeJobDescription::create($jobDescriptionRequest);
+            CityEmployeeHistory::create(['employee_id' => $employee->id, 'city_id' => $employee->city_id]);
 
             DB::commit();
         }catch (\Exception $ex){
@@ -95,10 +97,14 @@ class EmployeeController extends Controller
     //edit method that updates an employee entry and all it's relations
     public function edit(SaveEmployeeRequest $request,EmployeeRequest $empReq,EmployeeJobStatusRequest  $empJobStatReq, EmployeeSalaryRequest $empSalReq, EmployeeJobDescriptionRequest  $empJobDesReq, Employee $object) {
 
+
+
+
         $empl = $empReq->validated();
         $empSala = $empSalReq->validated();
         $empJobDescr = $empJobDesReq->validated();
         $empJobStat = $empJobStatReq->validated();
+
 
         $empSala["employee_id"] = $object->id;
         $empJobStat["date_hired"] = Carbon::createFromFormat("d.m.Y.",$empJobStat['date_hired']);
@@ -110,6 +116,11 @@ class EmployeeController extends Controller
         $object->employeeSalary()->update($empSala);
         $object->employeeJobDescription()->update($empJobDescr);
         $object->employeeJobStatus()->update($empJobStat);
+        if($object->wasChanged('city_id')){
+            CityEmployeeHistory::create(['employee_id' => $object->id, 'city_id' => $object->city_id]);
+        };
+       // if()
+        //CityEmployeeHistory::create
 
         return response()->json(['success' => 'success'], 200);
     }

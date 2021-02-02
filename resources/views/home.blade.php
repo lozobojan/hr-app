@@ -2,9 +2,7 @@
 
 @section('title', 'Dashboard')
 
-{{--@section('notifications')
 
-@endsection--}}
 @section('content')
 
 
@@ -142,9 +140,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-    
+
                 <div class="card">
-    
+
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
@@ -155,12 +153,12 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-    
+
                             <table class="table table-striped table-bordered first">
                                 <thead>
-    
+
                                 <tr>
-    
+
                                     {{--LICNI PODACI--}}
                                     <th class="text-center">ID</th>
                                     <th class="text-center">Naziv</th>
@@ -171,18 +169,18 @@
                                 <tbody>
                                 @foreach($notificationsDoc as $notification)
                                     <tr>
-    
-    
+
+
                                         {{--LICNI PODACI--}}
                                         <td class="text-center">{{ $notification->id }}</td>
                                         <td class="text-center">{{ $notification->name}}</td>
                                         <td class="text-center">{{ $notification->days_till }} dana</td>
-    
-    
-    
+
+
+
                                         <td class="text-center">
                                             <a href="/search/{{$notification->name}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
-    
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -192,7 +190,7 @@
                     </div>
                 </div>
             </div>
-    
+
             </div>
         </div>
         @endif

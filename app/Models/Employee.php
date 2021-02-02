@@ -15,6 +15,9 @@ class Employee extends Model
 
     public $primaryKey = "id";
     protected $guarded = [];
+    /**
+     * @var mixed
+     */
 
     public function getAgeAttribute()
     {
@@ -66,6 +69,9 @@ class Employee extends Model
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+    public function cityHistory(){
+        return $this->hasMany(City::class);
     }
 
 
