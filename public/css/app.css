@@ -1,4 +1,50 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+.select2-selection__rendered {
+    line-height: 32px !important;
+}
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+.select2-selection__arrow {
+    height: 35px !important;
+}
+.head-light {
+    background-color: #ffffff;
+}
+
+.head-dark {
+    background-color: #cbcbcb;
+}
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 50px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
 
 /*!
  * Bootstrap v4.5.3 (https://getbootstrap.com/)
@@ -6,7 +52,6 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-
 
 :root {
   --blue: #3490dc;

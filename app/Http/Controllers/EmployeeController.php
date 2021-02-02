@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 
+use App\Exports\EmployeeExportAll;
 use App\Http\Requests\EmployeeJobDescriptionRequest;
 use App\Http\Requests\SaveEmployeeRequest;
+use App\Models\CityEmployeeHistory;
 use App\Models\Employee;
 use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
 use App\Models\HireType;
 use App\Models\Sector;
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeSalaryRequest;
 use App\Http\Requests\EmployeeJobStatusRequest;
 use App\Exports\EmployeeExport;
+use App\Models\Documentation;
 use DB;
 use Illuminate\Support\Carbon;
 use View;
@@ -24,32 +28,38 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ //Index, Returns all data needed for the table
     public function index()
     {
-        $objects = Employee::with('employeeJobDescription')->get();
+        /*$objects = Employee::with('employeeJobStatus')->whereHas('employeeJobStatus', function($q){
+                $q->whereDate('date_hired_till', '>=', Carbon::now('Europe/Stockholm'));
+
+        })->get();*/
+        $objects = Employee::get();
         $sectors = Sector::get();
         $types = HireType::get();
+        $city = City::get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "types" => $types,
+            "cities" => $city,
         ];
         return view("employees.index")->with($data);
     }
 
-
+//getOne returns data as a json for filling in the modal automatically
     public function getOne($id){
-        $object = Employee::with('employeeSalary')->with('employeeJobStatus')->with('employeeJobDescription')->with('parent')->find($id);
+        $object = Employee::with('employeeSalary')
+            ->with('employeeJobStatus')
+            ->with('employeeJobDescription')
+            ->with('parent')
+            ->find($id);
 
         return $object ? $object : null;
     }
 
-
+//Store, creates a new employee entry and folders for those entries
     public function store(EmployeeRequest $request, EmployeeSalaryRequest $request2, EmployeeJobStatusRequest $request3, EmployeeJobDescriptionRequest  $request4){
 
         DB::beginTransaction();
@@ -59,6 +69,12 @@ class EmployeeController extends Controller
             $jobStatusRequest = $request3->validated();
             $jobDescriptionRequest = $request4->validated();
             $employee = Employee::create($data);
+            Documentation::create([
+                "name" => $employee->name." ".$employee->last_name,
+                "parent_id" => 1,
+                "sector_id" => $jobDescriptionRequest["sector_id"],
+                "is_folder" => 1
+            ]);
             $salaryRequest["employee_id"] = $employee->id;
             $jobStatusRequest["employee_id"] = $employee->id;
             $jobStatusRequest["date_hired"] = Carbon::createFromFormat("d.m.Y.",$jobStatusRequest['date_hired']);
@@ -68,64 +84,27 @@ class EmployeeController extends Controller
             EmployeeSalary::create($salaryRequest);
             EmployeeJobStatus::create($jobStatusRequest);
             EmployeeJobDescription::create($jobDescriptionRequest);
+            CityEmployeeHistory::create(['employee_id' => $employee->id, 'city_id' => $employee->city_id]);
 
             DB::commit();
         }catch (\Exception $ex){
             DB::rollBack();
             throw $ex;
         }
-
         return response()->json(["success" => "success"], 200);
     }
 
+    //edit method that updates an employee entry and all it's relations
     public function edit(SaveEmployeeRequest $request,EmployeeRequest $empReq,EmployeeJobStatusRequest  $empJobStatReq, EmployeeSalaryRequest $empSalReq, EmployeeJobDescriptionRequest  $empJobDesReq, Employee $object) {
-       /* $data = $request->validated();
-        $emp = [
-            "name" => $data['name'],
-            "last_name" => $data['last_name'],
-            "birth_date" => $data['birth_date'],
-            "jmbg" => $data['jmbg'],
-            "email" => $data['email'],
-            "image" => $data['image'],
-            "qualifications" => $data['qualifications'],
-            "home_address" => $data['home_address'],
-            "additional_info" => $data['additional_info'],
-            "telephone_number" => $data['telephone_number'],
-            //"office_number" => $data['office_number'],
-            "additional_info_contact" => $data['additional_info_contact'],
-            "gender" => $data['gender'],
-            "pid" => $data['pid'],
-        ];
 
-        $empSal = [
-            "pay" => $data['pay'],
-            "bonus" => $data['bonus'],
-            "bank_name" => $data['bank_name'],
-            "bank_number" => $data['bank_number'],
-            "employee_id" => $object->id,
 
-        ];
-        $empJobDesc = [
-            "workplace" => $data['workplace'],
-            "job_description" => $data['job_description'],
-            "skills" => $data['skills'],
-            "sector_id" => $data['sector_id'],
-            "employee_id" => $object->id,
-        ];
-        $empJobStatus = [
-            "status" => $data['status'],
-            "date_hired" => Carbon::createFromFormat("d.m.Y.",$data['date_hired']),
-            "date_hired_till" => Carbon::createFromFormat("d.m.Y.",$data['date_hired_till']),
-           // "date_hired_till" => $data['date_hired_till'],
-            "additional_info" => $data['additional_info'],
-            "type" => $data['type'],
-            "employee_id" => $object->id,
-        ];*/
+
 
         $empl = $empReq->validated();
         $empSala = $empSalReq->validated();
         $empJobDescr = $empJobDesReq->validated();
         $empJobStat = $empJobStatReq->validated();
+
 
         $empSala["employee_id"] = $object->id;
         $empJobStat["date_hired"] = Carbon::createFromFormat("d.m.Y.",$empJobStat['date_hired']);
@@ -133,20 +112,20 @@ class EmployeeController extends Controller
         $empJobStat["employee_id"] = $object->id;
         $empJobDescr["employee_id"] = $object->id;
 
-
-        /*$object->fill($emp);*/
         $object->update($empl);
         $object->employeeSalary()->update($empSala);
         $object->employeeJobDescription()->update($empJobDescr);
         $object->employeeJobStatus()->update($empJobStat);
-      /*  $object2->fill($empSal);
-        $object2->update();*/
-
+//        if($object->wasChanged('city_id')){
+//            CityEmployeeHistory::create(['employee_id' => $object->id, 'city_id' => $object->city_id]);
+//        };
+       // if()
+        //CityEmployeeHistory::create
 
         return response()->json(['success' => 'success'], 200);
     }
 
-
+    //show method that returns all data needed for the singular employee display
     public function show($id)
     {
         $employee = Employee::with('parent')->with('employeeJobStatus')
@@ -154,68 +133,105 @@ class EmployeeController extends Controller
         $objects = Employee::with('employeeJobDescription')->get();
         $sectors = Sector::get();
         $types = HireType::get();
+        $city = City::get();
+        $cityHistory = CityEmployeeHistory::where('employee_id', $id)->with('city')->get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "employee" => $employee,
             "title" => "$employee->name $employee->last_name",
-            "types" => $types
+            "types" => $types,
+            "cities" => $city,
+            "cityHistory" => $cityHistory
         ];
-        return view('employees.show')->with($data);
+        return view('employees.show-new')->with($data);
     }
 
 
 
+//filter method hat filters data from the table
+    public function filter(Request $request){
+        $sector = $request->sector;
+        $type = $request->type;
+        $bank_name = $request->bank_name;
+        $salary_less = $request->salary_less;
+        $salary_greater = $request->salary_greater;
+        $city = $request->city;
 
-    public function createPDF($id) {
-        // retreive all records from db
-        $data = Employee::with('EmployeeSalary')
-            ->where('id', $id)
-            ->first();
-        //// share data to view
-        view()->share('employee',$data);
-        $pdf = PDF::loadView('employees.pdf', $data);
 
-        // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
-        //return view('employees.pdf', compact("employee"));
+        $objects = Employee::whereHas('employeeJobDescription', function($q) use ($sector, $request) {
+            if($request->filled('sector')){
+                $q->where('employee_job_descriptions.sector_id', $sector);
+            }
+        })->whereHas('employeeSalary', function($q) use ($salary_greater, $salary_less, $request, $bank_name){
+            if($request->filled('bank_name')){
+                $q->where('employee_salaries.bank_name','LIKE',$bank_name);
+            }
+            if($request->filled('salary_less')){
+                $q->where('employee_salaries.pay','<=',$salary_less);
+            }
+            if($request->filled('salary_greater')){
+                $q->where('employee_salaries.pay','>=',$salary_greater);
+            }
+        })->whereHas('employeeJobStatus', function($q) use ($request, $type){
+            if($request->filled('type')){
+                $q->where('employee_job_statuses.type',$type);
+            }
+        })->whereHas('city', function($q) use ($request, $city){
+            if($request->filled('city')){
+                $q->where('city_id',$city);
+            }
+        })->get();
+
+        $sectors = Sector::get();
+        $types = HireType::get();
+        $cities = City::get();
+        $data = [
+            "objects" => $objects,
+            "sectors" => $sectors,
+            "types" => $types,
+            "cities" => $cities,
+        ];
+        return view("employees.index")->with($data);
     }
 
 
+//destroy, deletes an employee entry
     public function destroy($id){
         $object = Employee::find($id);
-
-        // REORDER PARENTS FOR DELETE
-
 
         if($object)
             $object->delete();
         return back()->with("success", "Element uspješno obrisan!");
     }
-
+//export and export_all used for exporting data into excel file
     public function export($id)
     {
         $employee = new EmployeeExport($id);
         $name = $employee->fileName();
         return Excel::download($employee, "$name.xlsx");
-        return redirect()->back();
     }
 
+    public function export_all()
+    {
+        $employees = new EmployeeExportAll();
+        return Excel::download($employees, "zaposleni.xlsx");
+    }
+
+
+
+//doc creates an contract out of the user data
     public function doc($id) {
-        // retreive all records from db
-        $data = Employee::with('EmployeeSalary')
+        $employee = Employee::with('EmployeeSalary')
             ->where('id', $id)
             ->first();
+        $dt = Carbon::now()
+            ->format('d.m.Y.');
 
-        $filename = $data->name .' '. $data->last_name;
-
-
-        $contents = View::make('employees.docs.sample')->with('data', $data);
-        $response = \Response::make($contents, 200);
-        $response->header('Content-Type', 'text/html')->header('Content-Disposition', "attachment;Filename=$filename.doc");
-        return $response;
-        //// share data to view
-        //return view('employees.docs.sample', compact('data'));
-
+        $stuff = [
+          'data' => $employee,
+            'today' => $dt
+        ];
+        return view('employees.docs.sample')->with($stuff);
     }
 }

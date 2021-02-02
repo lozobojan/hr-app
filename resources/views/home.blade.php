@@ -2,9 +2,7 @@
 
 @section('title', 'Dashboard')
 
-{{--@section('notifications')
 
-@endsection--}}
 @section('content')
 
 
@@ -42,7 +40,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-secondary"><i class="fas fa-venus-mars"></i></span>
+                    <span class="info-box-icon bg-secondary"><i class="fas fa-birthday-cake"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Prosjek godina</span>
@@ -71,7 +69,7 @@
     </div>
 
 
-    @if($notifications->isNotEmpty())
+    @if($notificationsEmp->isNotEmpty())
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -106,7 +104,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($notifications as $notification)
+                            @foreach($notificationsEmp as $notification)
                                 <tr>
 
 
@@ -138,6 +136,65 @@
     </div>
     @endif
 
+    @if($notificationsDoc->isNotEmpty())
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="card-title mt-1 mb-1">Dokumentacija koja uskoro ističe</h5>
+                                <span class="badge badge-danger">New</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table class="table table-striped table-bordered first">
+                                <thead>
+
+                                <tr>
+
+                                    {{--LICNI PODACI--}}
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Naziv</th>
+                                    <th class="text-center">Ističe za</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($notificationsDoc as $notification)
+                                    <tr>
+
+
+                                        {{--LICNI PODACI--}}
+                                        <td class="text-center">{{ $notification->id }}</td>
+                                        <td class="text-center">{{ $notification->name}}</td>
+                                        <td class="text-center">{{ $notification->days_till }} dana</td>
+
+
+
+                                        <td class="text-center">
+                                            <a href="/search/{{$notification->name}}" class="btn btn-sm btn-outline-success"><i class="far fa-eye"></i></a>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        @endif
+
     <style>
         .tooltip { position: fixed!important; }
     </style>
@@ -146,7 +203,8 @@
             <div class="col-md-12 ">
 
                 <div class="panel panel-default">
-
+                    <div class="legend-red d-inline-block m-0" style="width: 15px; height: 15px; background-color: #f05050"></div> <p class="d-inline-block">Rodjendan</p>
+                    <div class="legend-red d-inline-block m-0" style="width: 15px; height: 15px; background-color: #32a852"></div> <p class="d-inline-block">Ugovor</p>
                     <div class="panel-body">
                         {!! $calendar->calendar() !!}
                     </div>

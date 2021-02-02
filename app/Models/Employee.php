@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\EmployeeSalaryRequest;
+use App\Observers\EmployeeObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -15,6 +16,14 @@ class Employee extends Model
 
     public $primaryKey = "id";
     protected $guarded = [];
+    /**
+     * @var mixed
+     */
+
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->attributes['birth_date'])->age;
+    }
 
     public function getBirthDateAttribute($value)
     {
@@ -58,6 +67,14 @@ class Employee extends Model
     public function children() {
         return $this->hasMany(static::class, 'pid');
     }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+    public function cityHistory(){
+        return $this->belongsToMany(City::class, "city_employee_history");
+    }
+
 
    /*public function sector()
     {
@@ -76,5 +93,6 @@ class Employee extends Model
             $employee->employeeJobDescription()->delete();
             // do the rest of the cleanup...
         });
+        Employee::observe(EmployeeObserver::class);
     }
 }

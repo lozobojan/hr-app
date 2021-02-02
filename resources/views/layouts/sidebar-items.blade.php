@@ -22,8 +22,8 @@
             </a>
         </li>
 
-        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "menu-open" : " "}}">
-            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "active" : " "}}">
+        <li class="nav-item {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('search*'))  || (request()->is('directory*')) ) ? "menu-open" : " "}}">
+            <a href="#" class="nav-link {{ ((request()->is('documents')) || (request()->is('tag*')) || (request()->is('search*')) || (request()->is('directory*')) ) ? "active" : " "}}">
                 <i class="nav-icon fas fa-database"></i>
 
                 <p>
@@ -31,8 +31,20 @@
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+            <ul class="nav nav-treeview" style="display: {{ ((request()->is('documents')) || (request()->is('search*')) || (request()->is('tag*')) || (request()->is('directory*')) ) ? "block" : "none"}};">
+
                 <li class="nav-item">
+                    <div class=" input-group">
+                        <input class="form-control" type="search" placeholder="Pretraga" id="keyword">
+                        <span class="input-group-append mr-1">
+                        <button class="btn btn-outline-secondary border-left-0 border " id="search" type="button">
+                                <i class="fa fa-search"></i>
+                        </button>
+                        </span>
+                    </div>
+                </li>
+
+                <li class="nav-item mt-1">
                     <a href="{{ route('documents') }}" class="nav-link {{strpos(Route::current()->getName(), 'documents' ) !== false ? "active" : ""}}">
                         <i class="fas fa-database"></i>
                         <p>Prikazi sve</p>
@@ -47,7 +59,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-dir">
+                    <ul class="nav nav-treeview" style="display: {{ ((request()->is('directory*')) ) ? "block" : "none"}};" id="target-directories">
                 
                     </ul>
                 </li>
@@ -60,12 +72,51 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display:none" id="target-file">
+                    <ul class="nav nav-treeview" style="display:none" id="target-files">
                 
                     </ul>
                 </li>
 
-                
+
+                <li class="nav-item {{ ((request()->is('tag*')) ) ? "menu-open" : " "}}">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tag"></i>
+                        <p>
+                            Tagovi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag*')) ) ? "block" : "none"}}">
+                        <li class="nav-item {{ ((request()->is('tag/sector*')) ) ? "menu-open" : " "}}">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-users"></i>
+                                <p>
+                                    Sektori
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/sector*')) ) ? "block" : "none"}}" id="target-sectors">
+                            
+                            </ul>
+                        </li>
+
+                        <li class="nav-item {{ ((request()->is('tag/type*')) ) ? "menu-open" : " "}}">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-file"></i>
+                                <p>
+                                    Tip
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display:{{ ((request()->is('tag/type*')) ) ? "block" : "none"}}" id="target-types">
+                            
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </li>
+
 
             </ul>
         </li>

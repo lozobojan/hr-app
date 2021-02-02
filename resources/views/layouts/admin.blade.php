@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset("plugins/jqvmap/jqvmap.min.css")}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset("dist/css/adminlte.min.css")}}">
+    <link rel="stylesheet" href="{{asset("css/app.css")}}">
     <!-- overlayScrollbars -->
 
     <!-- Daterange picker -->
@@ -33,6 +34,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+
+    @yield('css')
 
     <title>Statistika</title>
 
@@ -81,22 +85,37 @@
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
             <!-- Notifications Dropdown Menu -->
-            @if($notifications->isNotEmpty())
+
+            @if($notificationsEmp->isNotEmpty() || $notificationsDoc->isNotEmpty())
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-danger">{{count($notifications)}}</span>
+                    <span class="badge badge-danger">{{$totalNotifications}}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width:500px!important;">
-                    <span class="dropdown-item dropdown-header">{{count($notifications)}} ugovora uskoro isticu</span>
+                    @if($notificationsEmp->isNotEmpty())
+                    <span class="dropdown-item dropdown-header">@if(count($notificationsEmp) == 1) {{count($notificationsEmp)}} ugovor uskoro ističe @else {{count($notificationsEmp)}} ugovora uskoro ističu @endif</span>
                     <div class="dropdown-divider"></div>
-                    @foreach($notifications as $notification)
+                    @foreach($notificationsEmp as $notification)
                         <a href="/employees/{{$notification->employee_id}}" class="dropdown-item">
                             <i class="fas fa-user mr-2"></i> {{$notification->name}} {{$notification->last_name}}
                             <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
+                    <div class="dropdown-divider"></div>
+@endif
+@if($notificationsDoc->isNotEmpty())
+                    <span class="dropdown-item dropdown-header"> @if(count($notificationsDoc) == 1) {{count($notificationsDoc)}} dokument uskoro ističe @else {{count($notificationsDoc)}} dokumenata uskoro ističu @endif </span>
+                    <div class="dropdown-divider"></div>
+                    @foreach($notificationsDoc as $notification)
+                        <a href="/search/{{$notification->name}}" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> {{$notification->name}}
+                            <span class="float-right text-muted text-sm">{{$notification->days_till}} dana</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        @endforeach
+                        @endif
                     <div class="dropdown-divider"></div>
                     <a href="/home" class="dropdown-item dropdown-footer">Pogledaj detalje</a>
                 </div>
@@ -110,7 +129,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
+        <a href="/home" class="brand-link">
         <img src="{{asset("dist/img/AdminLTELogo.png")}}" alt="AdminLTE Logo" class="brand-image img-circle"
                  style="opacity: .8">
         <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
@@ -225,32 +244,11 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.preloader').hide();
 
-        axios.get('/api/directories')
-            .then((response) => {
-                url = `{{url()->current()}}`;
-                if(response.data.directories.length == 0){
-                    $("#target-dir").append(`<li class="nav-item"><a href="#" class="nav-link"><p>Nema foldera</p></a></li>`);
-                }
-                for(var i = 0; i < response.data.directories.length; i++){
-                    if(url.substring(22) == 'directory/'+response.data.directories[i].id){
-                        $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link active"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
-                        continue;
-                    }
-                    $("#target-dir").append(`<li class="nav-item"><a href="http://127.0.0.1:8000/directory/`+response.data.directories[i].id+`" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.directories[i].name +`</p></a></li>`);
-                }
-                if(response.data.files.length == 0){
-                    $("#target-file").append(`<li class="nav-item"><a href="#" class="nav-link"><p>Nema dokumenata</p></a></li>`);
-                }
-                for(var i = 0; i < response.data.files.length; i++){
-                    $("#target-file").append(`<li class="nav-item"><a href="/`+ response.data.files[i].file_path +`" target="_blank" class="nav-link"><i class="far fa-circle nav-icon"></i><p>`+ response.data.files[i].name +`</p></a></li>`);
-                }
-            });
-    });
-</script>
+
+
+<!-- Scipt -->
+<script src="{{ asset('js/layout.js') }}"></script>
 
 <!-- js end -->
 @yield('js')

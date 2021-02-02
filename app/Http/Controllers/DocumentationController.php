@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentationRequest;
 use App\Models\Documentation;
+use App\Models\FileType;
+use App\Models\Sector;
 use App\Traits\FileHandling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -16,39 +18,66 @@ class DocumentationController extends Controller
     public function index()
     {
         $roots = Documentation::root()->get();
-
-        return view('documentation', [
-            'roots' => $roots
-        ]);
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
-
+    
     public function showByDirectory($id)
     {
         $roots = Documentation::where('parent_id', $id)->get();
-        return view('documentation', compact ('roots', 'id'));
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation.documentation', compact ('roots', 'id', 'types', 'sectors'));
+    }
+    
+    public function showBySector($id)
+    {
+        $roots = Documentation::where('sector_id', $id)->get();
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
+    }
+    
+    public function showByType($id)
+    {
+        $roots = Documentation::where('type_id', $id)->get();
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
     }
 
+    public function search($word){
+        $roots = Documentation::where('name', 'like', '%'.$word.'%')->get();
+        $types = FileType::all();
+        $sectors = Sector::all();
+        return view('documentation.documentation', compact('roots', 'types', 'sectors'));
+    }
+    
     public function download($id)
     {
         return response()->download(Documentation::find($id)->file_path);
     }
-
+    
     public function store(DocumentationRequest $request)
     {
         $data = $request->validated();
-        if($data['is_folder'] == 0){
-            if($request->hasFile('file_path')){
-                $data['file_path'] = $this->storeDocument($request->file('file_path'));
-            }
-            else{
-                return response()->json(["errors" => ["file_path" => ["Morate unijeti fajl!"]]], 422);
-            }
-        }
-        if($data['parent_id'] == 0){
-            unset($data['parent_id']);
-        }
         Documentation::create($data);
         return Redirect::back()->withErrors(['msg', 'Uspjesno dodato!']);
+    }
+
+    public function edit(DocumentationRequest $request, Documentation $object)
+    {
+        $data = $request->validated();
+        $object->fill($data);
+        $object->save();
+        return Redirect::back()->withErrors(['msg', 'Uspjesno promijenjeno!']);
+    }
+
+    public function getOne($id)
+    {
+        $object = Documentation::find($id);
+        return $object ? $object : null;
     }
 
     public function delete($id){
@@ -59,8 +88,8 @@ class DocumentationController extends Controller
     public function deleteAll($id){
         $doc = Documentation::where('id', $id)->first();
         $descendents = $doc->descendents();
-        foreach($descendents as $descendent){
-            $descendent->delete();
+        for($i = count($descendents) - 1; $i >= 0; $i--){
+            $descendents[$i]->delete();
         }
         $doc->delete();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
