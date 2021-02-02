@@ -116,9 +116,9 @@ class EmployeeController extends Controller
         $object->employeeSalary()->update($empSala);
         $object->employeeJobDescription()->update($empJobDescr);
         $object->employeeJobStatus()->update($empJobStat);
-        if($object->wasChanged('city_id')){
-            CityEmployeeHistory::create(['employee_id' => $object->id, 'city_id' => $object->city_id]);
-        };
+//        if($object->wasChanged('city_id')){
+//            CityEmployeeHistory::create(['employee_id' => $object->id, 'city_id' => $object->city_id]);
+//        };
        // if()
         //CityEmployeeHistory::create
 
@@ -134,13 +134,15 @@ class EmployeeController extends Controller
         $sectors = Sector::get();
         $types = HireType::get();
         $city = City::get();
+        $cityHistory = CityEmployeeHistory::where('employee_id', $id)->with('city')->get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
             "employee" => $employee,
             "title" => "$employee->name $employee->last_name",
             "types" => $types,
-            "cities" => $city
+            "cities" => $city,
+            "cityHistory" => $cityHistory
         ];
         return view('employees.show-new')->with($data);
     }

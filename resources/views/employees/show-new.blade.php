@@ -42,7 +42,15 @@
                             <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>Grad</h6>
-                            <span class="text-secondary">{{ $employee->city->name }}</span>
+                            <span class="text-secondary">{{ $employee->city->name }}
+                                @if($employee->cityHistory->count()>1)
+                            <a
+                                data-toggle="modal"
+                                data-target="#cityHistory"
+                                class="show-object-data btn border border-primary text-dark"><i class="fa fa-history"></i></a>
+                                    @endif
+
+                            </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger">  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
@@ -289,6 +297,7 @@
     </div>
 </div>
     @include('employees.includes.modal-show')
+    @include('employees.includes.modal-history')
 @endsection
 
 @section('js')

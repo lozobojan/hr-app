@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\EmployeeSalaryRequest;
+use App\Observers\EmployeeObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -71,7 +72,7 @@ class Employee extends Model
         return $this->belongsTo(City::class);
     }
     public function cityHistory(){
-        return $this->hasMany(City::class);
+        return $this->belongsToMany(City::class, "city_employee_history");
     }
 
 
@@ -92,5 +93,6 @@ class Employee extends Model
             $employee->employeeJobDescription()->delete();
             // do the rest of the cleanup...
         });
+        Employee::observe(EmployeeObserver::class);
     }
 }

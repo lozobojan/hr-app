@@ -18,6 +18,6 @@ class City extends Model
         return $this->hasMany(Employee::class);
     }
     public function employeeHistory(){
-        return $this->hasMany(Employee::class);
+        return $this->belongsToMany(Employee::class, "city_employee_history");
     }
 }

@@ -24,7 +24,7 @@ class EmployeeObserver
      * @param  \App\Models\Employee  $employee
      * @return void
      */
-    public function updating(Employee $employee)
+    public function updated(Employee $employee)
     {
         if($employee->wasChanged('city_id')){
             CityEmployeeHistory::create(['employee_id' => $employee->id, 'city_id' => $employee->city_id]);

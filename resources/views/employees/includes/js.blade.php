@@ -17,6 +17,9 @@
         var $image = $("#imageHolder");
         $("#imageHolder").removeAttr("src").replaceWith($image.clone());
     });
+    $('#cityHistory').on('hidden.bs.modal', function () {
+        $(".submitForm")[0].reset();
+    });
 
 
     $(".edit").click(function(){
