@@ -8,6 +8,7 @@ use App\Models\FileType;
 use App\Models\Sector;
 use App\Traits\FileHandling;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class DocumentationController extends Controller
@@ -63,6 +64,7 @@ class DocumentationController extends Controller
     {
         $data = $request->validated();
         Documentation::create($data);
+        Cache::tags(['directories', 'files'])->flush();
         return Redirect::back()->withErrors(['msg', 'Uspjesno dodato!']);
     }
 
@@ -71,6 +73,7 @@ class DocumentationController extends Controller
         $data = $request->validated();
         $object->fill($data);
         $object->save();
+        Cache::tags(['directories', 'files'])->flush();
         return Redirect::back()->withErrors(['msg', 'Uspjesno promijenjeno!']);
     }
 
@@ -82,6 +85,7 @@ class DocumentationController extends Controller
 
     public function delete($id){
         Documentation::where('id', $id)->delete();
+        Cache::tags(['directories', 'files'])->flush();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
     }
 
@@ -92,6 +96,7 @@ class DocumentationController extends Controller
             $descendents[$i]->delete();
         }
         $doc->delete();
+        Cache::tags(['directories', 'files'])->flush();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
     }
 
@@ -99,6 +104,7 @@ class DocumentationController extends Controller
         $doc = Documentation::where('id', $id)->first();
         Documentation::where('parent_id', $id)->update(['parent_id' => $doc->parent_id]);
         $doc->delete();
+        Cache::tags(['directories', 'files'])->flush();
         return Redirect::back()->withErrors(['msg', 'Uspjesno brisanje!']);
     }
 }

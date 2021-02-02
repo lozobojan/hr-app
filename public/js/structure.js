@@ -1,6 +1,6 @@
 axios.get('/api/employees')
 .then((response) => {
-    var data = response.data.employees;
+    var data = response.data;
     for (i = 0; i < data.length; i++) {
         data[i] = { id: data[i].id,
             pid: data[i].pid ,

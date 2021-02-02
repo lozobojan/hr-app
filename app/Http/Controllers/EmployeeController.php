@@ -23,6 +23,7 @@ use App\Models\Documentation;
 use DB;
 use Illuminate\Support\Carbon;
 use View;
+use Illuminate\Support\Facades\Cache;
 
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -91,6 +92,9 @@ class EmployeeController extends Controller
             DB::rollBack();
             throw $ex;
         }
+
+        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
+
         return response()->json(["success" => "success"], 200);
     }
 
@@ -121,6 +125,8 @@ class EmployeeController extends Controller
 //        };
        // if()
         //CityEmployeeHistory::create
+        
+        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
 
         return response()->json(['success' => 'success'], 200);
     }
@@ -203,6 +209,9 @@ class EmployeeController extends Controller
 
         if($object)
             $object->delete();
+
+        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
+
         return back()->with("success", "Element uspješno obrisan!");
     }
 //export and export_all used for exporting data into excel file
