@@ -24,7 +24,7 @@ class EmployeeSeeder extends Seeder
             $faker = Faker\Factory::create();
             $firstName = $faker->firstNameMale;
             $lastName = $faker->lastName;
-            $city_id = rand(1,4);
+            $city_id = rand(1,21);
             Employee::create([
                 'name' => $firstName,
                 'last_name' => $lastName,
