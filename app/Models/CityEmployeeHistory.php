@@ -14,10 +14,7 @@ class CityEmployeeHistory extends Model
         return Carbon::parse($value)->format("d.m.Y.");
     }
 
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes["created_at"] = Carbon::createFromFormat("d.m.Y.", $value);
-    }
+
     protected $table = 'city_employee_history';
 
     public  function city(){
