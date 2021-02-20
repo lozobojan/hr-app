@@ -93,7 +93,16 @@ class EmployeeController extends Controller
             throw $ex;
         }
 
-        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
+        Cache::forget('salaryBySector');
+        Cache::forget('employeesBySector');
+        Cache::forget('employeeCountOne');
+        Cache::forget('employeeCountTwo');
+        Cache::forget('employeeAge');
+        Cache::forget('avgSalary');
+        Cache::forget('avgService');
+        Cache::forget('employeeCountThree');
+        Cache::forget('employeeCountFour');
+        Cache::forget('employeeCountPerYear');
 
         return response()->json(["success" => "success"], 200);
     }
@@ -126,7 +135,18 @@ class EmployeeController extends Controller
        // if()
         //CityEmployeeHistory::create
         
-        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
+        
+        Cache::forget('salaryBySector');
+        Cache::forget('employeesBySector');
+        Cache::forget('employeeCountOne');
+        Cache::forget('employeeCountTwo');
+        Cache::forget('employeeAge');
+        Cache::forget('avgSalary');
+        Cache::forget('avgService');
+        Cache::forget('employeeCountThree');
+        Cache::forget('employeeCountFour');
+        Cache::forget('employeeCountPerYear');
+
 
         return response()->json(['success' => 'success'], 200);
     }
@@ -210,7 +230,16 @@ class EmployeeController extends Controller
         if($object)
             $object->delete();
 
-        Cache::tags(['salaryBySector', 'employeesBySector', 'employeeCountOne', 'employeeCountTwo', 'employeeAge', 'avgSalary', 'avgService', 'employeeCountThree', 'employeeCountFour', 'employeeCountPerYear'])->flush();
+        Cache::forget('salaryBySector');
+        Cache::forget('employeesBySector');
+        Cache::forget('employeeCountOne');
+        Cache::forget('employeeCountTwo');
+        Cache::forget('employeeAge');
+        Cache::forget('avgSalary');
+        Cache::forget('avgService');
+        Cache::forget('employeeCountThree');
+        Cache::forget('employeeCountFour');
+        Cache::forget('employeeCountPerYear');
 
         return back()->with("success", "Element uspješno obrisan!");
     }
