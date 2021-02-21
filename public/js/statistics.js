@@ -1,3 +1,9 @@
+
+function displayError(id){
+    $(`#${id}-target`).after("<br><p>Nema podataka</p>");
+    $(`#${id}Chart`).attr('hidden', true);
+}
+
 function randomColor() {
     return `rgba(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},1)`;
 }
@@ -7,26 +13,22 @@ function getChartData(data, type){
     var types = ["pie", "horizontalBar", "bar", "line"];
     var options = [
         { legend: { labels: { fontSize: 18 } } },
-        { legend: { display: false }, scales: { yAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", }, ticks: { beginAtZero: true } }], xAxes: [{ ticks: { beginAtZero: true, } }] } },
-        { legend: { display: false }, scales: { yAxes: [{ ticks: { beginAtZero: true } }], xAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", } }] } },
+        { legend: { display: false }, scales: { yAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", }, ticks: { beginAtZero: true} }], xAxes: [{ ticks: { beginAtZero: true } }] } },
+        { legend: { display: false }, scales: { yAxes: [{ ticks: { beginAtZero: true, stepSize: 1 } }], xAxes: [{ gridLines: { color: "rgba(0, 0, 0, 0)", } }] } },
         { legend: { display: false } }
     ];
-    var color = new Array();
-    var labels = new Array();
-    var count = new Array();
 
-    for (var i = 0; i < data.length; i++) {
-        labels[i] = data[i].name;
-        count[i] = data[i].count;
+    var color = new Array();
+    for (var i = 0; i < data.name.length; i++) {
         color[i] = randomColor();
     }
 
     var data = {
         type: types[type],
         data: {
-            labels: labels,
+            labels: data.name,
             datasets: [{
-                data: count,
+                data: data.count,
                 backgroundColor: color
             }]
         },
@@ -37,15 +39,16 @@ function getChartData(data, type){
 }
 
 function checkForData(data, id, type) {
-    if (data.length == 0) {
-        $(`#${id}-target`).after("<br><p>Nema podataka</p>");
-        $(`#${id}Chart`).attr('hidden', true);
-    }
-    else {
+    try{
+        if(data.name.length == 0){
+            throw new Error();
+        }
         $(`#${id}Chart`).attr('hidden', false);
         var chartData = getChartData(data, type);
         var ctxH = document.getElementById(`${id}Chart`).getContext('2d');
         var myChart = new Chart(ctxH, chartData);
+    }catch{
+        displayError(id);
     }
 }
 
@@ -54,42 +57,75 @@ axios.get('/api/employees-statistics')
 
         $("#avg-target").val(`${response.data.avgSalary.salary} €`);
         $("#avg-service-target").val(`${response.data.avgService.date} godina`);
-
-        // Horizontal bar chart
-        checkForData(response.data.employeesBySector, 'hbar', 1);
-
-        // Horizontal bar chart 2
-        checkForData(response.data.salaryBySector, 'hbar2', 1);
+        
+        // Employee count horizontal bar chart 
+        var tempData = {
+            name: response.data.bySector.map(({name}) => name),
+            count: response.data.bySector.map(({count}) => count),
+        };
+        checkForData(tempData, 'hbar', 1);
+        
+        // Salary horizontal bar chart
+        tempData = {
+            name: response.data.bySector.map(({name}) => name),
+            count: response.data.bySector.map(({pay}) => pay),
+        };
+        checkForData(tempData, 'hbar2', 1);
 
         // Pie chart
-        checkForData(response.data.employeeCountOne, 'pie', 0);
+        tempData = response.data.byHireType.filter(x => x.type == 1);
+        tempData = {
+            name: tempData.map(({name}) => name),
+            count: tempData.map(({count}) => count),
+        };
+        checkForData(tempData, 'pie', 0);
 
         // Pie chart 2
-        checkForData(response.data.employeeCountTwo, 'pie2', 0);
+        tempData = response.data.byHireType.filter(x => x.type == 2);
+        tempData = {
+            name: tempData.map(({name}) => name),
+            count: tempData.map(({count}) => count),
+        };
+        checkForData(tempData, 'pie2', 0);
 
         // Pie chart 3
-        checkForData(response.data.employeeCountThree, 'pie3', 0);
+        tempData = response.data.byHireType.filter(x => x.type == 3);
+        tempData = {
+            name: tempData.map(({name}) => name),
+            count: tempData.map(({count}) => count),
+        };
+        checkForData(tempData, 'pie3', 0);
         
         // Pie chart 4
-        checkForData(response.data.employeeCountFour, 'pie4', 0);
+        tempData = response.data.byHireType.filter(x => x.type == 4);
+        tempData = {
+            name: tempData.map(({name}) => name),
+            count: tempData.map(({count}) => count),
+        };
+        checkForData(tempData, 'pie4', 0);
 
         // Line chart
-        checkForData(response.data.employeeCountPerYear, 'line', 3);
+        tempData = {
+            name: response.data.employeeCountPerYear.map(({name}) => name),
+            count: response.data.employeeCountPerYear.map(({count}) => count),
+        };
+        console.log(tempData);
+        checkForData(tempData, 'line', 3);
 
         // Vertical bar chart
-        checkForData(response.data.employeeAge, 'bar', 2);
+        var temp = [];
+        temp.push(response.data.employeeAge.filter(x => x.age < 25).length);
+        temp.push(response.data.employeeAge.filter(x => x.age >= 25 && x.age < 30).length);
+        temp.push(response.data.employeeAge.filter(x => x.age >= 30 && x.age < 35).length);
+        temp.push(response.data.employeeAge.filter(x => x.age >= 35 && x.age < 45).length);
+        temp.push(response.data.employeeAge.filter(x => x.age >= 45).length);
+        tempData = {
+            name: ['-25', '25-29', '30-34', '35-44', '45+'],
+            count: temp,
+        };
+        checkForData(tempData, 'bar', 2);
 
     }).catch(error => {
-        
-        checkForData([], 'hbar', 1);
-        checkForData([], 'hbar2', 1);
-        checkForData([], 'pie', 0);
-        checkForData([], 'pie2', 0);
-        checkForData([], 'pie3', 0);
-        checkForData([], 'pie4', 0);
-        checkForData([], 'line', 3);
-        checkForData([], 'bar', 2);
-
         swal("Greška!", "Desila se greška na serveru! Pokušajte kasnije.", "error")
     });
     
