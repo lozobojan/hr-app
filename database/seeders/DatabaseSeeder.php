@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call(HireTypeSeeder::class);
         $this->call(CitySeeder::class);
         $this->call(DocumentationSeeder::class);
-        $this->call(EmployeeSeeder::class);
-        $this->call(EmployeeJobStatusSeeder::class);
+       // $this->call(EmployeeSeeder::class);
+       // $this->call(EmployeeJobStatusSeeder::class);
         $this->call(SectorSeeder::class);
         $this->call(UsersSeeder::class);
-        $this->call(EmployeeJobDescriptionSeeder::class);
+       // $this->call(EmployeeJobDescriptionSeeder::class);
         $this->call(FileTypeSeeder::class);
 
 

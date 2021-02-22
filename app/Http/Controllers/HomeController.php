@@ -140,12 +140,25 @@ class HomeController extends Controller
         $calendar->addEvents($events)->setOptions(['firstDay' => 1])->setCallbacks(['eventRender' => 'function (event,jqEvent,view) {jqEvent.tooltip({placement: "top", title: event.title});}']);*/
 
 
-
+        if(isset($gender[0])){
+            $maleCount = $gender[0]->count;
+        }
+        else{
+            $maleCount = 0;
+        }
+        if(isset($gender[1])){
+            $femaleCount = $gender[1]->count;
+        }
+        else{
+            $femaleCount= 0;
+        }
         $data = [
             'employeesCount' => $employeesCount,
             'avgSalary' => round($avgSalary,1),
             'avgAge' => round($avgAge[0]->age,1),
-            'gender' => ['male' => $gender[0]->count, 'female' => $gender[1]->count],
+            'gender' =>
+                ['male' => $maleCount,
+                    'female' => $femaleCount],
             'calendar' => $calendar
         ];
 

@@ -16,15 +16,7 @@ class DocumentationSeeder extends Seeder
             'HR',
             'Marketing',
             'Finansije',
-            'Level 1',
-            'Level 2',
-            'Level 3',
-            'Level 1',
-            'Level 2',
-            'Level 3',
-            'Level 4',
-            'Level 1',
-            'Level 2'
+
         ];
 
         $parent_id = [
@@ -32,15 +24,6 @@ class DocumentationSeeder extends Seeder
             null,
             null,
             null,
-            2,
-            5,
-            6,
-            3,
-            8,
-            9,
-            10,
-            4,
-            12
         ];
 
         for($i = 0; $i < count($names); $i++){

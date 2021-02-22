@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\CityEmployeeHistory;
+use App\Models\SalaryEmployeeHistory;
 use App\Models\Employee;
 
 class EmployeeObserver
@@ -26,8 +27,13 @@ class EmployeeObserver
      */
     public function updated(Employee $employee)
     {
+
         if($employee->wasChanged('city_id')){
             CityEmployeeHistory::create(['employee_id' => $employee->id, 'city_id' => $employee->city_id]);
+        }
+        if($employee->employeeSalary->wasChanged('pay')){
+            dd($employee);
+            SalaryEmployeeHistory::create(['employee_id' => $employee->id, 'pay' => $employee->employeeSalary->pay, 'bonus' => $employee->employeeSalary->bonus]);
         }
     }
 

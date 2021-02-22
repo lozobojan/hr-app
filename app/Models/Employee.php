@@ -75,6 +75,10 @@ class Employee extends Model
         return $this->belongsToMany(City::class, "city_employee_history");
     }
 
+    public function salaryHistory(){
+        return $this->hasMany(SalaryEmployeeHistory::class, "employee_id");
+    }
+
 
    /*public function sector()
     {

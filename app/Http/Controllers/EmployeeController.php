@@ -12,6 +12,7 @@ use App\Models\EmployeeJobDescription;
 use App\Models\EmployeeJobStatus;
 use App\Models\EmployeeSalary;
 use App\Models\HireType;
+use App\Models\SalaryEmployeeHistory;
 use App\Models\Sector;
 use App\Models\City;
 use Illuminate\Http\Request;
@@ -70,12 +71,7 @@ class EmployeeController extends Controller
             $jobStatusRequest = $request3->validated();
             $jobDescriptionRequest = $request4->validated();
             $employee = Employee::create($data);
-            Documentation::create([
-                "name" => $employee->name." ".$employee->last_name,
-                "parent_id" => 1,
-                "sector_id" => $jobDescriptionRequest["sector_id"],
-                "is_folder" => 1
-            ]);
+
             $salaryRequest["employee_id"] = $employee->id;
             $jobStatusRequest["employee_id"] = $employee->id;
             $jobStatusRequest["date_hired"] = Carbon::createFromFormat("d.m.Y.",$jobStatusRequest['date_hired']);
@@ -86,6 +82,14 @@ class EmployeeController extends Controller
             EmployeeJobStatus::create($jobStatusRequest);
             EmployeeJobDescription::create($jobDescriptionRequest);
             CityEmployeeHistory::create(['employee_id' => $employee->id, 'city_id' => $employee->city_id]);
+            SalaryEmployeeHistory::create(['employee_id' => $employee->id, 'pay' => $salaryRequest["pay"], 'bonus' => $salaryRequest["bonus"]]);
+
+            Documentation::create([
+                "name" => $employee->name." ".$employee->last_name,
+                "parent_id" => 1,
+                "sector_id" => $jobDescriptionRequest["sector_id"],
+                "is_folder" => 1
+            ]);
 
             DB::commit();
         }catch (\Exception $ex){
@@ -125,17 +129,25 @@ class EmployeeController extends Controller
         $empJobStat["employee_id"] = $object->id;
         $empJobDescr["employee_id"] = $object->id;
 
+        $oldPay = $object->employeeSalary->pay;
+        $newPay = $empSala['pay'];
+        $oldBonus = $object->employeeSalary->bonus;
+        $newBonus = $empSala['bonus'];
+        if($oldPay != $newPay || $oldBonus != $newBonus){
+            SalaryEmployeeHistory::create(['employee_id' => $object->id, 'pay' => $empSala['pay'], 'bonus' => $empSala['bonus']]);
+        }
         $object->update($empl);
         $object->employeeSalary()->update($empSala);
         $object->employeeJobDescription()->update($empJobDescr);
         $object->employeeJobStatus()->update($empJobStat);
+
 //        if($object->wasChanged('city_id')){
 //            CityEmployeeHistory::create(['employee_id' => $object->id, 'city_id' => $object->city_id]);
 //        };
        // if()
         //CityEmployeeHistory::create
-        
-        
+
+
         Cache::forget('salaryBySector');
         Cache::forget('employeesBySector');
         Cache::forget('employeeCountOne');
@@ -162,6 +174,7 @@ class EmployeeController extends Controller
         $city = City::orderBy('name')->get();
 
         $cityHistory = CityEmployeeHistory::where('employee_id', $id)->with('city')->get();
+        $salaryHistory = SalaryEmployeeHistory::where('employee_id', $id)->get();
         $data = [
             "objects" => $objects,
             "sectors" => $sectors,
@@ -169,7 +182,8 @@ class EmployeeController extends Controller
             "title" => "$employee->name $employee->last_name",
             "types" => $types,
             "cities" => $city,
-            "cityHistory" => $cityHistory
+            "cityHistory" => $cityHistory,
+            "salaryHistory" => $salaryHistory
         ];
         return view('employees.show-new')->with($data);
     }

@@ -158,7 +158,7 @@
                                   <div class="col-12">
                                       <div class="form-group">
                                           <label class="col-form-label" for="pid">Nadredjeni *</label>
-                                          <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid" required>
+                                          <select class="js-example-basic-single" style="width: 100%;" name="pid" id="pid" >
                                               <option value="">Odaberite nadredjenog</option>
                                               @foreach($objects as $employee)
                                                   <option value="{{ $employee->id }}">{{ $employee->name }} {{ $employee->last_name }}</option>

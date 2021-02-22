@@ -9,7 +9,7 @@
     function loadFile(url,callback){
         PizZipUtils.getBinaryContent(url,callback);
     }
-    function generate(name, last_name, jmbg, address, city, date) {
+    function generate(name, last_name, jmbg, address, city, date, salary) {
         address = address.replace(/\r?\n|\r/, "");
         console.log(address);
         loadFile("{{asset('assets/ugovor.docx')}}",function(error,content){

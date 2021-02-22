@@ -72,10 +72,22 @@
 
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"></i>Plata</h6>
+                        <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2"></i>Plata
+
+                            @if($employee->salaryHistory->count()>1)
+                                <a
+                                    data-toggle="modal"
+                                    data-target="#salaryHistory"
+                                    class="show-object-data btn border border-primary text-dark"><i class="fa fa-history"></i></a>
+                            @endif
+                        </h6>
                         <div class="row">
                             <div class="col-sm-5">
-                                <h6 class="mb-0">Plata</h6>
+                                <h6 class="mb-0">Plata
+
+
+
+                                </h6>
                             </div>
                             <div class="col-sm-7 text-secondary">
                                 {{ $employee->employeeSalary->pay }}
@@ -298,6 +310,7 @@
 </div>
     @include('employees.includes.modal-show')
     @include('employees.includes.modal-history')
+    @include('employees.includes.salary-history')
 @endsection
 
 @section('js')

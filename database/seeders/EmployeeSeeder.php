@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CityEmployeeHistory;
+use App\Models\SalaryEmployeeHistory;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\Documentation;
@@ -51,6 +52,8 @@ class EmployeeSeeder extends Seeder
             ]);
             EmployeeSalary::factory()->create(['employee_id'=>$i+1]);
             CityEmployeeHistory::factory()->create(['employee_id'=>$i+1, 'city_id' => $city_id]);
+            //SalaryEmployeeHistory::factory()->create(['employee_id'=>$i+1, 'pay' => EmployeeSalary::factory()->create()->pay,'bonus' => EmployeeSalary::factory()->create()->bonus]);
+
         }
     }
 }

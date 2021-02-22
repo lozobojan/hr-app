@@ -58,7 +58,7 @@ class EmployeeRequest extends FormRequest
             'jmbg' => 'required',
             'email' => 'required',
             'image' => 'required|max:5000|mimes:jpeg,png,jpg,gif,svg',
-            'pid' => 'required',
+            'pid' => 'nullable',
             'gender' => 'required',
             'additional_info_contact' => 'nullable',
             'mobile_number' =>'nullable',
