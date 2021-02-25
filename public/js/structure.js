@@ -1,28 +1,43 @@
-axios.get('/api/employees')
-.then((response) => {
-    var data = response.data;
-    for (i = 0; i < data.length; i++) {
-        data[i] = { id: data[i].id,
-            pid: data[i].pid ,
-            Name: data[i].name,
-            "Last Name": data[i].last_name,
-            Photo: data[i].image,
-            Email: data[i].email,
-            "Mobile number": data[i].mobile_number,
-            "Telephone number": data[i].telephone_number,
-            "Office number": data[i].office_number,
-            "Gender": (data[i].gender ? "Male" : "Female"),
-            Birthday: data[i].birth_date,
-        };
-    }
-    var chart = new OrgChart(document.getElementById("tree"), {
-        template: "ula",
-        nodeBinding: {
-            field_0: "Name",
-            field_1: "Last Name",
-            img_0: "Photo",
+function getChildren(parentId, data) {
+  var res = []
+  data.forEach(child => {
+    if (child.pid == parentId) {
+      res.push(
+        {
+          "id": child.id,
+          "name": child.name,
+          "title": child.last_name,
+          "parentId": child.pid,
+          "children": getChildren(child.id, data),
         }
+      )
+    }
+  })
+  return res;
+}
+
+$(function () {
+  axios.get('/api/employees')
+    .then((response) => {
+      var employees = response.data.employees;
+      var roots = {
+        "id": null,
+        "name": "Amplitudo",
+        "title": "Company",
+        "children": getChildren(null, employees),
+      };
+
+      $('#chart-container').orgchart({
+        'data': roots,
+        'nodeContent': 'title',
+        // 'exportButton': true,
+        // 'exportButtonName': 'Export',
+        // 'exportFilename': 'organizaciona-struktura',
+        // 'exportFileextension': 'png',
+        'direction': 'l2r',
+        'zoom': true,
+        'pan': true,
+      });
+
     });
-    nodes = data;
-    chart.load(nodes);
 });

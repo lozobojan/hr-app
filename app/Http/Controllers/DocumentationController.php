@@ -63,6 +63,9 @@ class DocumentationController extends Controller
     public function store(DocumentationRequest $request)
     {
         $data = $request->validated();
+        if($request->hasFile('file_path')){
+            $data['file_path'] = $this->storeDocument($request->file('file_path'));
+        };
         Documentation::create($data);
         Cache::forget('directories');
         Cache::forget('files');
@@ -72,6 +75,9 @@ class DocumentationController extends Controller
     public function edit(DocumentationRequest $request, Documentation $object)
     {
         $data = $request->validated();
+        if($request->hasFile('file_path')){
+            $data['file_path'] = $this->storeDocument($request->file('file_path'));
+        };
         $object->fill($data);
         $object->save();
         Cache::forget('directories');
